@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa';
+import profileImg from './assets/ProfileImage.png';
 import './App.css'
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
         <div id = "Home" className="Home">
           <div className="home-container">
             <div className="home-image">
-              <img src="/assets/ProfileImage.png" alt="Akshay Shukla" />
+              <img src={profileImg} alt="Akshay Shukla" />
             </div>
             <div className="home-text">
               <p>Hello, my name is</p>
