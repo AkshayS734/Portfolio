@@ -9,6 +9,13 @@ body, html {
   height: 100%;
   width: 100%;
   scroll-behavior: smooth;
+  /* overflow: auto;
+  scrollbar-width: none; 
+  -ms-overflow-style: none;   */
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 .header {
@@ -23,7 +30,7 @@ body, html {
   align-items: center;
   justify-content: space-between;
   color: white;
-  box-shadow: 0 1px 4px rgba(0,0,0,0.2); /* Optional shadow */
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
 
 .header h2 {
