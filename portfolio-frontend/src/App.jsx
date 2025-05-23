@@ -1,10 +1,38 @@
 import { useEffect, useState } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaLocationArrow } from 'react-icons/fa';
 import profileImg from './assets/ProfileImage.png';
 import './App.css'
+import { FaLocationCrosshairs, FaLocationDot, FaLocationPin, FaLocationPinLock } from 'react-icons/fa6';
+import axios from 'axios';
 
 function App() {
   const [showDivider, setShowDivider] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    message: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (!formData.name || !formData.email || !formData.subject || !formData.message) {
+        alert('Please fill out all fields.');
+        return;
+      }
+      await axios.post('http://127.0.0.1:4000/send', formData);
+      alert('Message sent successfully!');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error(error);
+      alert('Failed to send message');
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,19 +113,47 @@ function App() {
           <div className="contact-wrapper">
             <div className="contact-left">
               <h3>Send Me a Message</h3>
-              <form className="contact-form">
-                <p class = "form-text">Name</p>
-                <input type="text" placeholder="Your Name" />
-                <p class = "form-text">Email</p>
-                <input type="email" placeholder="your.email@example.com" />
-                <p class = "form-text">Subject</p>
-                <input type="text" placeholder="Subject" />
-                <p class = "form-text">Message</p>
-                <textarea placeholder="Your message here..." rows="5" />
-                <button type="submit" class="contact-form-button">
+              <form className="contact-form" onSubmit={handleSubmit}>
+                <p className="form-text">Name</p>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                />
+
+                <p className="form-text">Email</p>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="your.email@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+
+                <p className="form-text">Subject</p>
+                <input
+                  type="text"
+                  name="subject"
+                  placeholder="Subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                />
+
+                <p className="form-text">Message</p>
+                <textarea
+                  name="message"
+                  placeholder="Your message here..."
+                  rows="5"
+                  value={formData.message}
+                  onChange={handleChange}
+                />
+
+                <button type="submit" className="contact-form-button">
                   Send Message
-                  <span class="send-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                  <span className="send-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
                       <line x1="22" y1="2" x2="11" y2="13" />
                       <polygon points="22 2 15 22 11 13 2 9 22 2" />
                     </svg>
@@ -109,9 +165,25 @@ function App() {
             <div className="contact-right">
               <div className="contact-info">
                 <h3>Contact Information</h3>
-                <p><strong>Email:</strong> <a href="mailto:akshaysbuilds@gmail.com">akshaysbuilds@gmail.com</a></p>
+                <div className = "contact-info-item">
+                  <div className="contact-info-icon">
+                    <FaEnvelope/>
+                  </div>
+                  <div className="contact-info-text">
+                    <p><strong>Email</strong></p>
+                    <a href="mailto:akshaysbuilds@gmail.com">akshaysbuilds@gmail.com</a>
+                  </div>
+                </div>
+                <div className = "contact-info-item">
+                  <div className="contact-info-icon">
+                    <FaLocationCrosshairs/>
+                  </div>
+                  <div className="contact-info-text">
+                    <p><strong>Location</strong></p>
+                    <p>Noida, India</p>
+                  </div>
+                </div>
                 {/* <p><strong>Phone:</strong> <a href="tel:+1234567890">+1 (234) 567-890</a></p> */}
-                <p><strong>Location:</strong> Noida, India</p>
               </div>
 
               <div className="contact-socials">

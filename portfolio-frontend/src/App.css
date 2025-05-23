@@ -425,6 +425,45 @@ body::-webkit-scrollbar {
   background-color: rgba(50, 60, 70, 0.2);
 }
 
+.contact-info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.contact-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(50, 60, 70, 0.2);
+  border-radius: 5px;
+  width: 50px;
+  height: 50px;
+  margin-right: 12px;
+  color: #61dafb;
+  font-size: 1.25rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.contact-info-text p{
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.location {
+  font-size: 1rem;
+  color: #ccc;
+}
+.contact-info-text a {
+  color: #61dafb;
+  text-decoration: none;
+}
+.contact-info-text a:hover {
+  color: #21a1f1;
+  text-decoration: none;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
