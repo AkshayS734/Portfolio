@@ -35,4 +35,4 @@ coverage/
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.sw?portfolio-backend/.env
