@@ -586,7 +586,8 @@ body::-webkit-scrollbar {
   align-items: stretch;
   margin-bottom: 2.5rem;
   overflow-x: auto;
-  padding: 0 1rem;
+  overflow-y: visible; /* allow scaled cards to be visible without vertical clipping */
+  padding: 0 1rem 3rem; /* extra bottom padding to accommodate scaled cards */
 }
 
 /* Hide scrollbar for webkit browsers */
@@ -639,11 +640,15 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: column;
   gap: 12px; /* consistent spacing inside card */
+  transform-origin: top center; /* grow downward on scale to avoid top clipping */
+  position: relative; /* allow z-index on hover */
 }
 .project-card:hover {
   border-color: #6366f1;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.15);
+  /* subtle zoom-in on hover instead of moving up */
+  transform: scale(1.02);
+  z-index: 50; /* lift above siblings to avoid being clipped by nearby elements */
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.14);
 }
 
 .project-image-container {
@@ -658,7 +663,8 @@ body::-webkit-scrollbar {
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-.project-card:hover .project-image { transform: scale(1.05); }
+/* when the card is hovered, slightly scale up the image so the overall effect is zoom-in */
+.project-card:hover .project-image { transform: scale(1.03); }
 
 .project-icon-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
 .project-title { max-width: 80%;color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
