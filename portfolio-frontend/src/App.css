@@ -580,7 +580,7 @@ body::-webkit-scrollbar {
 .featured-cards {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 2rem;
   justify-content: center;
   align-items: stretch;
@@ -598,7 +598,7 @@ body::-webkit-scrollbar {
 @media (max-width: 768px) {
   .featured-cards { 
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: center;
     padding: 0 0.5rem;
     gap: 1rem;
   }
@@ -657,9 +657,9 @@ body::-webkit-scrollbar {
 .project-card:hover .project-image { transform: scale(1.05); }
 
 .project-icon-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
-.project-title { color: #fff; font-size: 1.22rem; font-weight: 700; }
-.project-row { display: flex; align-items: center; margin-bottom: 0.45rem; gap: 0.5rem; }
-.project-action { color: #c7d2fe; font-size: 1.05rem; transition: color 0.16s; }
+.project-title { max-width: 80%;color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
+.project-row { display: flex; align-items: center; margin-bottom: 0.45rem; gap: 0.5rem; justify-content: space-between;}
+.project-action {color: #c7d2fe; font-size: 1.05rem; transition: color 0.16s;gap: 4rem;}
 .project-action:focus, .project-action:hover { color: #6366f1; }
 .project-description {
   color: #a3a3a3;
@@ -670,6 +670,8 @@ body::-webkit-scrollbar {
 }
 .project-tech-list {
   margin-top: auto;
+  margin-bottom: auto;
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
