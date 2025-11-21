@@ -581,7 +581,7 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: 1.5rem; /* consistent gap between cards */
   justify-content: center;
   align-items: stretch;
   margin-bottom: 2.5rem;
@@ -605,6 +605,8 @@ body::-webkit-scrollbar {
   .project-card { 
     min-width: 250px;
     width: 280px;
+    height: 480px; /* slightly smaller fixed height on medium screens */
+    flex: 0 0 280px;
   }
   .project-image-container { height: 150px; }
 }
@@ -618,6 +620,8 @@ body::-webkit-scrollbar {
     min-width: 200px;
     width: 220px;
     padding: 1rem;
+    height: auto; /* allow cards to grow on small screens */
+    flex: 0 0 220px;
   }
   .project-image-container { height: 120px; }
 }
@@ -626,15 +630,15 @@ body::-webkit-scrollbar {
   background: #111;
   border: 1px solid #333;
   border-radius: 8px;
-  padding: 1.5rem;
-  width: 320px;
-  min-width: 300px;
-  max-width: 350px;
-  flex-shrink: 0;
-  transition: all 0.3s ease;
+  padding: 1rem;
+  width: 320px; /* fixed width */
+  height: 570px; /* increased fixed height so more description content can fit */
+  flex: 0 0 320px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  gap: 12px; /* consistent spacing inside card */
 }
 .project-card:hover {
   border-color: #6366f1;
@@ -643,10 +647,10 @@ body::-webkit-scrollbar {
 }
 
 .project-image-container {
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.5rem;
   border-radius: 6px;
   overflow: hidden;
-  height: 200px;
+  height: 180px; /* fixed image area for consistency */
 }
 .project-image {
   width: 100%;
@@ -659,18 +663,24 @@ body::-webkit-scrollbar {
 .project-icon-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
 .project-title { max-width: 80%;color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
 .project-row { display: flex; align-items: center; margin-bottom: 0.45rem; gap: 0.5rem; justify-content: space-between;}
-.project-action {color: #c7d2fe; font-size: 1.05rem; transition: color 0.16s;gap: 4rem;}
+.project-actions { display: flex; align-items: center; gap: 1rem; /* increased gap between action icons */ }
+.project-action {color: #c7d2fe; font-size: 1.05rem; transition: color 0.16s;}
 .project-action:focus, .project-action:hover { color: #6366f1; }
 .project-description {
   color: #a3a3a3;
   text-align: left;
   font-size: 1rem;
-  margin-bottom: 1.3rem;
-  line-height: 1.6;
+  margin: 0.6rem 0 0.8rem 0;
+  line-height: 1.5;
+  /* clamp description so cards remain equal height */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6; /* show more lines of description */
+  line-clamp: 6;
+  overflow: hidden;
 }
 .project-tech-list {
-  margin-top: auto;
-  margin-bottom: auto;
+  margin-top: auto; /* push tags to bottom */
   align-items: center;
   display: flex;
   flex-wrap: wrap;
@@ -684,6 +694,8 @@ body::-webkit-scrollbar {
   font-size: 0.88rem;
   font-weight: 500;
   letter-spacing: 0.04em;
+  min-width: 70px; /* consistent tag sizing */
+  text-align: center;
 }
 .featured-viewall {
   color: #6366f1;
