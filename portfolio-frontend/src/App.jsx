@@ -217,11 +217,12 @@ function App() {
             <div className="home-text">
               <p>Hello, my name is</p>
               <h1>Akshay Shukla</h1>
-              <h2>Full Stack Developer</h2>
+              <h2>Software Developer</h2>
               <div className="text-divider"></div>
               <p className="home-description">
-                 I build exceptional digital experiences with a focus on performance and user experience.
-                  Specializing in modern web technologies and scalable architecture.
+                a curious developer who enjoys creating clean, user-friendly applications for both web and iOS.
+                I love exploring new technologies, whether it’s Web3, DevOps, or AI/ML, and constantly expanding my skill set.
+                Building meaningful digital experiences is what motivates me every day.
               </p>
               <div className="home-buttons">
                 <a href="#Projects" className="home-btn primary">
