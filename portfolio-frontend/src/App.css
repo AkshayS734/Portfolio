@@ -5,6 +5,11 @@
   font-family: 'Arial', sans-serif;
 }
 
+:root {
+  /* Offset used to avoid fixed header covering anchored section headings */
+  --header-offset: 64px;
+}
+
 body, html {
   height: 100%;
   width: 100%;
@@ -12,6 +17,24 @@ body, html {
   /* overflow: auto;
   scrollbar-width: none; 
   -ms-overflow-style: none;   */
+}
+
+/* Make browser scroll and in-page anchors respect the fixed header */
+html {
+  scroll-padding-top: var(--header-offset);
+}
+
+/* Ensure each main section used as an anchor leaves space for the fixed header */
+.Home,
+.Projects,
+.Experience,
+.Skills,
+.Contact {
+  scroll-margin-top: var(--header-offset);
+}
+
+@media (max-width: 600px) {
+  :root { --header-offset: 56px; }
 }
 
 body::-webkit-scrollbar {

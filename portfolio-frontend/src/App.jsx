@@ -5,6 +5,7 @@ import './App.css'
 // removed unsupported 'react-icons/fa6' import
 import axios from 'axios';
 
+
 function App() {
   const [showDivider, setShowDivider] = useState(false);
   const [experiences, setExperiences] = useState([]);
@@ -45,6 +46,58 @@ function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Set CSS variable --header-offset to the actual header height so
+  // anchor scrolling positions sections directly below the fixed nav.
+  useEffect(() => {
+    const setHeaderOffset = () => {
+      const headerEl = document.querySelector('.header');
+      const offset = headerEl ? headerEl.offsetHeight : 64;
+      document.documentElement.style.setProperty('--header-offset', `${offset}px`);
+    };
+
+    setHeaderOffset();
+    window.addEventListener('resize', setHeaderOffset);
+    return () => window.removeEventListener('resize', setHeaderOffset);
+  }, []);
+
+  // Intercept in-page anchor clicks and perform a scroll that accounts for
+  // the fixed header height. This prevents the previous section from showing
+  // under the nav when jumping to anchors.
+  useEffect(() => {
+    const onAnchorClick = (e) => {
+      const target = e.target.closest('a[href^="#"]');
+      if (!target) return;
+      const href = target.getAttribute('href');
+      if (!href || href === '#') return;
+      const id = href.slice(1);
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      e.preventDefault();
+      const headerEl = document.querySelector('.header');
+      const headerHeight = headerEl ? headerEl.offsetHeight : parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 64;
+      const top = el.getBoundingClientRect().top + window.scrollY - headerHeight;
+      window.scrollTo({ top, behavior: 'smooth' });
+      // Update the hash without jumping
+      history.replaceState(null, '', `#${id}`);
+    };
+
+    document.addEventListener('click', onAnchorClick);
+    // If page loads with a hash, scroll to it properly
+    if (window.location.hash) {
+      const id = window.location.hash.slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        const headerEl = document.querySelector('.header');
+        const headerHeight = headerEl ? headerEl.offsetHeight : parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 64;
+        const top = el.getBoundingClientRect().top + window.scrollY - headerHeight;
+        window.scrollTo({ top, behavior: 'auto' });
+      }
+    }
+
+    return () => document.removeEventListener('click', onAnchorClick);
   }, []);
   
   useEffect(() => {
@@ -199,7 +252,7 @@ function App() {
                   <div className="project-card" key={project._id || i}>
                     <div className="project-image-container">
                       <img
-                        src={project.image || "https://via.placeholder.com/400x250/6366f1/ffffff?text=Project+Image"}
+                        src={profileImg}
                         alt={project.title}
                         className="project-image"
                       />
