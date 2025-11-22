@@ -8,6 +8,8 @@
 :root {
   /* Offset used to avoid fixed header covering anchored section headings */
   --header-offset: 64px;
+  /* Standard top padding used by main sections so headings align */
+  --section-padding: 4rem;
 }
 
 body, html {
@@ -253,7 +255,7 @@ body::-webkit-scrollbar {
 .Contact {
   background-color: #0d0d0d;
   color: #fff;
-  padding: 100px 20px;
+  padding: var(--section-padding) 1rem;
 }
 
 .contact-wrapper {
@@ -363,7 +365,7 @@ body::-webkit-scrollbar {
 
 .contact-heading {
   text-align: center;
-  margin-bottom: 60px;
+  margin-bottom: 3rem;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
@@ -652,12 +654,12 @@ body::-webkit-scrollbar {
 }
 .featured-section {
   background: #000;
-  padding: 4rem 1rem;
+  padding: var(--section-padding) 1rem;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
 .featured-container {
   max-width: 1100px;
@@ -847,7 +849,7 @@ body::-webkit-scrollbar {
 }
 .experience-section {
   background: #111113;
-  padding: 4rem 1rem;
+  padding: var(--section-padding) 1rem;
   width: 100%;
   height: auto; /* allow section height to grow/shrink with content */
   display: flex;
@@ -1001,23 +1003,24 @@ body::-webkit-scrollbar {
 
 /* ==== Skills ==== */
 .Skills {
-  min-height: 100vh;
+  /* allow the section to size to its content and align from the top */
+  min-height: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   background: #000;
 }
 .skills-section {
   background: #000;
-  padding: 4rem 1rem;
+  padding: var(--section-padding) 1rem;
   max-width: 100%;
   width: 100%;
-  height: 100%;
+  height: auto;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
 }
-.skills-header { text-align: center; margin-bottom: 2.5rem; }
+.skills-header { text-align: center; margin-bottom: 3rem; }
 .skills-subtitle {
   color: #6366f1;
   font-size: 1.1rem;
