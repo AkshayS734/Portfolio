@@ -414,7 +414,7 @@ body::-webkit-scrollbar {
   justify-content: center;
   background-color: rgba(50, 60, 70, 0.2);
   border-radius: 50% / 20px;
-  padding: 16px 8px;
+  padding: 12px 8px;
   margin-right: 12px;
   color: #61dafb;
   font-size: 1.5rem;
@@ -446,6 +446,17 @@ body::-webkit-scrollbar {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* prevent icons from shrinking; let text wrap instead */
+.contact-info-icon {
+  flex: 0 0 50px; /* fixed size, do not shrink */
+}
+
+.contact-info-text {
+  flex: 1 1 auto; /* allow text area to take remaining space and wrap */
+  min-width: 0; /* allow the flex item to shrink below its content width so wrapping can occur */
+  white-space: normal;
+}
+
 .contact-info-text p{
   font-size: 1rem;
   color: #ffffff;
@@ -462,6 +473,19 @@ body::-webkit-scrollbar {
 .contact-info-text a:hover {
   color: #21a1f1;
   text-decoration: none;
+}
+
+/* Ensure contact text (email or long strings) wraps and stays inside its container */
+.contact-info-text {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
+}
+.contact-info-text a {
+  display: inline-block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .footer {
@@ -534,6 +558,66 @@ body::-webkit-scrollbar {
   .footer-right {
     align-items: flex-start;
   }
+}
+
+/* Responsive rules for contact area */
+@media (max-width: 900px) {
+  .contact-wrapper {
+    margin: 0 4%;
+    gap: 12px;
+  }
+  .contact-left,
+  .contact-right {
+    width: 100%;
+    min-height: auto;
+    box-sizing: border-box;
+  }
+  .contact-right {
+    padding: 20px;
+  }
+  .contact-left {
+    margin: 0 20px;
+  }
+  .contact-info,
+  .contact-socials {
+    padding: 20px; /* match left box padding for consistent visual width */
+    width: 100%;
+    box-sizing: border-box; /* ensure padding doesn't change visible width */
+    margin: 0;
+  }
+  .contact-info-item {
+    gap: 8px;
+  }
+  .contact-info-icon {
+    width: 44px;
+    height: 44px;
+  }
+  .contact-social-icons {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .contact-social-icons a {
+    padding: 10px 8px;
+    margin-right: 8px;
+  }
+  .contact-info-text a,
+  .contact-info-text p {
+    word-break: break-word;
+  }
+  /* Ensure form inside contact-left uses the same inner width as right-side boxes */
+  .contact-left .contact-form {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0; /* form inputs already have their own padding */
+    margin: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .contact-heading h2 { font-size: 2rem; }
+  .contact-left, .contact-right { padding: 12px; }
+  .contact-info-icon { width: 40px; height: 40px; }
+  .contact-social-icons a { padding: 8px; font-size: 1.1rem; }
 }
 /* ==== Projects / Featured ==== */
 .Projects {
@@ -731,20 +815,21 @@ body::-webkit-scrollbar {
 
 /* ==== Experience / Timeline ==== */
 .Experience {
-  min-height: 100vh;
+  /* allow the section to size to its content instead of forcing full viewport height */
+  min-height: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start; /* ensure content starts at top */
+  justify-content: flex-start; /* keep content starting at top of section */
   background: #111113;
 }
 .experience-section {
   background: #111113;
   padding: 4rem 1rem;
   width: 100%;
-  height: 100%;
+  height: auto; /* allow section height to grow/shrink with content */
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* ensure inner content starts at top */
 }
 .experience-container {
   max-width: 900px;
