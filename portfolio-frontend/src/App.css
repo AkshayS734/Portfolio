@@ -690,10 +690,10 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1.5rem; /* consistent gap between cards */
+  gap: 3rem; /* increased gap between cards for better separation */
   justify-content: center;
   align-items: stretch;
-  margin-bottom: 2.5rem;
+  /* margin-bottom: 2.5rem; */
   overflow-x: auto;
   overflow-y: visible; /* allow scaled cards to be visible without vertical clipping */
   padding: 0 1rem 3rem; /* extra bottom padding to accommodate scaled cards */
@@ -710,7 +710,7 @@ body::-webkit-scrollbar {
     flex-direction: row;
     justify-content: center;
     padding: 0 0.5rem;
-    gap: 1rem;
+    gap: 1.2rem; /* slightly larger tablet gap */
   }
   .project-card { 
     min-width: 250px;
@@ -723,13 +723,13 @@ body::-webkit-scrollbar {
 
 @media (max-width: 480px) {
   .featured-cards {
-    gap: 0.5rem;
+    gap: 0.75rem; /* mobile gap increased for touch spacing */
     padding: 0 0.25rem;
   }
   .project-card {
     min-width: 200px;
     width: 220px;
-    padding: 1rem;
+    padding: 0;
     height: auto; /* allow cards to grow on small screens */
     flex: 0 0 220px;
   }
@@ -740,17 +740,18 @@ body::-webkit-scrollbar {
   background: #111;
   border: 1px solid #333;
   border-radius: 8px;
-  padding: 1rem;
+  padding: 0;
   width: 320px; /* fixed width */
-  height: 570px; /* increased fixed height so more description content can fit */
+  height: 550px; /* increased to accommodate a larger image area */
   flex: 0 0 320px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+  overflow: hidden; /* keep image inside card bounds */
   display: flex;
   flex-direction: column;
   gap: 12px; /* consistent spacing inside card */
   transform-origin: top center; /* grow downward on scale to avoid top clipping */
   position: relative; /* allow z-index on hover */
+  cursor: pointer; /* indicate card is clickable */
 }
 .project-card:hover {
   border-color: #6366f1;
@@ -761,31 +762,52 @@ body::-webkit-scrollbar {
 }
 
 .project-image-container {
-  margin-bottom: 0.5rem;
-  border-radius: 6px;
+  /* image fills the card width with no inner padding */
+  position: relative;
+  margin: 0;
+  width: 100%;
+  height: 220px; /* image area height */
+  border-radius: 8px 8px 0 0; /* match card's top corners */
   overflow: hidden;
-  height: 180px; /* fixed image area for consistency */
+  z-index: 1;
+  pointer-events: none; /* let clicks pass through to the card */
 }
 .project-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
+  display: block;
 }
 /* when the card is hovered, slightly scale up the image so the overall effect is zoom-in */
 .project-card:hover .project-image { transform: scale(1.03); }
 
 .project-icon-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
-.project-title { max-width: 80%;color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
-.project-row { display: flex; align-items: center; margin-bottom: 0.45rem; gap: 0.5rem; justify-content: space-between;}
-.project-actions { display: flex; align-items: center; gap: 1rem; /* increased gap between action icons */ }
-.project-action {color: #c7d2fe; font-size: 1.05rem; transition: color 0.16s;}
-.project-action:focus, .project-action:hover { color: #6366f1; }
+.project-title { color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
+/* Layout: title on the left, action icons aligned to the right in the same row. On
+   small screens the layout falls back to stacked (column) to preserve readability. */
+.project-row { display: flex; flex-direction: row; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; }
+.project-title { flex: 1 1 auto; min-width: 0; /* allow truncation/wrapping if necessary */ }
+.project-actions { display: flex; align-items: center; justify-content: flex-end; gap: 0.6rem; margin-left: 0.5rem; }
+.project-card:focus { outline: 3px solid rgba(99,102,241,0.22); outline-offset: 4px; }
+.project-action {
+  color: #c7d2fe;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 1.25rem;
+  border-radius: 6px;
+  transition: color 0.12s, background-color 0.12s, transform 0.12s;
+}
+.project-action:focus, .project-action:hover {
+  color: #6366f1;
+  background-color: rgba(99,102,241,0.05);
+  transform: translateY(-0.6px);
+}
 .project-description {
   color: #a3a3a3;
   text-align: left;
   font-size: 1rem;
-  margin: 0.6rem 0 0.8rem 0;
+  margin: 0.6rem 0 0.4rem 0; /* increased gap above description */
   line-height: 1.5;
   /* clamp description so cards remain equal height */
   display: -webkit-box;
@@ -795,11 +817,27 @@ body::-webkit-scrollbar {
   overflow: hidden;
 }
 .project-tech-list {
-  margin-top: auto; /* push tags to bottom */
+  margin-top: auto; /* push tags to the bottom so cards line up */
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+}
+
+.project-content {
+  margin-top: 0.4rem; /* smaller space between image and content */
+  position: relative;
+  z-index: 2;
+  padding: 0 1rem 1rem 1rem; /* added inner padding for content */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* allow content to grow so tags can be pushed to the bottom */
+}
+
+/* Responsive: stack title and actions on small screens */
+@media (max-width: 480px) {
+  .project-row { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+  .project-actions { justify-content:left; width: 100%; margin-left: 0; }
 }
 .project-tech {
   background: #1e1b4b;

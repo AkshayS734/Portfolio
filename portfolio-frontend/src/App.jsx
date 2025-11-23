@@ -250,7 +250,19 @@ function App() {
                   </div>
                 ) : (
                   projects.map((project, i) => (
-                  <div className="project-card" key={project._id || i}>
+                  <div
+                    className="project-card"
+                    key={project._id || i}
+                    role="link"
+                    tabIndex={0}
+                    onClick={() => project.links?.live && window.open(project.links.live, '_blank')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        project.links?.live && window.open(project.links.live, '_blank');
+                      }
+                    }}
+                  >
                     <div className="project-image-container">
                       <img
                         src={profileImg}
@@ -259,44 +271,40 @@ function App() {
                       />
                     </div>
 
-                    <div className="project-row">
-                      <h3 className="project-title">{project.title}</h3>
-                      <div className="project-actions">
-                        <a
-                          href={project.links?.live || '#'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-action"
-                          aria-label={`Open ${project.title} live`}
-                        >
-                          <FaExternalLinkAlt />
-                        </a>
-                        <a
-                          href={project.links?.github || '#'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-action"
-                          aria-label={`Open ${project.title} github`}
-                        >
-                          <FaGithub />
-                        </a>
+                    <div className="project-content">
+                      <div className="project-row">
+                        <h3 className="project-title">{project.title}</h3>
+                        <div className="project-actions">
+                          <a
+                            href={project.links?.github || '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-action"
+                            aria-label={`Open ${project.title} github`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <FaGithub />
+                          </a>
+                        </div>
                       </div>
-                    </div>
 
-                    <p className="project-description">{project.description}</p>
+                      <p className="project-description">{project.description}</p>
 
-                    <div className="project-tech-list">
-                      {(project.tech || []).map((t) => (
-                        <span className="project-tech" key={t}>{t}</span>
-                      ))}
+                      <div className="project-tech-list">
+                        {(project.tech || []).map((t) => (
+                          <span className="project-tech" key={t}>{t}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))
               )}
               </div>
+              {/*
               <a href="#" className="featured-viewall">
                 View All Projects <span aria-hidden>→</span>
               </a>
+              */}
             </div>
           </section>
         </div>
