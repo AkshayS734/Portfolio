@@ -129,6 +129,61 @@ const projectSchema = new mongoose.Schema({
 
 const Project = mongoose.model('Project', projectSchema);
 
+// Skill Schema
+const skillSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    enum: ['frontend', 'backend', 'ios', 'other'],
+    required: true
+  },
+  label: {
+    type: String,
+    required: true
+  },
+  value: {
+    type: Number,
+    default: 0
+  },
+  order: {
+    type: Number,
+    default: 0
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Skill = mongoose.model('Skill', skillSchema);
+
+// Tag Schema (for tag lists under skill categories)
+const tagSchema = new mongoose.Schema({
+  category: {
+    type: String,
+    enum: ['frontend', 'backend', 'ios', 'other'],
+    required: true
+  },
+  tags: [{ type: String }],
+  order: {
+    type: Number,
+    default: 0
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const Tag = mongoose.model('Tag', tagSchema);
+
 // Project API endpoints
 // GET all projects
 app.get('/api/projects', async (req, res) => {
@@ -138,6 +193,67 @@ app.get('/api/projects', async (req, res) => {
   } catch (error) {
     console.error('Error fetching projects:', error);
     res.status(500).json({ error: 'Failed to fetch projects' });
+  }
+});
+
+// Skill API endpoints
+// GET all skills
+app.get('/api/skills', async (req, res) => {
+  try {
+    const skills = await Skill.find({ isActive: true }).sort({ order: -1, createdAt: -1 });
+    res.json(skills);
+  } catch (error) {
+    console.error('Error fetching skills:', error);
+    res.status(500).json({ error: 'Failed to fetch skills' });
+  }
+});
+
+// POST new skill
+app.post('/api/skills', async (req, res) => {
+  try {
+    const skill = new Skill(req.body);
+    await skill.save();
+    res.status(201).json(skill);
+  } catch (error) {
+    console.error('Error creating skill:', error);
+    res.status(400).json({ error: 'Failed to create skill' });
+  }
+});
+
+// Tag API endpoints
+// GET all tags
+app.get('/api/tags', async (req, res) => {
+  try {
+    const tags = await Tag.find({ isActive: true }).sort({ order: -1, createdAt: -1 });
+    res.json(tags);
+  } catch (error) {
+    console.error('Error fetching tags:', error);
+    res.status(500).json({ error: 'Failed to fetch tags' });
+  }
+});
+
+// GET tags for a specific category
+app.get('/api/tags/:category', async (req, res) => {
+  try {
+    const { category } = req.params;
+    const tagDoc = await Tag.findOne({ category, isActive: true });
+    if (!tagDoc) return res.status(404).json({ error: 'Tags not found' });
+    res.json(tagDoc);
+  } catch (error) {
+    console.error('Error fetching tags for category:', error);
+    res.status(500).json({ error: 'Failed to fetch tags' });
+  }
+});
+
+// POST new tag document
+app.post('/api/tags', async (req, res) => {
+  try {
+    const tag = new Tag(req.body);
+    await tag.save();
+    res.status(201).json(tag);
+  } catch (error) {
+    console.error('Error creating tag document:', error);
+    res.status(400).json({ error: 'Failed to create tags' });
   }
 });
 

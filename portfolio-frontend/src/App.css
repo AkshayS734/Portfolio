@@ -7,7 +7,7 @@
 
 :root {
   /* Offset used to avoid fixed header covering anchored section headings */
-  --header-offset: 64px;
+  --header-offset: 56px; /* Restored original small-screen header offset */
   /* Standard top padding used by main sections so headings align */
   --section-padding: 4rem;
 }
@@ -36,7 +36,19 @@ html {
 }
 
 @media (max-width: 600px) {
-  :root { --header-offset: 56px; }
+  /* On small screens make each skills card full-width and stretch so
+     they all match visually. Allow inner label/track/tag elements to
+     shrink and wrap so long tag text doesn't force different widths. */
+  .skills-grid { flex-direction: column; align-items: stretch; gap: 2.2rem; }
+  .skills-col { max-width: 100%; min-width: 0; width: 100%; box-sizing: border-box; }
+  .skills-col { width: 100% !important; }
+
+  /* Allow labels and tracks to shrink/wrap inside narrow columns */
+  .skills-bar-label { min-width: 0; white-space: normal; }
+  .skills-bar-track { min-width: 0; }
+  .skills-tags, .skills-other-tags { word-break: break-word; }
+  .skills-tag, .skills-other-tag { white-space: normal; }
+
 }
 
 body::-webkit-scrollbar {
@@ -1090,10 +1102,21 @@ body::-webkit-scrollbar {
   margin-left: auto;
   margin-right: auto;
 }
+.skills-grid { align-items: stretch; }
 .skills-col {
-  flex: 1 1 420px;
-  min-width: 280px;
-  max-width: 500px;
+  flex: 1 1 320px;
+  min-width: 260px;
+  max-width: 420px;
+  /* Boxed card look so each category appears identical */
+  background: #0f0f14;
+  border: 1px solid #232335;
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 12px;
 }
 .skills-col-header {
   display: flex;
@@ -1101,14 +1124,15 @@ body::-webkit-scrollbar {
   font-size: 1.3rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.8rem;
 }
 .skills-col-icon {
   color: #6366f1;
   margin-right: 0.7rem;
   font-size: 1.5em;
 }
-.skills-bars { margin-bottom: 1.2rem; }
+.skills-bars { margin-bottom: 1rem; }
+.skills-bars { flex: 1 1 auto; }
 .skills-bar-row {
   display: flex;
   align-items: center;
@@ -1149,6 +1173,7 @@ body::-webkit-scrollbar {
   gap: 0.5rem;
   margin-top: 0.8rem;
 }
+.skills-tags { margin-bottom: 4px; }
 .skills-tag {
   background: #1e1b4b;
   color: #818cf8;
@@ -1202,7 +1227,16 @@ body::-webkit-scrollbar {
   .skills-other, .skills-grid { max-width: 97vw; }
 }
 @media (max-width: 900px) {
-  .skills-grid { flex-direction: column; align-items: center; gap: 2.2rem; }
-  .skills-col { max-width: 100%; min-width: 0; }
+  /* Stack columns vertically but make them stretch to the container width
+     so all boxed cards have identical visible width on small devices. */
+  .skills-grid { flex-direction: column; align-items: stretch; gap: 2.2rem; }
+  .skills-col { max-width: 100%; min-width: 0; width: 100%; box-sizing: border-box; }
   .skills-other { text-align: center; }
+
+  /* Ensure inner label and track elements can shrink and wrap instead of
+     forcing the card to grow horizontally. Also let tag pills wrap lines. */
+  .skills-bar-label { min-width: 0; white-space: normal; }
+  .skills-bar-track { min-width: 0; }
+  .skills-tags, .skills-other-tags { word-break: break-word; }
+  .skills-tag, .skills-other-tag { white-space: normal; }
 }

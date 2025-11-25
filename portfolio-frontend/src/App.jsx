@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaLocationArrow, FaExternalLinkAlt, FaDesktop, FaComments, FaChartBar, FaLaptopCode, FaBolt, FaServer, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaLocationArrow, FaExternalLinkAlt, FaDesktop, FaComments, FaChartBar, FaLaptopCode, FaBolt, FaServer, FaMobileAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import profileImg from './assets/ProfileImage.png';
 import './App.css'
 // removed unsupported 'react-icons/fa6' import
@@ -12,6 +12,10 @@ function App() {
   const [loadingExperiences, setLoadingExperiences] = useState(true);
   const [projects, setProjects] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
+  const [skills, setSkills] = useState([]);
+  const [loadingSkills, setLoadingSkills] = useState(true);
+  const [tags, setTags] = useState({});
+  const [loadingTags, setLoadingTags] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -108,6 +112,14 @@ function App() {
     fetchProjects();
   }, []);
 
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
+  useEffect(() => {
+    fetchTags();
+  }, []);
+
   // Function to get the appropriate icon component based on icon string
   const getProjectIcon = (iconType) => {
     const iconProps = { size: 48, className: "text-indigo-900 opacity-20 mb-6" };
@@ -167,6 +179,40 @@ function App() {
     }
   };
 
+  // Fetch skills from database
+  const fetchSkills = async () => {
+    try {
+      setLoadingSkills(true);
+      const response = await axios.get('http://127.0.0.1:4000/api/skills');
+      setSkills(response.data || []);
+    } catch (error) {
+      console.error('Error fetching skills:', error);
+      // Keep skills empty so UI falls back to static defaults below
+      setSkills([]);
+    } finally {
+      setLoadingSkills(false);
+    }
+  };
+
+  // Fetch tag lists from database
+  const fetchTags = async () => {
+    try {
+      setLoadingTags(true);
+      const response = await axios.get('http://127.0.0.1:4000/api/tags');
+      // Convert array of tag docs into an object keyed by category for easy lookup
+      const byCategory = (response.data || []).reduce((acc, doc) => {
+        if (doc && doc.category) acc[doc.category] = doc.tags || [];
+        return acc;
+      }, {});
+      setTags(byCategory);
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+      setTags({});
+    } finally {
+      setLoadingTags(false);
+    }
+  };
+
   const frontendSkills = [
     { label: "React / React Native", value: 95 },
     { label: "JavaScript / TypeScript", value: 90 },
@@ -189,12 +235,46 @@ function App() {
     "Firebase", "AWS", "Docker", "CI/CD", "Microservices"
   ];
 
+  const iosTags = [
+    'CocoaPods', 'Swift Package Manager', 'TestFlight', 'Instruments', 'App Store Connect'
+  ];
+
   const otherSkills = [
     "Git & Version Control",
     "UI/UX Design",
     "Agile Methodology",
     "Project Management"
   ];
+
+  const iosSkills = [
+    { label: 'Swift', value: 90 },
+    { label: 'SwiftUI', value: 88 },
+    { label: 'iOS SDK / UIKit', value: 85 },
+    { label: 'Core Data / Persistence', value: 80 },
+    { label: 'Combine / Async', value: 78 },
+  ];
+
+  // If skills were fetched from the API, derive the three columns from that data.
+  const frontendSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'frontend').sort((a, b) => b.order - a.order).map(({ label, value }) => ({ label, value }))
+    : frontendSkills;
+
+  const backendSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'backend').sort((a, b) => b.order - a.order).map(({ label, value }) => ({ label, value }))
+    : backendSkills;
+
+  const otherSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'other').sort((a, b) => b.order - a.order).map(s => s.label)
+    : otherSkills;
+
+  // Derive tag arrays from API response with fallbacks
+  const frontendTagsData = (tags && tags.frontend && tags.frontend.length) ? tags.frontend : frontendTags;
+  const backendTagsData = (tags && tags.backend && tags.backend.length) ? tags.backend : backendTags;
+  const iosTagsData = (tags && tags.ios && tags.ios.length) ? tags.ios : iosTags;
+
+  const iosSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'ios').sort((a, b) => b.order - a.order).map(({ label, value }) => ({ label, value }))
+    : iosSkills;
   return (
     <>
       <div className="App">
@@ -367,7 +447,7 @@ function App() {
                 </div>
 
                 <div className="skills-bars">
-                  {frontendSkills.map(({ label, value }) => (
+                  {frontendSkillsData.map(({ label, value }) => (
                     <div className="skills-bar-row" key={label}>
                       <div className="skills-bar-label">{label}</div>
                       <div className="skills-bar-track">
@@ -379,7 +459,7 @@ function App() {
                 </div>
 
                 <div className="skills-tags">
-                  {frontendTags.map(tag => (
+                  {frontendTagsData.map(tag => (
                     <span className="skills-tag" key={tag}>{tag}</span>
                   ))}
                 </div>
@@ -392,7 +472,7 @@ function App() {
                 </div>
 
                 <div className="skills-bars">
-                  {backendSkills.map(({ label, value }) => (
+                  {backendSkillsData.map(({ label, value }) => (
                     <div className="skills-bar-row" key={label}>
                       <div className="skills-bar-label">{label}</div>
                       <div className="skills-bar-track">
@@ -404,7 +484,32 @@ function App() {
                 </div>
 
                 <div className="skills-tags">
-                  {backendTags.map(tag => (
+                  {backendTagsData.map(tag => (
+                    <span className="skills-tag" key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="skills-col">
+                <div className="skills-col-header">
+                  <FaMobileAlt className="skills-col-icon" />
+                  <span className="skills-col-title">iOS Development</span>
+                </div>
+
+                <div className="skills-bars">
+                  {iosSkillsData.map(({ label, value }) => (
+                    <div className="skills-bar-row" key={label}>
+                      <div className="skills-bar-label">{label}</div>
+                      <div className="skills-bar-track">
+                        <div className="skills-bar-fill" style={{ width: `${value}%` }}></div>
+                      </div>
+                      <div className="skills-bar-value">{value}%</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="skills-tags">
+                  {iosTagsData.map(tag => (
                     <span className="skills-tag" key={tag}>{tag}</span>
                   ))}
                 </div>
@@ -418,7 +523,7 @@ function App() {
               </div>
                 
               <div className="skills-other-tags">
-                {otherSkills.map(tag => (
+                {otherSkillsData.map(tag => (
                   <span className="skills-other-tag" key={tag}>{tag}</span>
                 ))}
               </div>
