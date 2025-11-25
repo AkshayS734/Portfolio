@@ -339,6 +339,7 @@ function App() {
                 I love exploring new technologies, whether it’s Web3, DevOps, or AI/ML, and constantly expanding my skill set.
                 Building meaningful digital experiences is what motivates me every day.
               </p>
+              {/*
               <div className="home-buttons">
                 <a href="#Projects" className="home-btn primary">
                   View My Work
@@ -348,6 +349,7 @@ function App() {
                 </a>
                 <a href="#Contact" className="home-btn secondary">Contact Me</a>
               </div>
+              */}
             </div>
           </div>
         </div>
