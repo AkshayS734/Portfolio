@@ -79,7 +79,7 @@ function App() {
       const id = href.slice(1);
       const el = document.getElementById(id);
       if (!el) return;
-
+      e.preventDefault();
       const headerEl = document.querySelector('.header');
       const headerHeight = headerEl ? headerEl.offsetHeight : parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 64;
       const top = el.getBoundingClientRect().top + window.scrollY - headerHeight;
