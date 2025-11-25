@@ -8,6 +8,7 @@ import axios from 'axios';
 
 function App() {
   const [showDivider, setShowDivider] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
   const [experiences, setExperiences] = useState([]);
   const [loadingExperiences, setLoadingExperiences] = useState(true);
   const [projects, setProjects] = useState([]);
@@ -79,7 +80,6 @@ function App() {
       const el = document.getElementById(id);
       if (!el) return;
 
-      e.preventDefault();
       const headerEl = document.querySelector('.header');
       const headerHeight = headerEl ? headerEl.offsetHeight : parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 64;
       const top = el.getBoundingClientRect().top + window.scrollY - headerHeight;
@@ -88,7 +88,17 @@ function App() {
       history.replaceState(null, '', `#${id}`);
     };
 
+    // Close mobile nav when clicking outside the header
+    const onDocumentClick = (e) => {
+      if (!navOpen) return;
+      const header = document.querySelector('.header');
+      if (!header) return;
+      if (!header.contains(e.target)) setNavOpen(false);
+    };
+
     document.addEventListener('click', onAnchorClick);
+    document.addEventListener('click', onDocumentClick);
+
     // If page loads with a hash, scroll to it properly
     if (window.location.hash) {
       const id = window.location.hash.slice(1);
@@ -101,8 +111,11 @@ function App() {
       }
     }
 
-    return () => document.removeEventListener('click', onAnchorClick);
-  }, []);
+    return () => {
+      document.removeEventListener('click', onAnchorClick);
+      document.removeEventListener('click', onDocumentClick);
+    };
+  }, [navOpen]);
   
   useEffect(() => {
     fetchExperiences();
@@ -115,6 +128,15 @@ function App() {
   useEffect(() => {
     fetchSkills();
   }, []);
+
+  // Close nav on Escape key for accessibility
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape' && navOpen) setNavOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [navOpen]);
 
   useEffect(() => {
     fetchTags();
@@ -278,16 +300,29 @@ function App() {
   return (
     <>
       <div className="App">
-        <div className="header">
-          <h2>Akshay.dev</h2>
-          <div className="navbar">
-            <a href="#Home">Home</a>
-            <a href="#Projects">Projects</a>
-            <a href="#Experience">Experience</a>
-            <a href="#Skills">Skills</a>
-            <a href="#Contact">Contact</a>
+          <div className="header">
+            <h2>Akshay.dev</h2>
+
+            <button
+              className={`hamburger ${navOpen ? 'is-active' : ''}`}
+              aria-expanded={navOpen}
+              aria-controls="main-nav"
+              aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
+              onClick={() => setNavOpen((s) => !s)}
+            >
+              <span className="hamburger-box">
+                <span className="hamburger-inner" />
+              </span>
+            </button>
+
+            <div id="main-nav" className={`navbar ${navOpen ? 'open' : ''}`}>
+              <a href="#Home" onClick={() => setNavOpen(false)}>Home</a>
+              <a href="#Projects" onClick={() => setNavOpen(false)}>Projects</a>
+              <a href="#Experience" onClick={() => setNavOpen(false)}>Experience</a>
+              <a href="#Skills" onClick={() => setNavOpen(false)}>Skills</a>
+              <a href="#Contact" onClick={() => setNavOpen(false)}>Contact</a>
+            </div>
           </div>
-        </div>
         <div className={`divider ${showDivider ? 'visible' : ''}`}></div>
         <div id = "Home" className="Home">
           <div className="home-container">

@@ -66,6 +66,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap; /* prevent header children from dropping below each other */
   color: white;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
@@ -79,6 +80,33 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
 }
+
+/* Hamburger button: hidden on desktop, visible on small screens */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #fff;
+}
+.hamburger-box { display: inline-block; position: relative; width: 26px; height: 18px; }
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  background-color: #fff;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  left: 0;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ''; top: -7px; }
+.hamburger-inner::after { content: ''; top: 7px; }
+.hamburger.is-active .hamburger-inner { background-color: transparent; }
+.hamburger.is-active .hamburger-inner::before { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-active .hamburger-inner::after { transform: translateY(-7px) rotate(-45deg); }
 
 
 .navbar a {
@@ -1239,6 +1267,20 @@ body::-webkit-scrollbar {
   .skills-bar-track { min-width: 0; }
   .skills-tags, .skills-other-tags { word-break: break-word; }
   .skills-tag, .skills-other-tag { white-space: normal; }
+
+  /* Show hamburger inline to the right of the site title and hide the
+     full navbar until the hamburger is toggled. This keeps the button
+     on the same row as the `h2` instead of below it. */
+  .hamburger { display: inline-flex; align-items: center; justify-content: center; }
+    /* Reduce header padding so there's room for the button on narrow screens */
+    .header { padding: 12px 8px; }
+    /* Allow the site title to shrink and show ellipsis instead of forcing
+      the hamburger to wrap below it. */
+    .header h2 { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 8px; }
+    .hamburger { margin-left: 8px; flex: 0 0 auto; }
+  .navbar { display: none; }
+  .navbar.open { display: flex; flex-direction: column; position: absolute; right: 8px; top: 100%; background: #000; padding: 12px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 1100; }
+  .navbar.open a { margin: 6px 0; }
 }
 
 /* Small-screen: center the divider above description and the CTA buttons */
@@ -1253,29 +1295,88 @@ body::-webkit-scrollbar {
   }
 }
 
+/* Hamburger button styles and mobile nav open/close behavior */
+.hamburger {
+  display: none; /* visible only on small screens */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-left: 8px;
+}
+.hamburger-box { display: inline-block; position: relative; width: 26px; height: 18px; }
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  background-color: #fff;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  left: 0;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ''; top: -7px; }
+.hamburger-inner::after { content: ''; top: 7px; }
+.hamburger.is-active .hamburger-inner { background-color: transparent; }
+.hamburger.is-active .hamburger-inner::before { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-active .hamburger-inner::after { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .hamburger { display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Mobile nav collapse/expand */
+  .navbar { display: flex; flex-direction: column; align-items: center; max-height: 0; overflow: hidden; transition: max-height 0.28s ease; }
+  .navbar.open { max-height: 420px; }
+  .navbar a { display: inline-block; padding: 6px 8px; }
+}
+
 /* Responsive header + navbar: stack header items and wrap nav links on small screens */
 @media (max-width: 900px) {
+  /* Keep header items on a single row on narrow screens so the
+     hamburger stays to the right of the site title. Allow the title
+     to shrink with ellipsis to avoid wrapping the button. */
   .header {
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     gap: 8px;
-    padding: 12px 16px;
+    /* padding: 12px 16px; */
+    justify-content: space-between;
+    flex-wrap: nowrap;
   }
 
   .header h2 {
     font-size: 1.25rem;
     margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 12px;
   }
 
-  .navbar {
+  /* Hide the inline navbar on small screens so it does not reserve layout
+     space beside the title. Show it only when `.open` is applied. */
+  .navbar { display: none; }
+
+  .navbar.open {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-end;
     gap: 8px;
+    position: absolute;
+    right: 8px;
+    top: 100%;
+    background: #000;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    z-index: 1100;
   }
 
-  .navbar a {
-    margin: 6px 8px;
+  .navbar.open a {
+    margin: 6px 0;
     padding: 6px 10px;
     font-size: 1rem;
   }
