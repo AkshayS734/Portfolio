@@ -1400,3 +1400,30 @@ body::-webkit-scrollbar {
     max-width: 100%;
   }
 }
+
+/* Very small screens: avoid full-viewport height on Home which can
+   push content under the fixed header. Use a min-height and account
+   for the header height so elements remain visible and do not get
+   clipped. */
+@media (max-width: 420px) {
+  .Home {
+    height: auto; /* allow page to scroll naturally */
+    min-height: calc(100vh - var(--header-offset));
+    padding-top: calc(var(--header-offset) + 8px); /* ensure content begins below header */
+    align-items: flex-start; /* don't vertically center the content */
+    justify-content: flex-start;
+  }
+
+  .home-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  /* Ensure the main sections have room beneath the fixed header */
+  .Projects, .Experience, .Skills, .Contact {
+    padding-top: calc(var(--section-padding));
+    scroll-margin-top: calc(var(--header-offset));
+  }
+}
