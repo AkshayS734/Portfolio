@@ -989,7 +989,7 @@ body::-webkit-scrollbar {
 }
 .timeline-line {
   position: absolute;
-  left: 9px; top: 36px;
+  left: 7px; top: 36px;
   width: 3px;
   height: calc(100% - 36px);
   background: #312e81;
@@ -1075,9 +1075,34 @@ body::-webkit-scrollbar {
 .loading-experiences p { font-size: 1.1rem; opacity: 0.8; }
 
 @media (max-width: 600px) {
-  .experience-card { padding: 1.1rem 1rem; }
-  .timeline-item { flex-direction: column; align-items: flex-start; }
-  .timeline-dot { margin-right: 0; margin-top: 16px; left: 0; }
+  .experience-card { padding: 1.1rem 1rem; position: relative; z-index: 2; }
+  .timeline-item { flex-direction: column; align-items: flex-start; position: relative; }
+
+  /* Create a consistent left gutter for the timeline (line + dot). The
+     card content starts to the right of the gutter so the dot can overlap
+     the card edge cleanly. */
+    /* Use a two-column grid for timeline items on small screens. The
+      first column is a fixed gutter for the line/dot; the second column
+      holds the card content. This makes the dot position relative to
+      the line automatically and avoids manual absolute offsets. */
+    .timeline { max-width: 100%; padding-left: 0; box-sizing: border-box; }
+    .timeline-item {
+     display: grid;
+     grid-template-columns: 44px 1fr; /* gutter + content */
+     gap: 8px;
+     align-items: start;
+     position: relative;
+     box-sizing: border-box;
+    }
+
+    /* Vertical line sits in the gutter; center it by using half the gutter width */
+    .timeline-line { left: 20px; top: 12px; bottom: 12px; height: auto; z-index: 0; }
+
+    /* Place the dot in the first grid column and center it horizontally */
+    .timeline-dot { position: relative; grid-column: 1; justify-self: center; margin: 0; z-index: 3; top: 12px; }
+    .timeline-item:not(:last-child) .timeline-dot::after { display: none; }
+
+    .experience-card { grid-column: 2; width: 100%; margin-left: 0; box-sizing: border-box; }
 }
 
 /* ==== Skills ==== */
