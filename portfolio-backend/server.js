@@ -269,37 +269,7 @@ app.post('/api/projects', async (req, res) => {
   }
 });
 
-// PUT update project
-app.put('/api/projects/:id', async (req, res) => {
-  try {
-    const project = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!project) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
-    res.json(project);
-  } catch (error) {
-    console.error('Error updating project:', error);
-    res.status(400).json({ error: 'Failed to update project' });
-  }
-});
-
-// DELETE project
-app.delete('/api/projects/:id', async (req, res) => {
-  try {
-    const project = await Project.findByIdAndUpdate(
-      req.params.id, 
-      { isActive: false }, 
-      { new: true }
-    );
-    if (!project) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
-    res.json({ message: 'Project deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting project:', error);
-    res.status(400).json({ error: 'Failed to delete project' });
-  }
-});
+// (PUT/DELETE operations for projects removed — not used)
 
 // Experience API endpoints
 // GET all experiences
@@ -325,37 +295,7 @@ app.post('/api/experiences', async (req, res) => {
   }
 });
 
-// PUT update experience
-app.put('/api/experiences/:id', async (req, res) => {
-  try {
-    const experience = await Experience.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!experience) {
-      return res.status(404).json({ error: 'Experience not found' });
-    }
-    res.json(experience);
-  } catch (error) {
-    console.error('Error updating experience:', error);
-    res.status(400).json({ error: 'Failed to update experience' });
-  }
-});
-
-// DELETE experience
-app.delete('/api/experiences/:id', async (req, res) => {
-  try {
-    const experience = await Experience.findByIdAndUpdate(
-      req.params.id, 
-      { isActive: false }, 
-      { new: true }
-    );
-    if (!experience) {
-      return res.status(404).json({ error: 'Experience not found' });
-    }
-    res.json({ message: 'Experience deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting experience:', error);
-    res.status(400).json({ error: 'Failed to delete experience' });
-  }
-});
+// (PUT/DELETE operations for experiences removed — not used)
 
 app.post('/send', async (req, res) => {
   const { name, email, subject, message } = req.body;
@@ -456,4 +396,51 @@ app.post('/send', async (req, res) => {
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+// Liveness probe - quick check that the process is running
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'ok',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Readiness probe - checks critical dependencies (DB + optional mailer)
+app.get('/ready', async (req, res) => {
+  const results = {
+    db: { ok: false, state: mongoose.connection.readyState },
+    mailer: { ok: false },
+    timestamp: new Date().toISOString()
+  };
+
+  // DB ready state: 1 === connected
+  results.db.ok = mongoose.connection.readyState === 1;
+
+  // Mailer check is optional: if credentials are provided we'll verify SMTP connectivity,
+  // otherwise treat mailer as 'not configured' but not failing readiness.
+  if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      });
+      // verify will attempt a connection; keep errors concise
+      await transporter.verify();
+      results.mailer.ok = true;
+    } catch (err) {
+      results.mailer.ok = false;
+      results.mailer.error = String(err && err.message ? err.message : err);
+    }
+  } else {
+    results.mailer.ok = true; // optional, not configured in many local/dev setups
+    results.mailer.note = 'EMAIL_USER/EMAIL_PASS not configured';
+  }
+
+  const healthy = results.db.ok && results.mailer.ok;
+  res.status(healthy ? 200 : 503).json({ healthy, results });
 });
