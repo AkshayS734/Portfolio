@@ -9,7 +9,7 @@
   /* Offset used to avoid fixed header covering anchored section headings */
   --header-offset: 56px; /* Restored original small-screen header offset */
   /* Standard top padding used by main sections so headings align */
-  --section-padding: 4rem;
+  --section-padding: 2.5rem;
 }
 
 body, html {
@@ -27,11 +27,11 @@ html {
 }
 
 /* Ensure each main section used as an anchor leaves space for the fixed header */
-.Home,
-.Projects,
+.Home
+/* .Projects,
 .Experience,
 .Skills,
-.Contact {
+.Contact */{
   scroll-margin-top: var(--header-offset);
 }
 
@@ -413,16 +413,18 @@ body::-webkit-scrollbar {
 }
 
 .contact-heading .subheading {
-  color: #8b8b8b;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+  color: #6366f1;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
 }
 
 .contact-heading h2 {
-  font-size: 2.5rem;
-  color: #6366f1;
-  margin-bottom: 10px;
+  font-size: 2.1rem;
+  color: #fff;
+  font-weight: 800;
+  margin-bottom: 0.7rem;
+  line-height: 1.1;
 }
 
 .contact-heading .description {
@@ -432,14 +434,14 @@ body::-webkit-scrollbar {
 }
 
 .heading-divider {
-  width: 0;
-  height: 3px;
+  width: 140px;
+  height: 4px;
   background-color: #6366f1;
   margin: 16px auto;
   border-radius: 2px;
-  opacity: 0;
-  box-shadow: 0 0 8px #6366f1;
-  transition: width 0.6s ease-out, opacity 0.4s ease-in;
+  /* opacity: 0; */
+  /* box-shadow: 0 0 8px #6366f1;
+  transition: width 0.6s ease-out, opacity 0.4s ease-in; */
 }
 
 .heading-divider.visible {
@@ -686,13 +688,13 @@ body::-webkit-scrollbar {
   .contact-social-icons a { padding: 8px; font-size: 1.1rem; }
 }
 /* ==== Projects / Featured ==== */
-.Projects {
+/* .Projects {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #000;
-}
+} */
 .featured-section {
   background: #000;
   padding: var(--section-padding) 1rem;
@@ -737,7 +739,7 @@ body::-webkit-scrollbar {
   /* margin-bottom: 2.5rem; */
   overflow-x: auto;
   overflow-y: visible; /* allow scaled cards to be visible without vertical clipping */
-  padding: 0 1rem 3rem; /* extra bottom padding to accommodate scaled cards */
+  padding: 0.5rem 1rem 2rem; /* extra bottom padding to accommodate scaled cards */
 }
 
 /* Hide scrollbar for webkit browsers */
@@ -759,7 +761,8 @@ body::-webkit-scrollbar {
     height: 480px; /* slightly smaller fixed height on medium screens */
     flex: 0 0 280px;
   }
-  .project-image-container { height: 150px; }
+  /* Keep image height consistent with desktop so images don't shrink on tablet */
+  .project-image-container { height: 220px; }
 }
 
 @media (max-width: 480px) {
@@ -774,41 +777,43 @@ body::-webkit-scrollbar {
     height: auto; /* allow cards to grow on small screens */
     flex: 0 0 220px;
   }
-  .project-image-container { height: 120px; }
+  /* Keep images the same height on mobile too so all cards have consistent image sizing */
+  .project-image-container { height: 220px; }
 }
 
 .project-card {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 0;
+  /* Match boxed "skills" card look while keeping the image edge-to-edge */
+  background: #0f0f14;
+  border: 1px solid #232335;
+  border-radius: 16px; /* same rounded feel as skills cards */
+  padding: 0; /* keep image area flush with card edges */
   width: 320px; /* fixed width */
-  height: 550px; /* increased to accommodate a larger image area */
+  height: 550px; /* accommodate image + content */
   flex: 0 0 320px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1), box-shadow 220ms ease;
   overflow: hidden; /* keep image inside card bounds */
   display: flex;
   flex-direction: column;
   gap: 12px; /* consistent spacing inside card */
-  transform-origin: top center; /* grow downward on scale to avoid top clipping */
-  position: relative; /* allow z-index on hover */
-  cursor: pointer; /* indicate card is clickable */
+  transform-origin: top center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.5);
 }
 .project-card:hover {
-  border-color: #6366f1;
-  /* subtle zoom-in on hover instead of moving up */
-  transform: scale(1.02);
-  z-index: 50; /* lift above siblings to avoid being clipped by nearby elements */
-  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.14);
+  /* match skills-card hover: lift upward with subtle shadow */
+  transform: translateY(-6px);
+  z-index: 50;
+  box-shadow: 0 18px 38px rgba(0,0,0,0.55);
 }
 
 .project-image-container {
-  /* image fills the card width with no inner padding */
+  /* image fills the card width with no inner padding; keep this behavior */
   position: relative;
   margin: 0;
   width: 100%;
   height: 220px; /* image area height */
-  border-radius: 8px 8px 0 0; /* match card's top corners */
+  border-radius: 16px 16px 0 0; /* match card's top corners */
   overflow: hidden;
   z-index: 1;
   pointer-events: none; /* let clicks pass through to the card */
@@ -817,7 +822,8 @@ body::-webkit-scrollbar {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  /* Match skills card easing and duration for a consistent hover feel */
+  transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1);
   display: block;
 }
 /* when the card is hovered, slightly scale up the image so the overall effect is zoom-in */
@@ -869,7 +875,8 @@ body::-webkit-scrollbar {
   margin-top: 0.4rem; /* smaller space between image and content */
   position: relative;
   z-index: 2;
-  padding: 0 1rem 1rem 1rem; /* added inner padding for content */
+  /* Use the same internal padding as skills cards so content aligns visually */
+  padding: 0px 24px 20px 24px;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto; /* allow content to grow so tags can be pushed to the bottom */
@@ -884,11 +891,11 @@ body::-webkit-scrollbar {
   background: #1e1b4b;
   color: #818cf8;
   border-radius: 9999px;
-  padding: 0.18rem 0.9rem;
-  font-size: 0.88rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  min-width: 70px; /* consistent tag sizing */
+  padding: 0.2rem 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  min-width: 70px;
   text-align: center;
 }
 .featured-viewall {
@@ -1150,11 +1157,11 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   gap: 3rem;
-  margin-bottom: 2.5rem;
   flex-wrap: wrap;
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0.5rem 0rem 2rem;
 }
 .skills-grid { align-items: stretch; }
 .skills-col {
@@ -1247,7 +1254,7 @@ body::-webkit-scrollbar {
   font-weight: 600;
   letter-spacing: 0.03em;
   border: 1px solid transparent;
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  /* transition: transform 160ms ease, box-shadow 160ms ease; */
 }
 
 .skills-col:hover {
@@ -1255,13 +1262,13 @@ body::-webkit-scrollbar {
   box-shadow: 0 18px 38px rgba(0,0,0,0.55);
 }
 
-.skills-tag:hover,
+/* .skills-tag:hover,
 .skills-tag:focus {
   transform: translateY(-3px);
-}
+} */
 
 .skills-other {
-  margin-top: 2.5rem;
+  /* margin-top: 2.5rem; */
   max-width: 1160px;
   margin-left: auto;
   margin-right: auto;
@@ -1272,7 +1279,7 @@ body::-webkit-scrollbar {
   font-size: 1.15rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1rem;
   margin-top: 0.5rem;
 }
 .skills-other-icon {
