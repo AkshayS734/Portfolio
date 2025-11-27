@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaLocationArrow, FaExternalLinkAlt, FaDesktop, FaComments, FaChartBar, FaLaptopCode, FaBolt, FaServer, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope, FaLocationArrow, FaExternalLinkAlt, FaDesktop, FaComments, FaChartBar, FaLaptopCode, FaBolt, FaServer, FaMobileAlt, FaMapMarkerAlt } from 'react-icons/fa';
 import profileImg from './assets/ProfileImage.png';
 import './App.css'
 // removed unsupported 'react-icons/fa6' import
@@ -8,10 +8,15 @@ import axios from 'axios';
 
 function App() {
   const [showDivider, setShowDivider] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
   const [experiences, setExperiences] = useState([]);
   const [loadingExperiences, setLoadingExperiences] = useState(true);
   const [projects, setProjects] = useState([]);
   const [loadingProjects, setLoadingProjects] = useState(true);
+  const [skills, setSkills] = useState([]);
+  const [loadingSkills, setLoadingSkills] = useState(true);
+  const [tags, setTags] = useState({});
+  const [loadingTags, setLoadingTags] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -74,7 +79,6 @@ function App() {
       const id = href.slice(1);
       const el = document.getElementById(id);
       if (!el) return;
-
       e.preventDefault();
       const headerEl = document.querySelector('.header');
       const headerHeight = headerEl ? headerEl.offsetHeight : parseInt(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 64;
@@ -84,7 +88,17 @@ function App() {
       history.replaceState(null, '', `#${id}`);
     };
 
+    // Close mobile nav when clicking outside the header
+    const onDocumentClick = (e) => {
+      if (!navOpen) return;
+      const header = document.querySelector('.header');
+      if (!header) return;
+      if (!header.contains(e.target)) setNavOpen(false);
+    };
+
     document.addEventListener('click', onAnchorClick);
+    document.addEventListener('click', onDocumentClick);
+
     // If page loads with a hash, scroll to it properly
     if (window.location.hash) {
       const id = window.location.hash.slice(1);
@@ -97,8 +111,11 @@ function App() {
       }
     }
 
-    return () => document.removeEventListener('click', onAnchorClick);
-  }, []);
+    return () => {
+      document.removeEventListener('click', onAnchorClick);
+      document.removeEventListener('click', onDocumentClick);
+    };
+  }, [navOpen]);
   
   useEffect(() => {
     fetchExperiences();
@@ -106,6 +123,23 @@ function App() {
 
   useEffect(() => {
     fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
+  // Close nav on Escape key for accessibility
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape' && navOpen) setNavOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [navOpen]);
+
+  useEffect(() => {
+    fetchTags();
   }, []);
 
   // Function to get the appropriate icon component based on icon string
@@ -167,6 +201,40 @@ function App() {
     }
   };
 
+  // Fetch skills from database
+  const fetchSkills = async () => {
+    try {
+      setLoadingSkills(true);
+      const response = await axios.get('http://127.0.0.1:4000/api/skills');
+      setSkills(response.data || []);
+    } catch (error) {
+      console.error('Error fetching skills:', error);
+      // Keep skills empty so UI falls back to static defaults below
+      setSkills([]);
+    } finally {
+      setLoadingSkills(false);
+    }
+  };
+
+  // Fetch tag lists from database
+  const fetchTags = async () => {
+    try {
+      setLoadingTags(true);
+      const response = await axios.get('http://127.0.0.1:4000/api/tags');
+      // Convert array of tag docs into an object keyed by category for easy lookup
+      const byCategory = (response.data || []).reduce((acc, doc) => {
+        if (doc && doc.category) acc[doc.category] = doc.tags || [];
+        return acc;
+      }, {});
+      setTags(byCategory);
+    } catch (error) {
+      console.error('Error fetching tags:', error);
+      setTags({});
+    } finally {
+      setLoadingTags(false);
+    }
+  };
+
   const frontendSkills = [
     { label: "React / React Native", value: 95 },
     { label: "JavaScript / TypeScript", value: 90 },
@@ -189,25 +257,72 @@ function App() {
     "Firebase", "AWS", "Docker", "CI/CD", "Microservices"
   ];
 
+  const iosTags = [
+    'CocoaPods', 'Swift Package Manager', 'TestFlight', 'Instruments', 'App Store Connect'
+  ];
+
   const otherSkills = [
     "Git & Version Control",
     "UI/UX Design",
     "Agile Methodology",
     "Project Management"
   ];
+
+  const iosSkills = [
+    { label: 'Swift', value: 90 },
+    { label: 'SwiftUI', value: 88 },
+    { label: 'iOS SDK / UIKit', value: 85 },
+    { label: 'Core Data / Persistence', value: 80 },
+    { label: 'Combine / Async', value: 78 },
+  ];
+
+  // If skills were fetched from the API, derive the three columns from that data.
+  const frontendSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'frontend').sort((a, b) => b.order - a.order).map(({ label, value }) => ({ label, value }))
+    : frontendSkills;
+
+  const backendSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'backend').sort((a, b) => b.order - a.order).map(({ label, value }) => ({ label, value }))
+    : backendSkills;
+
+  const otherSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'other').sort((a, b) => b.order - a.order).map(s => s.label)
+    : otherSkills;
+
+  // Derive tag arrays from API response with fallbacks
+  const frontendTagsData = (tags && tags.frontend && tags.frontend.length) ? tags.frontend : frontendTags;
+  const backendTagsData = (tags && tags.backend && tags.backend.length) ? tags.backend : backendTags;
+  const iosTagsData = (tags && tags.ios && tags.ios.length) ? tags.ios : iosTags;
+
+  const iosSkillsData = (skills && skills.length)
+    ? skills.filter(s => s.category === 'ios').sort((a, b) => b.order - a.order).map(({ label, value }) => ({ label, value }))
+    : iosSkills;
   return (
     <>
       <div className="App">
-        <div className="header">
-          <h2>Akshay.dev</h2>
-          <div className="navbar">
-            <a href="#Home">Home</a>
-            <a href="#Projects">Projects</a>
-            <a href="#Experience">Experience</a>
-            <a href="#Skills">Skills</a>
-            <a href="#Contact">Contact</a>
+          <div className="header">
+            <h2>Akshay.dev</h2>
+
+            <button
+              className={`hamburger ${navOpen ? 'is-active' : ''}`}
+              aria-expanded={navOpen}
+              aria-controls="main-nav"
+              aria-label={navOpen ? 'Close navigation' : 'Open navigation'}
+              onClick={() => setNavOpen((s) => !s)}
+            >
+              <span className="hamburger-box">
+                <span className="hamburger-inner" />
+              </span>
+            </button>
+
+            <div id="main-nav" className={`navbar ${navOpen ? 'open' : ''}`}>
+              <a href="#Home" onClick={() => setNavOpen(false)}>Home</a>
+              <a href="#Projects" onClick={() => setNavOpen(false)}>Projects</a>
+              <a href="#Experience" onClick={() => setNavOpen(false)}>Experience</a>
+              <a href="#Skills" onClick={() => setNavOpen(false)}>Skills</a>
+              <a href="#Contact" onClick={() => setNavOpen(false)}>Contact</a>
+            </div>
           </div>
-        </div>
         <div className={`divider ${showDivider ? 'visible' : ''}`}></div>
         <div id = "Home" className="Home">
           <div className="home-container">
@@ -224,6 +339,7 @@ function App() {
                 I love exploring new technologies, whether it’s Web3, DevOps, or AI/ML, and constantly expanding my skill set.
                 Building meaningful digital experiences is what motivates me every day.
               </p>
+              {/*
               <div className="home-buttons">
                 <a href="#Projects" className="home-btn primary">
                   View My Work
@@ -233,6 +349,7 @@ function App() {
                 </a>
                 <a href="#Contact" className="home-btn secondary">Contact Me</a>
               </div>
+              */}
             </div>
           </div>
         </div>
@@ -250,7 +367,19 @@ function App() {
                   </div>
                 ) : (
                   projects.map((project, i) => (
-                  <div className="project-card" key={project._id || i}>
+                  <div
+                    className="project-card"
+                    key={project._id || i}
+                    role="link"
+                    tabIndex={0}
+                    onClick={() => project.links?.live && window.open(project.links.live, '_blank')}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        project.links?.live && window.open(project.links.live, '_blank');
+                      }
+                    }}
+                  >
                     <div className="project-image-container">
                       <img
                         src={profileImg}
@@ -259,44 +388,40 @@ function App() {
                       />
                     </div>
 
-                    <div className="project-row">
-                      <h3 className="project-title">{project.title}</h3>
-                      <div className="project-actions">
-                        <a
-                          href={project.links?.live || '#'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-action"
-                          aria-label={`Open ${project.title} live`}
-                        >
-                          <FaExternalLinkAlt />
-                        </a>
-                        <a
-                          href={project.links?.github || '#'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="project-action"
-                          aria-label={`Open ${project.title} github`}
-                        >
-                          <FaGithub />
-                        </a>
+                    <div className="project-content">
+                      <div className="project-row">
+                        <h3 className="project-title">{project.title}</h3>
+                        <div className="project-actions">
+                          <a
+                            href={project.links?.github || '#'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-action"
+                            aria-label={`Open ${project.title} github`}
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <FaGithub />
+                          </a>
+                        </div>
                       </div>
-                    </div>
 
-                    <p className="project-description">{project.description}</p>
+                      <p className="project-description">{project.description}</p>
 
-                    <div className="project-tech-list">
-                      {(project.tech || []).map((t) => (
-                        <span className="project-tech" key={t}>{t}</span>
-                      ))}
+                      <div className="project-tech-list">
+                        {(project.tech || []).map((t) => (
+                          <span className="project-tech" key={t}>{t}</span>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))
               )}
               </div>
+              {/*
               <a href="#" className="featured-viewall">
                 View All Projects <span aria-hidden>→</span>
               </a>
+              */}
             </div>
           </section>
         </div>
@@ -359,7 +484,7 @@ function App() {
                 </div>
 
                 <div className="skills-bars">
-                  {frontendSkills.map(({ label, value }) => (
+                  {frontendSkillsData.map(({ label, value }) => (
                     <div className="skills-bar-row" key={label}>
                       <div className="skills-bar-label">{label}</div>
                       <div className="skills-bar-track">
@@ -371,7 +496,7 @@ function App() {
                 </div>
 
                 <div className="skills-tags">
-                  {frontendTags.map(tag => (
+                  {frontendTagsData.map(tag => (
                     <span className="skills-tag" key={tag}>{tag}</span>
                   ))}
                 </div>
@@ -384,7 +509,7 @@ function App() {
                 </div>
 
                 <div className="skills-bars">
-                  {backendSkills.map(({ label, value }) => (
+                  {backendSkillsData.map(({ label, value }) => (
                     <div className="skills-bar-row" key={label}>
                       <div className="skills-bar-label">{label}</div>
                       <div className="skills-bar-track">
@@ -396,7 +521,32 @@ function App() {
                 </div>
 
                 <div className="skills-tags">
-                  {backendTags.map(tag => (
+                  {backendTagsData.map(tag => (
+                    <span className="skills-tag" key={tag}>{tag}</span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="skills-col">
+                <div className="skills-col-header">
+                  <FaMobileAlt className="skills-col-icon" />
+                  <span className="skills-col-title">iOS Development</span>
+                </div>
+
+                <div className="skills-bars">
+                  {iosSkillsData.map(({ label, value }) => (
+                    <div className="skills-bar-row" key={label}>
+                      <div className="skills-bar-label">{label}</div>
+                      <div className="skills-bar-track">
+                        <div className="skills-bar-fill" style={{ width: `${value}%` }}></div>
+                      </div>
+                      <div className="skills-bar-value">{value}%</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="skills-tags">
+                  {iosTagsData.map(tag => (
                     <span className="skills-tag" key={tag}>{tag}</span>
                   ))}
                 </div>
@@ -410,7 +560,7 @@ function App() {
               </div>
                 
               <div className="skills-other-tags">
-                {otherSkills.map(tag => (
+                {otherSkillsData.map(tag => (
                   <span className="skills-other-tag" key={tag}>{tag}</span>
                 ))}
               </div>

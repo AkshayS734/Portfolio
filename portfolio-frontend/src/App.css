@@ -7,9 +7,9 @@
 
 :root {
   /* Offset used to avoid fixed header covering anchored section headings */
-  --header-offset: 64px;
+  --header-offset: 56px; /* Restored original small-screen header offset */
   /* Standard top padding used by main sections so headings align */
-  --section-padding: 4rem;
+  --section-padding: 2.5rem;
 }
 
 body, html {
@@ -27,16 +27,28 @@ html {
 }
 
 /* Ensure each main section used as an anchor leaves space for the fixed header */
-.Home,
-.Projects,
+.Home
+/* .Projects,
 .Experience,
 .Skills,
-.Contact {
+.Contact */{
   scroll-margin-top: var(--header-offset);
 }
 
 @media (max-width: 600px) {
-  :root { --header-offset: 56px; }
+  /* On small screens make each skills card full-width and stretch so
+     they all match visually. Allow inner label/track/tag elements to
+     shrink and wrap so long tag text doesn't force different widths. */
+  .skills-grid { flex-direction: column; align-items: stretch; gap: 2.2rem; }
+  .skills-col { max-width: 100%; min-width: 0; width: 100%; box-sizing: border-box; }
+  .skills-col { width: 100% !important; }
+
+  /* Allow labels and tracks to shrink/wrap inside narrow columns */
+  .skills-bar-label { min-width: 0; white-space: normal; }
+  .skills-bar-track { min-width: 0; }
+  .skills-tags, .skills-other-tags { word-break: break-word; }
+  .skills-tag, .skills-other-tag { white-space: normal; }
+
 }
 
 body::-webkit-scrollbar {
@@ -54,6 +66,7 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: nowrap; /* prevent header children from dropping below each other */
   color: white;
   box-shadow: 0 1px 4px rgba(0,0,0,0.2);
 }
@@ -67,6 +80,33 @@ body::-webkit-scrollbar {
   display: flex;
   align-items: center;
 }
+
+/* Hamburger button: hidden on desktop, visible on small screens */
+.hamburger {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  color: #fff;
+}
+.hamburger-box { display: inline-block; position: relative; width: 26px; height: 18px; }
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  background-color: #fff;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  left: 0;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ''; top: -7px; }
+.hamburger-inner::after { content: ''; top: 7px; }
+.hamburger.is-active .hamburger-inner { background-color: transparent; }
+.hamburger.is-active .hamburger-inner::before { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-active .hamburger-inner::after { transform: translateY(-7px) rotate(-45deg); }
 
 
 .navbar a {
@@ -86,7 +126,7 @@ body::-webkit-scrollbar {
   bottom: 0;
   width: 0%;
   height: 2px;
-  background-color: #61dafb;
+  background-color: #6366f1;
   transition: width 0.25s ease-in-out;
 }
 .navbar a:hover {
@@ -98,23 +138,24 @@ body::-webkit-scrollbar {
 
 .divider {
   position: fixed;
-  top: 68px;
+  /* place divider immediately below the header using the header offset */
+  top: var(--header-offset);
   left: 0;
   width: 100%;
   height: 2px;
   opacity: 0;
-  background: linear-gradient(to right, #61dafb, #1fa2ff);
-  box-shadow: 0 0 10px #61dafb, 0 0 20px #1fa2ff;
+  background: linear-gradient(to right, #6366f1, #1fa2ff);
+  box-shadow: 0 0 10px #6366f1, 0 0 20px #1fa2ff;
   transition: opacity 0.5s ease-in, width 2s ease-out;
   z-index: 999;
 }
 
 @keyframes glowPulse {
   0%, 100% {
-    box-shadow: 0 0 10px #61dafb, 0 0 20px #1fa2ff;
+    box-shadow: 0 0 10px #6366f1, 0 0 20px #1fa2ff;
   }
   50% {
-    box-shadow: 0 0 14px #61dafb, 0 0 28px #1fa2ff;
+    box-shadow: 0 0 14px #6366f1, 0 0 28px #1fa2ff;
   }
 }
 
@@ -172,13 +213,13 @@ body::-webkit-scrollbar {
 .home-text h2 {
   font-size: 2rem;
   margin: 10px 0;
-  color: #61dafb;
+  color: #6366f1;
 }
 
 .text-divider {
   width: 60px;
   height: 4px;
-  background-color: #61dafb;
+  background-color: #6366f1;
   margin: 16px 0;
   border-radius: 1px;
 }
@@ -213,7 +254,7 @@ body::-webkit-scrollbar {
 }
 
 .home-btn.primary {
-  background-color: #61dafb;
+  background-color: #6366f1;
   color: #000;
 }
 
@@ -223,12 +264,12 @@ body::-webkit-scrollbar {
 
 .home-btn.secondary {
   background-color: transparent;
-  color: #61dafb;
-  border: 1px solid #61dafb;
+  color: #6366f1;
+  border: 1px solid #6366f1;
 }
 
 .home-btn.secondary:hover {
-  background-color: #61dafb;
+  background-color: #6366f1;
   color: #000;
 }
 .social-icons {
@@ -280,7 +321,7 @@ body::-webkit-scrollbar {
 .contact-left h3, .contact-right h3 {
   font-size: 1.5rem;
   margin-bottom: 20px;
-  color: #61dafb;
+  color: #6366f1;
 }
 .contact-right {
   width: 40%;
@@ -301,7 +342,7 @@ body::-webkit-scrollbar {
 
 .contact-info h3,
 .contact-socials h3 {
-  color: #61dafb;
+  color: #6366f1;
   margin-bottom: 12px;
 }
 
@@ -312,7 +353,7 @@ body::-webkit-scrollbar {
 }
 
 .contact-info a {
-  color: #61dafb;
+  color: #6366f1;
   text-decoration: none;
 }
 
@@ -327,7 +368,7 @@ body::-webkit-scrollbar {
 }
 
 .contact-social-icons a {
-  color: #61dafb;
+  color: #6366f1;
   font-size: 1.25rem;
   transition: color 0.3s ease;
 }
@@ -355,7 +396,7 @@ body::-webkit-scrollbar {
 }
 
 .contact-info a {
-  color: #61dafb;
+  color: #6366f1;
   text-decoration: none;
 }
 
@@ -372,16 +413,18 @@ body::-webkit-scrollbar {
 }
 
 .contact-heading .subheading {
-  color: #8b8b8b;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
-  margin-bottom: 10px;
+  color: #6366f1;
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.5rem;
 }
 
 .contact-heading h2 {
-  font-size: 2.5rem;
-  color: #61dafb;
-  margin-bottom: 10px;
+  font-size: 2.1rem;
+  color: #fff;
+  font-weight: 800;
+  margin-bottom: 0.7rem;
+  line-height: 1.1;
 }
 
 .contact-heading .description {
@@ -391,14 +434,14 @@ body::-webkit-scrollbar {
 }
 
 .heading-divider {
-  width: 0;
-  height: 3px;
-  background-color: #61dafb;
+  width: 140px;
+  height: 4px;
+  background-color: #6366f1;
   margin: 16px auto;
   border-radius: 2px;
-  opacity: 0;
-  box-shadow: 0 0 8px #61dafb;
-  transition: width 0.6s ease-out, opacity 0.4s ease-in;
+  /* opacity: 0; */
+  /* box-shadow: 0 0 8px #6366f1;
+  transition: width 0.6s ease-out, opacity 0.4s ease-in; */
 }
 
 .heading-divider.visible {
@@ -412,7 +455,7 @@ body::-webkit-scrollbar {
 }
 
 .contact-form-button {
-  background-color: #4c51f9;
+  background-color: #3d41e0;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -425,7 +468,7 @@ body::-webkit-scrollbar {
 }
 
 .contact-form-button:hover {
-  background-color: #3d41e0;
+  background-color: #4c51f9;
 }
 
 .send-icon {
@@ -441,7 +484,7 @@ body::-webkit-scrollbar {
   border-radius: 50% / 20px;
   padding: 12px 8px;
   margin-right: 12px;
-  color: #61dafb;
+  color: #6366f1;
   font-size: 1.5rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -466,7 +509,7 @@ body::-webkit-scrollbar {
   width: 50px;
   height: 50px;
   margin-right: 12px;
-  color: #61dafb;
+  color: #6366f1;
   font-size: 1.25rem;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
@@ -492,11 +535,11 @@ body::-webkit-scrollbar {
   color: #ccc;
 }
 .contact-info-text a {
-  color: #61dafb;
+  color: #6366f1;
   text-decoration: none;
 }
 .contact-info-text a:hover {
-  color: #21a1f1;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -529,7 +572,7 @@ body::-webkit-scrollbar {
 .footer-left h2 {
   margin: 0;
   font-weight: 600;
-  color: #61dafb;
+  color: #6366f1;
   line-height: 1.4;
 }
 
@@ -552,7 +595,7 @@ body::-webkit-scrollbar {
 .back-to-top {
   background: none;
   border: none;
-  color: #61dafb;
+  color: #6366f1;
   cursor: pointer;
   font-size: 0.9rem;
   padding: 0;
@@ -645,13 +688,13 @@ body::-webkit-scrollbar {
   .contact-social-icons a { padding: 8px; font-size: 1.1rem; }
 }
 /* ==== Projects / Featured ==== */
-.Projects {
+/* .Projects {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #000;
-}
+} */
 .featured-section {
   background: #000;
   padding: var(--section-padding) 1rem;
@@ -690,13 +733,13 @@ body::-webkit-scrollbar {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 1.5rem; /* consistent gap between cards */
+  gap: 3rem; /* increased gap between cards for better separation */
   justify-content: center;
   align-items: stretch;
-  margin-bottom: 2.5rem;
+  /* margin-bottom: 2.5rem; */
   overflow-x: auto;
   overflow-y: visible; /* allow scaled cards to be visible without vertical clipping */
-  padding: 0 1rem 3rem; /* extra bottom padding to accommodate scaled cards */
+  padding: 0.5rem 1rem 2rem; /* extra bottom padding to accommodate scaled cards */
 }
 
 /* Hide scrollbar for webkit browsers */
@@ -710,7 +753,7 @@ body::-webkit-scrollbar {
     flex-direction: row;
     justify-content: center;
     padding: 0 0.5rem;
-    gap: 1rem;
+    gap: 1.2rem; /* slightly larger tablet gap */
   }
   .project-card { 
     min-width: 250px;
@@ -718,74 +761,100 @@ body::-webkit-scrollbar {
     height: 480px; /* slightly smaller fixed height on medium screens */
     flex: 0 0 280px;
   }
-  .project-image-container { height: 150px; }
+  /* Keep image height consistent with desktop so images don't shrink on tablet */
+  .project-image-container { height: 220px; }
 }
 
 @media (max-width: 480px) {
   .featured-cards {
-    gap: 0.5rem;
+    gap: 0.75rem; /* mobile gap increased for touch spacing */
     padding: 0 0.25rem;
   }
   .project-card {
     min-width: 200px;
     width: 220px;
-    padding: 1rem;
+    padding: 0;
     height: auto; /* allow cards to grow on small screens */
     flex: 0 0 220px;
   }
-  .project-image-container { height: 120px; }
+  /* Keep images the same height on mobile too so all cards have consistent image sizing */
+  .project-image-container { height: 220px; }
 }
 
 .project-card {
-  background: #111;
-  border: 1px solid #333;
-  border-radius: 8px;
-  padding: 1rem;
+  /* Match boxed "skills" card look while keeping the image edge-to-edge */
+  background: #0f0f14;
+  border: 1px solid #232335;
+  border-radius: 16px; /* same rounded feel as skills cards */
+  padding: 0; /* keep image area flush with card edges */
   width: 320px; /* fixed width */
-  height: 570px; /* increased fixed height so more description content can fit */
+  height: 550px; /* accommodate image + content */
   flex: 0 0 320px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  overflow: hidden;
+  transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1), box-shadow 220ms ease;
+  overflow: hidden; /* keep image inside card bounds */
   display: flex;
   flex-direction: column;
   gap: 12px; /* consistent spacing inside card */
-  transform-origin: top center; /* grow downward on scale to avoid top clipping */
-  position: relative; /* allow z-index on hover */
+  transform-origin: top center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.5);
 }
 .project-card:hover {
-  border-color: #6366f1;
-  /* subtle zoom-in on hover instead of moving up */
-  transform: scale(1.02);
-  z-index: 50; /* lift above siblings to avoid being clipped by nearby elements */
-  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.14);
+  /* match skills-card hover: lift upward with subtle shadow */
+  transform: translateY(-6px);
+  z-index: 50;
+  box-shadow: 0 18px 38px rgba(0,0,0,0.55);
 }
 
 .project-image-container {
-  margin-bottom: 0.5rem;
-  border-radius: 6px;
+  /* image fills the card width with no inner padding; keep this behavior */
+  position: relative;
+  margin: 0;
+  width: 100%;
+  height: 220px; /* image area height */
+  border-radius: 16px 16px 0 0; /* match card's top corners */
   overflow: hidden;
-  height: 180px; /* fixed image area for consistency */
+  z-index: 1;
+  pointer-events: none; /* let clicks pass through to the card */
 }
 .project-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  /* Match skills card easing and duration for a consistent hover feel */
+  transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1);
+  display: block;
 }
 /* when the card is hovered, slightly scale up the image so the overall effect is zoom-in */
 .project-card:hover .project-image { transform: scale(1.03); }
 
 .project-icon-container { display: flex; justify-content: center; margin-bottom: 1.5rem; }
-.project-title { max-width: 80%;color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
-.project-row { display: flex; align-items: center; margin-bottom: 0.45rem; gap: 0.5rem; justify-content: space-between;}
-.project-actions { display: flex; align-items: center; gap: 1rem; /* increased gap between action icons */ }
-.project-action {color: #c7d2fe; font-size: 1.05rem; transition: color 0.16s;}
-.project-action:focus, .project-action:hover { color: #6366f1; }
+.project-title { color: #fff; font-size: 1.22rem; font-weight: 700; text-align: left; }
+/* Layout: title on the left, action icons aligned to the right in the same row. On
+   small screens the layout falls back to stacked (column) to preserve readability. */
+.project-row { display: flex; flex-direction: row; align-items: center; gap: 0.5rem; margin-bottom: 0.35rem; }
+.project-title { flex: 1 1 auto; min-width: 0; /* allow truncation/wrapping if necessary */ }
+.project-actions { display: flex; align-items: center; justify-content: flex-end; gap: 0.6rem; margin-left: 0.5rem; }
+.project-card:focus { outline: 3px solid rgba(99,102,241,0.22); outline-offset: 4px; }
+.project-action {
+  color: #c7d2fe;
+  display: inline-flex;
+  justify-content: center;
+  font-size: 1.25rem;
+  border-radius: 6px;
+  transition: color 0.12s, background-color 0.12s, transform 0.12s;
+}
+.project-action:focus, .project-action:hover {
+  color: #6366f1;
+  background-color: rgba(99,102,241,0.05);
+  transform: translateY(-0.6px);
+}
 .project-description {
   color: #a3a3a3;
   text-align: left;
   font-size: 1rem;
-  margin: 0.6rem 0 0.8rem 0;
+  margin: 0.6rem 0 0.4rem 0; /* increased gap above description */
   line-height: 1.5;
   /* clamp description so cards remain equal height */
   display: -webkit-box;
@@ -795,21 +864,38 @@ body::-webkit-scrollbar {
   overflow: hidden;
 }
 .project-tech-list {
-  margin-top: auto; /* push tags to bottom */
+  margin-top: auto; /* push tags to the bottom so cards line up */
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
+
+.project-content {
+  margin-top: 0.4rem; /* smaller space between image and content */
+  position: relative;
+  z-index: 2;
+  /* Use the same internal padding as skills cards so content aligns visually */
+  padding: 0px 24px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto; /* allow content to grow so tags can be pushed to the bottom */
+}
+
+/* Responsive: stack title and actions on small screens */
+@media (max-width: 480px) {
+  .project-row { flex-direction: column; align-items: flex-start; gap: 0.35rem; }
+  .project-actions { justify-content:left; width: 100%; margin-left: 0; }
+}
 .project-tech {
   background: #1e1b4b;
   color: #818cf8;
   border-radius: 9999px;
-  padding: 0.18rem 0.9rem;
-  font-size: 0.88rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  min-width: 70px; /* consistent tag sizing */
+  padding: 0.2rem 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  min-width: 70px;
   text-align: center;
 }
 .featured-viewall {
@@ -910,7 +996,7 @@ body::-webkit-scrollbar {
 }
 .timeline-line {
   position: absolute;
-  left: 9px; top: 36px;
+  left: 7px; top: 36px;
   width: 3px;
   height: calc(100% - 36px);
   background: #312e81;
@@ -996,9 +1082,34 @@ body::-webkit-scrollbar {
 .loading-experiences p { font-size: 1.1rem; opacity: 0.8; }
 
 @media (max-width: 600px) {
-  .experience-card { padding: 1.1rem 1rem; }
-  .timeline-item { flex-direction: column; align-items: flex-start; }
-  .timeline-dot { margin-right: 0; margin-top: 16px; left: 0; }
+  .experience-card { padding: 1.1rem 1rem; position: relative; z-index: 2; }
+  .timeline-item { flex-direction: column; align-items: flex-start; position: relative; }
+
+  /* Create a consistent left gutter for the timeline (line + dot). The
+     card content starts to the right of the gutter so the dot can overlap
+     the card edge cleanly. */
+    /* Use a two-column grid for timeline items on small screens. The
+      first column is a fixed gutter for the line/dot; the second column
+      holds the card content. This makes the dot position relative to
+      the line automatically and avoids manual absolute offsets. */
+    .timeline { max-width: 100%; padding-left: 0; box-sizing: border-box; }
+    .timeline-item {
+     display: grid;
+     grid-template-columns: 44px 1fr; /* gutter + content */
+     gap: 8px;
+     align-items: start;
+     position: relative;
+     box-sizing: border-box;
+    }
+
+    /* Vertical line sits in the gutter; center it by using half the gutter width */
+    .timeline-line { left: 20px; top: 12px; bottom: 12px; height: auto; z-index: 0; }
+
+    /* Place the dot in the first grid column and center it horizontally */
+    .timeline-dot { position: relative; grid-column: 1; justify-self: center; margin: 0; z-index: 3; top: 12px; }
+    .timeline-item:not(:last-child) .timeline-dot::after { display: none; }
+
+    .experience-card { grid-column: 2; width: 100%; margin-left: 0; box-sizing: border-box; }
 }
 
 /* ==== Skills ==== */
@@ -1046,83 +1157,118 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   gap: 3rem;
-  margin-bottom: 2.5rem;
   flex-wrap: wrap;
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
+  padding: 0.5rem 0rem 2rem;
 }
+.skills-grid { align-items: stretch; }
 .skills-col {
-  flex: 1 1 420px;
-  min-width: 280px;
-  max-width: 500px;
+  flex: 1 1 320px;
+  min-width: 260px;
+  max-width: 420px;
+  /* Boxed card look so each category appears identical */
+  background: #0f0f14;
+  border: 1px solid #232335;
+  border-radius: 16px;
+  padding: 22px 24px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 16px;
+  transition: transform 220ms cubic-bezier(0.2,0.8,0.2,1), box-shadow 220ms ease;
 }
 .skills-col-header {
   display: flex;
   align-items: center;
-  font-size: 1.3rem;
+  font-size: 1.18rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 1.4rem;
+  margin-bottom: 0.6rem;
+  gap: 10px;
 }
 .skills-col-icon {
   color: #6366f1;
-  margin-right: 0.7rem;
-  font-size: 1.5em;
+  margin-right: 0.6rem;
+  font-size: 1.4em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid transparent;
 }
-.skills-bars { margin-bottom: 1.2rem; }
+.skills-bars { margin-bottom: 1rem; }
+.skills-bars { flex: 1 1 auto; }
 .skills-bar-row {
   display: flex;
   align-items: center;
-  margin-bottom: 1.1rem;
+  margin-bottom: 0.95rem;
 }
 .skills-bar-label {
   color: #e5e5e5;
-  font-size: 1.07rem;
-  flex: 1 1 130px;
+  font-size: 1.02rem;
+  flex: 1 1 140px;
   min-width: 80px;
-  margin-right: 1.2rem;
+  margin-right: 1rem;
 }
 .skills-bar-track {
   position: relative;
   flex: 1 1 auto;
-  height: 7px;
+  height: 10px;
   background: #232335;
-  border-radius: 6px;
-  margin-right: 0.8rem;
+  border-radius: 999px;
+  margin-right: 0.75rem;
   overflow: hidden;
 }
 .skills-bar-fill {
   height: 100%;
   background: #6366f1;
-  border-radius: 6px 0 0 6px;
-  transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  border-radius: 999px 0 0 999px;
+  transition: width 560ms cubic-bezier(0.22,0.9,0.2,1);
 }
 .skills-bar-value {
   color: #6366f1;
-  font-size: 1.02rem;
-  font-weight: 500;
-  width: 42px;
+  font-size: 0.98rem;
+  font-weight: 600;
+  width: 44px;
   text-align: right;
 }
 .skills-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-top: 0.8rem;
+  margin-top: 0.7rem;
 }
+.skills-tags { margin-bottom: 4px; }
 .skills-tag {
   background: #1e1b4b;
   color: #818cf8;
   border-radius: 9999px;
-  padding: 0.18rem 0.9rem;
-  font-size: 0.93rem;
-  font-weight: 500;
-  letter-spacing: 0.04em;
+  padding: 0.2rem 0.9rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  border: 1px solid transparent;
+  /* transition: transform 160ms ease, box-shadow 160ms ease; */
 }
 
+.skills-col:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.55);
+}
+
+/* .skills-tag:hover,
+.skills-tag:focus {
+  transform: translateY(-3px);
+} */
+
 .skills-other {
-  margin-top: 2.5rem;
+  /* margin-top: 2.5rem; */
   max-width: 1160px;
   margin-left: auto;
   margin-right: auto;
@@ -1133,7 +1279,7 @@ body::-webkit-scrollbar {
   font-size: 1.15rem;
   font-weight: 700;
   color: #fff;
-  margin-bottom: 1.3rem;
+  margin-bottom: 1rem;
   margin-top: 0.5rem;
 }
 .skills-other-icon {
@@ -1164,7 +1310,175 @@ body::-webkit-scrollbar {
   .skills-other, .skills-grid { max-width: 97vw; }
 }
 @media (max-width: 900px) {
-  .skills-grid { flex-direction: column; align-items: center; gap: 2.2rem; }
-  .skills-col { max-width: 100%; min-width: 0; }
+  /* Stack columns vertically but make them stretch to the container width
+     so all boxed cards have identical visible width on small devices. */
+  .skills-grid { flex-direction: column; align-items: stretch; gap: 2.2rem; }
+  .skills-col { min-width: 0; width: 100%; box-sizing: border-box; }
   .skills-other { text-align: center; }
+
+  /* Ensure inner label and track elements can shrink and wrap instead of
+     forcing the card to grow horizontally. Also let tag pills wrap lines. */
+  .skills-bar-label { min-width: 0; white-space: normal; }
+  .skills-bar-track { min-width: 0; }
+  .skills-tags, .skills-other-tags { word-break: break-word; }
+  .skills-tag, .skills-other-tag { white-space: normal; }
+
+  /* Show hamburger inline to the right of the site title and hide the
+     full navbar until the hamburger is toggled. This keeps the button
+     on the same row as the `h2` instead of below it. */
+  .hamburger { display: inline-flex; align-items: center; justify-content: center; }
+    /* Reduce header padding so there's room for the button on narrow screens */
+    .header { padding: 12px 8px; }
+    /* Allow the site title to shrink and show ellipsis instead of forcing
+      the hamburger to wrap below it. */
+    .header h2 { flex: 1 1 auto; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-right: 8px; }
+    .hamburger { margin-left: 8px; flex: 0 0 auto; }
+  .navbar { display: none; }
+  .navbar.open { display: flex; flex-direction: column; position: absolute; right: 8px; top: 100%; background: #000; padding: 12px; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); z-index: 1100; }
+  .navbar.open a { margin: 6px 0; }
+}
+
+/* Small-screen: center the divider above description and the CTA buttons */
+@media (max-width: 900px) {
+  .home-text .text-divider {
+    margin: 16px auto; /* center inside the text column */
+  }
+
+  .home-text .home-buttons {
+    justify-content: center;
+    width: 100%;
+  }
+}
+
+/* Hamburger button styles and mobile nav open/close behavior */
+.hamburger {
+  display: none; /* visible only on small screens */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-left: 8px;
+}
+.hamburger-box { display: inline-block; position: relative; width: 26px; height: 18px; }
+.hamburger-inner,
+.hamburger-inner::before,
+.hamburger-inner::after {
+  background-color: #fff;
+  position: absolute;
+  height: 2px;
+  width: 100%;
+  left: 0;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+.hamburger-inner { top: 50%; transform: translateY(-50%); }
+.hamburger-inner::before { content: ''; top: -7px; }
+.hamburger-inner::after { content: ''; top: 7px; }
+.hamburger.is-active .hamburger-inner { background-color: transparent; }
+.hamburger.is-active .hamburger-inner::before { transform: translateY(7px) rotate(45deg); }
+.hamburger.is-active .hamburger-inner::after { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 900px) {
+  .hamburger { display: inline-flex; align-items: center; justify-content: center; }
+
+  /* Mobile nav collapse/expand */
+  .navbar { display: flex; flex-direction: column; align-items: center; max-height: 0; overflow: hidden; transition: max-height 0.28s ease; }
+  .navbar.open { max-height: 420px; }
+  .navbar a { display: inline-block; padding: 6px 8px; }
+}
+
+/* Responsive header + navbar: stack header items and wrap nav links on small screens */
+@media (max-width: 900px) {
+  /* Keep header items on a single row on narrow screens so the
+     hamburger stays to the right of the site title. Allow the title
+     to shrink with ellipsis to avoid wrapping the button. */
+  .header {
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    /* padding: 12px 16px; */
+    justify-content: space-between;
+    flex-wrap: nowrap;
+  }
+
+  .header h2 {
+    font-size: 1.25rem;
+    margin: 0;
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 12px;
+  }
+
+  /* Hide the inline navbar on small screens so it does not reserve layout
+     space beside the title. Show it only when `.open` is applied. */
+  .navbar { display: none; }
+
+  .navbar.open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    position: absolute;
+    right: 8px;
+    top: 100%;
+    background: #000;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    z-index: 1100;
+  }
+
+  .navbar.open a {
+    margin: 6px 0;
+    padding: 6px 10px;
+    font-size: 1rem;
+  }
+}
+
+/* Small screen layout for Home section: stack image above text */
+@media (max-width: 900px) {
+  .home-container {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
+
+  .home-image img {
+    width: 220px;
+    height: 220px;
+  }
+
+  .home-text {
+    max-width: 100%;
+  }
+}
+
+/* Very small screens: avoid full-viewport height on Home which can
+   push content under the fixed header. Use a min-height and account
+   for the header height so elements remain visible and do not get
+   clipped. */
+@media (max-width: 420px) {
+  .Home {
+    height: auto; /* allow page to scroll naturally */
+    min-height: calc(100vh - var(--header-offset));
+    padding-top: calc(var(--header-offset) + 8px); /* ensure content begins below header */
+    align-items: flex-start; /* don't vertically center the content */
+    justify-content: flex-start;
+  }
+
+  .home-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    box-sizing: border-box;
+  }
+
+  /* Ensure the main sections have room beneath the fixed header */
+  .Projects, .Experience, .Skills, .Contact {
+    padding-top: calc(var(--section-padding));
+    scroll-margin-top: calc(var(--header-offset));
+  }
 }
