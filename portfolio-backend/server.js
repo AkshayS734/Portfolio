@@ -374,16 +374,68 @@ app.post('/send', async (req, res) => {
     to: process.env.EMAIL_USER,
     replyTo: email,
     subject: `${subject} (from ${name})`,
+    text: `
+  New contact form submission
+  Name: ${name}
+  Email: ${email}
+  Subject: ${subject}
+  Message:
+  ${message}
+    `,
     html: `
-      <div style="font-family: Arial, sans-serif; padding: 20px; background: #f9f9f9; border-radius: 8px;">
-        <h2 style="color: #333;">New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <p><strong>Message:</strong><br>${message.replace(/\n/g, '<br>')}</p>
-        <hr style="margin-top: 20px;" />
-        <p style="font-size: 0.9em; color: #999;">This message was sent from your portfolio contact form.</p>
-      </div>
+    <!doctype html>
+    <html>
+    <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+    </head>
+    <body style="margin:0;padding:0;font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:#f2f4f8;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="padding:20px 12px;">
+        <tr>
+          <td align="center">
+            <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;box-shadow:0 6px 18px rgba(20,30,40,0.08);overflow:hidden;">
+              <!-- header -->
+              <tr>
+                <td style="padding:22px 28px 14px;">
+                  <div style="display:flex;align-items:center;gap:12px;">
+                    <div>
+                      <div style="font-size:16px;font-weight:700;color:#0b1b34;">New contact form message</div>
+                      <div style="margin-top:3px;font-size:13px;color:#667085;">
+                        From <strong>${name || 'Anonymous'}</strong> — <a href="mailto:${email}" style="color:#0b5cff;text-decoration:none;">${email}</a>
+                      </div>
+                    </div>
+                 </div>
+                </td>
+              </tr>
+
+              <!-- body -->
+              <tr>
+                <td style="padding:0 28px 22px;">
+                  <div style="font-size:14px;color:#10203a;line-height:1.5;">
+                    <p style="margin:0 0 12px;"><strong>Subject:</strong> ${subject || '(no subject)'}</p>
+                    <div style="background:#f7f9fc;border:1px solid #eef2f7;padding:14px;border-radius:8px;">
+                      ${ (message || '').replace(/\n/g, '<br>') }
+                    </div>
+                  </div>
+                </td>
+              </tr>
+
+              <!-- footer -->
+              <tr>
+                <td style="padding:18px 28px;background:#fbfdff;border-top:1px solid #eef2f7;font-size:13px;color:#7b8599;">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+                    <div>This message was sent from your portfolio contact form.</div>
+                    <div style="font-size:12px;color:#94a3b8;">${new Date().toLocaleString()}</div>
+                  </div>
+                </td>
+              </tr>
+
+            </table>
+          </td>
+        </tr>
+      </table>
+    </body>
+    </html>
     `
   };
 
