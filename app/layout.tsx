@@ -24,7 +24,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://akshayshukla.online"),
+  metadataBase: new URL("https://akshaysshukla.vercel.app"),
 
   title: {
     default: "Akshay Shukla — Software Developer",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://akshayshukla.online",
+    url: "https://akshaysshukla.vercel.app",
     title: "Akshay Shukla — Software Developer",
     description:
       "Portfolio of Akshay Shukla showcasing projects, experience, and skills in web and iOS development.",

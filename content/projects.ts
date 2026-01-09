@@ -18,7 +18,7 @@ export const projects = [
     ],
     links: {
       github: "https://github.com/AkshayS734/Vaultr",
-      live: "https://vaultr.akshayshukla.online"
+      live: "https://vaultr-password-manager.vercel.app"
     }
   },
   {
@@ -46,7 +46,7 @@ export const projects = [
     why: "This project was built to explore how unreliable, noisy inputs from a camera can be transformed into stable, usable interactions. Unlike traditional input devices, hand-gesture systems must tolerate ambiguity, imperfect detection, and latency while still feeling responsive. The goal was to understand how computer vision, smoothing, and gesture design come together to create a usable human–computer interface.",
     description:
       "A real-time virtual mouse system enabling touch-free human-computer interaction using hand-gesture recognition. Processes live video input to track finger movements and translate gestures into mouse actions with smooth, low-latency performance.",
-    image: "/images/virtual-mouse.png", // optional
+    image: "/images/virtual-mouse.png",
     tech: [
       "Python",
       "OpenCV",
