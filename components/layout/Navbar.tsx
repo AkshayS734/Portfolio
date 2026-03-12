@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 const navItems = [
@@ -57,6 +57,17 @@ export function Navbar() {
               </a>
             ))}
             
+            {/* Resume Download - Desktop */}
+            <a
+              href="/Resume.pdf"
+              download
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-accent-primary border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
+              aria-label="Download Resume"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Resume
+            </a>
+
             {/* Theme Toggle - Desktop */}
             <button
               onClick={toggleTheme}
@@ -120,6 +131,15 @@ export function Navbar() {
                 {item.label}
               </a>
             ))}
+            <a
+              href="/Resume.pdf"
+              download
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mt-2 px-4 py-3 text-sm font-medium text-accent-primary flex items-center gap-2 border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
+            >
+              <Download className="w-4 h-4" />
+              Download Resume
+            </a>
           </div>
         </nav>
       </div>

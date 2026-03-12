@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {Github, Mail, MapPin, Linkedin, Twitter, Send} from "lucide-react";
+import {Github, Mail, MapPin, Linkedin, Twitter, Send, Download} from "lucide-react";
 import Image from "next/image";
 import { projects } from "@/content/projects";
 import { experiences } from "@/content/experience";
@@ -83,6 +83,18 @@ export default function Home() {
                 I enjoy working close to the system while still caring deeply about usability
                 and product quality.
               </p>
+
+              {/* Resume CTA */}
+              <div className="flex items-center gap-4 pt-2">
+                <a
+                  href="/Resume.pdf"
+                  download
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary text-white text-sm font-medium rounded-lg hover:opacity-90 transition-all duration-300 group"
+                >
+                  <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
+                  Download Resume
+                </a>
+              </div>
             </div>
 
             {/* Profile Image */}
