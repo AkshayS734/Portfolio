@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import {Github, Mail, MapPin, Linkedin, Twitter, Send, Download} from "lucide-react";
+import { Github, Mail, MapPin, Linkedin, Twitter, Send, Download } from "lucide-react";
 import Image from "next/image";
 import { projects } from "@/content/projects";
 import { experiences } from "@/content/experience";
 import { skillCategories, otherSkills } from "@/content/skills";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { FadeIn } from "@/components/FadeIn";
 
 
 export default function Home() {
@@ -61,7 +62,16 @@ export default function Home() {
         <div className="max-w-300 mx-auto px-6 lg:px-8 w-full py-20 lg:py-32">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Text Content */}
-            <div className="order-2 lg:order-1 space-y-6">
+            <FadeIn className="order-2 lg:order-1 space-y-6">
+              {/* Open to Work Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-500">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                </span>
+                <span className="text-xs font-medium">Open to opportunities</span>
+              </div>
+
               <div className="space-y-2">
                 <p className="text-sm tracking-wide text-muted-foreground uppercase">
                   Hello, my name is
@@ -84,8 +94,8 @@ export default function Home() {
                 and product quality.
               </p>
 
-              {/* Resume CTA */}
-              <div className="flex items-center gap-4 pt-2">
+              {/* CTA Row */}
+              <div className="flex items-center gap-4 pt-2 flex-wrap">
                 <a
                   href="/Resume.pdf"
                   download
@@ -94,8 +104,37 @@ export default function Home() {
                   <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
                   Download Resume
                 </a>
+
+                {/* Hero Social Quick-Links */}
+                <div className="flex items-center gap-2">
+                  <a
+                    href="https://github.com/AkshayS734"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="GitHub"
+                    className="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg text-muted-foreground hover:text-accent-primary hover:border-accent-primary transition-all duration-300"
+                  >
+                    <Github className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="https://linkedin.com/in/akshaysshukla"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="LinkedIn"
+                    className="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg text-muted-foreground hover:text-accent-primary hover:border-accent-primary transition-all duration-300"
+                  >
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                  <a
+                    href="mailto:akshaysbuilds@gmail.com"
+                    aria-label="Email"
+                    className="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg text-muted-foreground hover:text-accent-primary hover:border-accent-primary transition-all duration-300"
+                  >
+                    <Mail className="w-4 h-4" />
+                  </a>
+                </div>
               </div>
-            </div>
+            </FadeIn>
 
             {/* Profile Image */}
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
@@ -107,7 +146,7 @@ export default function Home() {
                    alt="Akshay Shukla"
                    fill
                     sizes="(max-width: 768px) 100vw, 400px"
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-500 block dark:hidden"
+                    className="object-cover transition-all duration-500 block dark:hidden"
                    priority
                   />
 
@@ -117,7 +156,7 @@ export default function Home() {
                     alt="Akshay Shukla"
                     fill
                     sizes="(max-width: 768px) 100vw, 400px"
-                    className="object-cover grayscale hover:grayscale-0 transition-all duration-500 hidden dark:block"
+                    className="object-cover transition-all duration-500 hidden dark:block"
                     priority
                   />
                 </div>
@@ -131,7 +170,7 @@ export default function Home() {
       <section id="Projects" className="py-20 lg:py-32">
         <div className="max-w-300 mx-auto px-6 lg:px-8">
           {/* Section Header */}
-          <div className="mb-16">
+          <FadeIn>
             <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
               Selected Projects
             </p>
@@ -142,12 +181,14 @@ export default function Home() {
               A selection of projects where I focused on solving real problems, exploring
               system-level concerns, and building things end-to-end.
             </p>
-          </div>
+          </FadeIn>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+            {projects.map((project, i) => (
+              <FadeIn key={project.id} delay={i * 100}>
+                <ProjectCard project={project} />
+              </FadeIn>
             ))}
           </div>
         </div>
@@ -157,7 +198,7 @@ export default function Home() {
       <section id="Experience" className="py-20 lg:py-32 bg-muted/30">
         <div className="max-w-300 mx-auto px-6 lg:px-8">
           {/* Section Header */}
-          <div className="mb-16">
+          <FadeIn className="mb-16">
             <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
               Professional Experience
             </p>
@@ -168,7 +209,7 @@ export default function Home() {
               Hands-on experience building and maintaining production-grade applications,
               with a strong emphasis on correctness, security, and scalability.
             </p>
-          </div>
+          </FadeIn>
 
           {/* Timeline */}
           <div className="relative">
@@ -260,7 +301,7 @@ export default function Home() {
       <section id="Skills" className="py-20 lg:py-32">
         <div className="max-w-300 mx-auto px-6 lg:px-8">
           {/* Section Header */}
-          <div className="mb-16">
+          <FadeIn className="mb-16">
             <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
               Technical Skillset
             </p>
@@ -271,15 +312,16 @@ export default function Home() {
               A practical, experience-driven skill set focused on building reliable software,
               not just listing tools.
             </p>
-          </div>
+          </FadeIn>
 
           {/* Main Skills Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {skillCategories.map((category) => {
+            {skillCategories.map((category, i) => {
               const Icon = category.icon;
               return (
-                <div
+                <FadeIn
                   key={category.id}
+                  delay={i * 100}
                   className="bg-card border border-border rounded-xl p-6 hover:border-accent-primary transition-all duration-300 space-y-6"
                 >
                   {/* Icon & Title */}
@@ -318,13 +360,13 @@ export default function Home() {
                       ))}
                     </div>
                   </div>
-                </div>
+                </FadeIn>
               );
             })}
           </div>
 
           {/* Other Skills */}
-          <div className="bg-muted/30 border border-border rounded-xl p-8">
+          <FadeIn delay={300} className="bg-muted/30 border border-border rounded-xl p-8">
             <h3 className="text-lg font-medium mb-6">Additional Experience</h3>
             <div className="flex flex-wrap gap-3">
               {otherSkills.map((skill) => (
@@ -336,7 +378,7 @@ export default function Home() {
                 </span>
               ))}
             </div>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
@@ -344,14 +386,14 @@ export default function Home() {
       <section id="Contact" className="py-20 lg:py-32 bg-muted/30">
         <div className="max-w-300 mx-auto px-6 lg:px-8">
           {/* Section Header */}
-          <div className="mb-16">
+          <FadeIn className="mb-16">
             <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
               Let&apos;s Connect
             </p>
             <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight">
               Contact
             </h2>
-          </div>
+          </FadeIn>
 
           {/* Contact Grid */}
           <div className="grid lg:grid-cols-2 gap-12">
