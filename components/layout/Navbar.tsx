@@ -1,29 +1,61 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, Download } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 
 const navItems = [
-  { label: "Home", href: "#Home" },
-  { label: "Projects", href: "#Projects" },
-  { label: "Experience", href: "#Experience" },
-  { label: "Skills", href: "#Skills" },
-  { label: "Contact", href: "#Contact" },
+  { label: "Home", href: "#Home", sectionId: "Home" },
+  { label: "Projects", href: "#Projects", sectionId: "Projects" },
+  { label: "Experience", href: "#Experience", sectionId: "Experience" },
+  { label: "Skills", href: "#Skills", sectionId: "Skills" },
+  { label: "Contact", href: "#Contact", sectionId: "Contact" },
 ];
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>("Home");
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsMobileMenuOpen(false);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    const sectionIds = navItems.map((item) => item.sectionId);
+    const observers: IntersectionObserver[] = [];
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(id);
+          }
+        },
+        { rootMargin: "-40% 0px -55% 0px" }
+      );
+
+      observer.observe(el);
+      observers.push(observer);
+    });
+
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   return (
@@ -46,17 +78,39 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors relative group"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent-primary group-hover:w-full transition-all duration-300" />
-              </a>
-            ))}
+            {navItems.map((item) => {
+              const isActive = activeSection === item.sectionId;
+              return (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  className={`text-sm transition-colors relative group ${
+                    isActive
+                      ? "text-accent-primary"
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {item.label}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-px bg-accent-primary transition-all duration-300 ${
+                      isActive ? "w-full" : "w-0 group-hover:w-full"
+                    }`}
+                  />
+                </a>
+              );
+            })}
             
+            {/* Resume Download - Desktop */}
+            <a
+              href="/Resume.pdf"
+              download
+              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-accent-primary border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
+              aria-label="Download Resume"
+            >
+              <Download className="w-3.5 h-3.5" />
+              Resume
+            </a>
+
             {/* Theme Toggle - Desktop */}
             <button
               onClick={toggleTheme}
@@ -120,6 +174,15 @@ export function Navbar() {
                 {item.label}
               </a>
             ))}
+            <a
+              href="/Resume.pdf"
+              download
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="mt-2 px-4 py-3 text-sm font-medium text-accent-primary flex items-center gap-2 border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
+            >
+              <Download className="w-4 h-4" />
+              Download Resume
+            </a>
           </div>
         </nav>
       </div>

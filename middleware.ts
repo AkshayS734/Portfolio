@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
 
-export function middleware(request: NextRequest) {
+export function middleware() {
   const response = NextResponse.next();
 
   response.headers.set("X-Content-Type-Options", "nosniff");
@@ -24,11 +23,11 @@ export function middleware(request: NextRequest) {
     "Content-Security-Policy",
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' https://images.unsplash.com data:",
-      "font-src 'self'",
-      "connect-src 'self'",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "img-src 'self' https://images.unsplash.com data: https://www.google-analytics.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "connect-src 'self' https://www.google-analytics.com https://vitals.vercel-insights.com https://va.vercel-scripts.com",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",

@@ -150,7 +150,13 @@ export function ProjectCard({ project }: { project: Project }) {
             </p>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {project.why}
-            </p>     
+            </p>
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowWhy(false); }}
+              className="mt-2 mx-auto flex items-center gap-1.5 px-4 py-2 text-xs font-medium text-muted-foreground border border-border rounded-full hover:text-foreground hover:border-accent-primary hover:bg-accent-primary/5 transition-all"
+            >
+              ← Back to project
+            </button>
           </div>
         </div>
       </div>
