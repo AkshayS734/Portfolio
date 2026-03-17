@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://akshayshukla.xyz"),
 
   title: {
-    default: "Akshay Shukla — Software Developer",
+    default: "Akshay Shukla",
     template: "%s | Akshay Shukla",
   },
 
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://akshayshukla.xyz",
-    title: "Akshay Shukla — Software Developer",
+    title: "Akshay Shukla",
     description:
       "Portfolio of Akshay Shukla showcasing projects, experience, and skills in web and iOS development.",
     siteName: "Akshay Shukla Portfolio",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Akshay Shukla — Software Developer",
+        alt: "Akshay Shukla",
       },
     ],
   },
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/og-image.png"],
     creator: "@akshaysshukla",
-    title: "Akshay Shukla — Software Developer",
+    title: "Akshay Shukla",
     description:
       "Software developer building modern web and iOS applications.",
   },
