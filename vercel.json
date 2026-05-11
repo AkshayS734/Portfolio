@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/vaultr",
+      "destination": "https://vaultr.akshayshukla.xyz",
+      "permanent": true
+    }
+  ]
+}
