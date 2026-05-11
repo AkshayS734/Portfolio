@@ -102,7 +102,7 @@ export function Navbar() {
             
             {/* Resume Download - Desktop */}
             <a
-              href="/Resume.pdf"
+              href="/AkshayShukla_Resume.pdf"
               download
               className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-accent-primary border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
               aria-label="Download Resume"
@@ -175,7 +175,7 @@ export function Navbar() {
               </a>
             ))}
             <a
-              href="/Resume.pdf"
+              href="/AkshayShukla_Resume.pdf"
               download
               onClick={() => setIsMobileMenuOpen(false)}
               className="mt-2 px-4 py-3 text-sm font-medium text-accent-primary flex items-center gap-2 border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
