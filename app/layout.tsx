@@ -91,6 +91,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* Subtle Grain Overlay for Premium Dark Mode Depth */}
+        <div 
+          className="pointer-events-none fixed inset-0 z-[100] opacity-0 dark:opacity-[0.03] mix-blend-overlay" 
+          style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
+        />
+
         {/* Google Analytics */}
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
@@ -109,9 +115,16 @@ export default function RootLayout({
         </Script>
 
         <ThemeProvider>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:top-4 focus:left-4 focus:px-4 focus:py-2 focus:bg-background focus:text-foreground focus:border focus:border-border focus:shadow-lg focus:rounded-md"
+          >
+            Skip to main content
+          </a>
+
           <Navbar />
 
-          <main className="min-h-screen">{children}</main>
+          <main id="main" className="min-h-screen">{children}</main>
 
           <Footer />
           
