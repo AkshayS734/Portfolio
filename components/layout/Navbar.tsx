@@ -19,10 +19,17 @@ export function Navbar() {
   const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 40);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -156,45 +163,55 @@ export function Navbar() {
         </div>
 
         {/* Mobile Menu Dropdown Drawer */}
+        {/* Full-Screen Mobile Menu Drawer */}
         <div
-          className={`absolute top-full left-0 right-0 mt-3 mx-4 p-4 rounded-2xl glass-panel shadow-xl shadow-black/10 transition-all duration-300 md:hidden flex flex-col gap-2 ${
+          className={`fixed inset-0 z-[45] bg-background/90 backdrop-blur-xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] md:hidden flex flex-col pt-24 pb-8 px-6 ${
             isMobileMenuOpen
-              ? "opacity-100 translate-y-0 scale-100"
-              : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 -translate-y-8 pointer-events-none"
           }`}
         >
-          <nav className="flex flex-col gap-1">
-            {navItems.map((item) => {
+          <nav className="flex flex-col gap-6 flex-1 mt-4">
+            {navItems.map((item, i) => {
               const isActive = activeSection === item.sectionId;
               return (
                 <a
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all flex items-center justify-between ${
+                  style={{ transitionDelay: isMobileMenuOpen ? `${i * 50}ms` : "0ms" }}
+                  className={`text-3xl font-extrabold tracking-tight transition-all duration-500 flex items-center justify-between ${
+                    isMobileMenuOpen 
+                      ? "opacity-100 translate-x-0" 
+                      : "opacity-0 -translate-x-8"
+                  } ${
                     isActive
-                      ? "text-accent-primary bg-accent-primary/10"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                      ? "text-accent-primary"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
                   {item.label}
-                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-accent-primary" />}
+                  {isActive && <span className="w-2 h-2 rounded-full bg-accent-primary" />}
                 </a>
               );
             })}
           </nav>
           
-          <div className="h-px bg-border my-1" />
-
-          <a
-            href="/AkshayShukla_Resume.pdf"
-            download
-            onClick={() => setIsMobileMenuOpen(false)}
-            className="flex items-center justify-center gap-2 py-3 text-sm font-medium text-white bg-accent-gradient rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all"
+          <div 
+            style={{ transitionDelay: isMobileMenuOpen ? `300ms` : "0ms" }}
+            className={`mt-auto transition-all duration-500 ${isMobileMenuOpen ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
           >
-            <Download className="w-4 h-4" />
-            Download Resume
-          </a>
+            <div className="h-px bg-border/60 w-full mb-6" />
+            <a
+              href="/AkshayShukla_Resume.pdf"
+              download
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-2 py-4 text-base font-semibold text-white bg-accent-gradient rounded-2xl shadow-lg hover:opacity-90 active:scale-95 transition-all w-full"
+            >
+              <Download className="w-4 h-4" />
+              Download Resume
+            </a>
+          </div>
         </div>
       </div>
     </header>

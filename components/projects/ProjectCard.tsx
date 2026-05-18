@@ -32,7 +32,7 @@ export function ProjectCard({ project }: { project: Project }) {
           src={project.image}
           alt={`${project.title} preview`}
           fill
-          sizes="(max-width: 768px) 100vw, 400px"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-700 ease-out group-hover:scale-102 will-change-transform"
         />
         {/* Subtle dark gradient overlay */}
@@ -43,8 +43,12 @@ export function ProjectCard({ project }: { project: Project }) {
       <div className="p-6 md:p-8 flex flex-col flex-1 min-h-0">
         
         {/* 2. Interactive Segmented Control Tabs */}
-        <div className="flex p-1 bg-muted/50 dark:bg-muted/30 rounded-full border border-border/60 max-w-[260px] w-full mx-auto mb-6 shrink-0 shadow-inner">
+        <div role="tablist" aria-label="Project details tabs" className="flex p-1 bg-muted/50 dark:bg-muted/30 rounded-full border border-border/60 max-w-[260px] w-full mx-auto mb-6 shrink-0 shadow-inner">
           <button
+            role="tab"
+            aria-selected={activeTab === "overview"}
+            aria-controls={`panel-overview-${project.id}`}
+            id={`tab-overview-${project.id}`}
             onClick={() => setActiveTab("overview")}
             className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-[10px] font-bold tracking-wider uppercase rounded-full transition-all duration-300 cursor-pointer ${
               activeTab === "overview"
@@ -58,6 +62,10 @@ export function ProjectCard({ project }: { project: Project }) {
           
           {project.why && (
             <button
+              role="tab"
+              aria-selected={activeTab === "why"}
+              aria-controls={`panel-why-${project.id}`}
+              id={`tab-why-${project.id}`}
               onClick={() => setActiveTab("why")}
               className={`flex-1 flex items-center justify-center gap-1.5 py-1.5 text-[10px] font-bold tracking-wider uppercase rounded-full transition-all duration-300 cursor-pointer ${
                 activeTab === "why"
@@ -75,7 +83,11 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="flex-1 flex flex-col min-h-0 relative overflow-hidden">
           
           {/* ================= OVERVIEW TAB ================= */}
-          <div className={`flex flex-col flex-1 gap-5 transition-all duration-500 ease-in-out ${
+          <div 
+            role="tabpanel"
+            id={`panel-overview-${project.id}`}
+            aria-labelledby={`tab-overview-${project.id}`}
+            className={`flex flex-col flex-1 gap-5 transition-all duration-500 ease-in-out ${
             activeTab === "overview" 
               ? "opacity-100 translate-y-0 relative z-10" 
               : "opacity-0 translate-y-4 absolute inset-0 pointer-events-none"
@@ -136,7 +148,11 @@ export function ProjectCard({ project }: { project: Project }) {
 
           {/* ================= FIRST PRINCIPLES TAB ================= */}
           {project.why && (
-            <div className={`flex flex-col flex-1 gap-4 transition-all duration-500 ease-in-out ${
+            <div 
+              role="tabpanel"
+              id={`panel-why-${project.id}`}
+              aria-labelledby={`tab-why-${project.id}`}
+              className={`flex flex-col flex-1 gap-4 transition-all duration-500 ease-in-out ${
               activeTab === "why" 
                 ? "opacity-100 translate-y-0 relative z-10" 
                 : "opacity-0 -translate-y-4 absolute inset-0 pointer-events-none"

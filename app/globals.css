@@ -6,6 +6,15 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ------------------------------
+   Accessibility Hardening
+-------------------------------- */
+@layer base {
+  a, button {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+}
+
+/* ------------------------------
    Design Tokens
 -------------------------------- */
 :root {

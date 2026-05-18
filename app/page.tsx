@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Github, Mail, MapPin, Linkedin, Twitter, Send, Download } from "lucide-react";
+import { Github, Mail, MapPin, Linkedin, Twitter, Send, Download, Check } from "lucide-react";
 import Image from "next/image";
 import { projects } from "@/content/projects";
 import { experiences } from "@/content/experience";
@@ -11,6 +11,13 @@ import { FadeIn } from "@/components/FadeIn";
 
 
 export default function Home() {
+  const [emailCopied, setEmailCopied] = useState(false);
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("akshaysbuilds@gmail.com");
+    setEmailCopied(true);
+    setTimeout(() => setEmailCopied(false), 2000);
+  };
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -180,7 +187,7 @@ export default function Home() {
       </section>
 
       {/* Projects Section */}
-      <section id="Projects" className="py-20 lg:py-32">
+      <section id="Projects" className="py-12 md:py-20 lg:py-32">
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full">
           {/* Section Header */}
           <FadeIn className="mb-16">
@@ -208,7 +215,7 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="Experience" className="py-20 lg:py-32 bg-muted/20 relative overflow-hidden">
+      <section id="Experience" className="py-12 md:py-20 lg:py-32 bg-muted/20 relative overflow-hidden">
         {/* Subtle decorative grid background for context */}
         <div className="absolute inset-0 bg-dot-grid opacity-[0.1] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
@@ -306,7 +313,7 @@ export default function Home() {
       </section>
 
       {/* Skills Section */}
-      <section id="Skills" className="py-20 lg:py-32 relative overflow-hidden">
+      <section id="Skills" className="py-12 md:py-20 lg:py-32 relative overflow-hidden">
         {/* Spotlights behind cards for depth */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 glow-spotlight opacity-20 dark:opacity-10 pointer-events-none" />
 
@@ -416,7 +423,7 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="Contact" className="py-20 lg:py-32 bg-muted/20 relative overflow-hidden">
+      <section id="Contact" className="py-12 md:py-20 lg:py-32 bg-muted/20 relative overflow-hidden">
         {/* Spotlights and dots for modern depth */}
         <div className="absolute inset-0 bg-dot-grid opacity-[0.1] pointer-events-none" />
         <div className="absolute top-1/2 right-10 glow-spotlight opacity-20 dark:opacity-10 pointer-events-none" />
@@ -587,20 +594,24 @@ export default function Home() {
               
               {/* Contact Details cards */}
               <div className="space-y-3.5">
-                <a
-                  href="mailto:akshaysbuilds@gmail.com"
-                  className="group flex items-center gap-5 p-4 card-premium rounded-2xl overflow-hidden hover:border-accent-primary/40"
+                <button
+                  onClick={handleCopyEmail}
+                  className="w-full text-left group flex items-center gap-5 p-4 card-premium rounded-2xl overflow-hidden hover:border-accent-primary/40 cursor-pointer transition-colors"
                 >
-                  <div className="w-11 h-11 bg-muted group-hover:bg-accent-primary/10 rounded-xl flex items-center justify-center text-muted-foreground group-hover:text-accent-primary transition-all duration-300">
-                    <Mail className="w-5 h-5" />
+                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-all duration-300 ${
+                    emailCopied 
+                      ? "bg-green-500/20 text-green-500" 
+                      : "bg-muted group-hover:bg-accent-primary/10 text-muted-foreground group-hover:text-accent-primary"
+                  }`}>
+                    {emailCopied ? <Check className="w-5 h-5" /> : <Mail className="w-5 h-5" />}
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
-                      Direct Email
+                      {emailCopied ? "Copied to clipboard!" : "Direct Email"}
                     </p>
                     <p className="text-sm font-semibold text-foreground mt-0.5">akshaysbuilds@gmail.com</p>
                   </div>
-                </a>
+                </button>
 
                 <div className="flex items-center gap-5 p-4 card-premium rounded-2xl overflow-hidden">
                   <div className="w-11 h-11 bg-muted rounded-xl flex items-center justify-center text-muted-foreground">
