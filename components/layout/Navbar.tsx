@@ -20,7 +20,7 @@ export function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
@@ -48,7 +48,7 @@ export function Navbar() {
             setActiveSection(id);
           }
         },
-        { rootMargin: "-40% 0px -55% 0px" }
+        { rootMargin: "-30% 0px -60% 0px" }
       );
 
       observer.observe(el);
@@ -59,132 +59,143 @@ export function Navbar() {
   }, []);
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-300 mx-auto px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
+    <header className="fixed top-0 left-0 right-0 z-50 flex justify-center pointer-events-none">
+      <div
+        className={`w-full transition-all duration-500 ease-out flex items-center justify-between pointer-events-auto ${
+          isScrolled
+            ? "max-w-5xl mt-4 mx-4 md:mx-auto px-6 py-2 rounded-full glass-panel shadow-lg shadow-black/5"
+            : "max-w-7xl mt-0 px-6 lg:px-8 py-4 md:py-6 bg-transparent border-transparent"
+        }`}
+      >
+        {/* Logo */}
+        <a
+          href="#Home"
+          className="text-base font-semibold tracking-tight text-foreground hover:text-accent-primary transition-colors flex items-center gap-2 group"
+        >
+          <span className="w-2.5 h-2.5 rounded-full bg-accent-gradient group-hover:scale-125 transition-transform" />
+          Akshay Shukla
+        </a>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-2 bg-muted/30 dark:bg-muted/10 p-1 rounded-full border border-border">
+          {navItems.map((item) => {
+            const isActive = activeSection === item.sectionId;
+            return (
+              <a
+                key={item.label}
+                href={item.href}
+                className={`relative px-4 py-1.5 text-xs font-medium rounded-full transition-all duration-300 ${
+                  isActive
+                    ? "text-accent-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {isActive && (
+                  <span className="absolute inset-0 bg-card rounded-full shadow-sm border border-border -z-10" />
+                )}
+                {item.label}
+              </a>
+            );
+          })}
+        </nav>
+
+        {/* Desktop Action & Theme Switcher */}
+        <div className="hidden md:flex items-center gap-3">
+          {/* Resume Download */}
           <a
-            href="#Home"
-            className="text-lg font-medium tracking-tight hover:opacity-70 transition-opacity "
+            href="/AkshayShukla_Resume.pdf"
+            download
+            className="btn-shimmer flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-white bg-accent-gradient rounded-full shadow-md shadow-accent-primary/10 hover:opacity-90 active:scale-95 transition-all duration-300"
+            aria-label="Download Resume"
           >
-            Akshay Shukla
+            <Download className="w-3.5 h-3.5" />
+            Resume
           </a>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 bg-card hover:bg-muted text-muted-foreground hover:text-foreground rounded-full border border-border shadow-sm active:scale-90 transition-all cursor-pointer"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-amber-400 rotate-0 scale-100 transition-transform duration-300" />
+            ) : (
+              <Moon className="w-4 h-4 text-indigo-600 rotate-0 scale-100 transition-transform duration-300" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Actions */}
+        <div className="md:hidden flex items-center gap-2">
+          {/* Theme Toggle - Mobile */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 bg-card hover:bg-muted text-muted-foreground rounded-full border border-border shadow-sm active:scale-90 transition-all"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-indigo-600" />
+            )}
+          </button>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="p-2 bg-card hover:bg-muted text-foreground rounded-full border border-border shadow-sm active:scale-90 transition-all"
+            aria-label="Toggle menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="w-4 h-4" />
+            ) : (
+              <Menu className="w-4 h-4" />
+            )}
+          </button>
+        </div>
+
+        {/* Mobile Menu Dropdown Drawer */}
+        <div
+          className={`absolute top-full left-0 right-0 mt-3 mx-4 p-4 rounded-2xl glass-panel shadow-xl shadow-black/10 transition-all duration-300 md:hidden flex flex-col gap-2 ${
+            isMobileMenuOpen
+              ? "opacity-100 translate-y-0 scale-100"
+              : "opacity-0 -translate-y-2 scale-95 pointer-events-none"
+          }`}
+        >
+          <nav className="flex flex-col gap-1">
             {navItems.map((item) => {
               const isActive = activeSection === item.sectionId;
               return (
                 <a
                   key={item.label}
                   href={item.href}
-                  className={`text-sm transition-colors relative group ${
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`px-4 py-2.5 text-sm font-medium rounded-xl transition-all flex items-center justify-between ${
                     isActive
-                      ? "text-accent-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      ? "text-accent-primary bg-accent-primary/10"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
                   }`}
                 >
                   {item.label}
-                  <span
-                    className={`absolute -bottom-1 left-0 h-px bg-accent-primary transition-all duration-300 ${
-                      isActive ? "w-full" : "w-0 group-hover:w-full"
-                    }`}
-                  />
+                  {isActive && <span className="w-1.5 h-1.5 rounded-full bg-accent-primary" />}
                 </a>
               );
             })}
-            
-            {/* Resume Download - Desktop */}
-            <a
-              href="/AkshayShukla_Resume.pdf"
-              download
-              className="flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-accent-primary border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
-              aria-label="Download Resume"
-            >
-              <Download className="w-3.5 h-3.5" />
-              Resume
-            </a>
-
-            {/* Theme Toggle - Desktop */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-              ) : (
-                <Moon className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-              )}
-            </button>
           </nav>
+          
+          <div className="h-px bg-border my-1" />
 
-          {/* Mobile Actions */}
-          <div className="md:hidden flex items-center gap-2">
-            {/* Theme Toggle - Mobile */}
-            <button
-              onClick={toggleTheme}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
-              aria-label="Toggle theme"
-            >
-              {theme === "dark" ? (
-                <Sun className="w-5 h-5" />
-              ) : (
-                <Moon className="w-5 h-5" />
-              )}
-            </button>
-            
-            {/* Mobile Menu Button */}
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </button>
-          </div>
+          <a
+            href="/AkshayShukla_Resume.pdf"
+            download
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="flex items-center justify-center gap-2 py-3 text-sm font-medium text-white bg-accent-gradient rounded-xl shadow-md hover:opacity-90 active:scale-95 transition-all"
+          >
+            <Download className="w-4 h-4" />
+            Download Resume
+          </a>
         </div>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`md:hidden transition-all duration-300 overflow-hidden ${
-          isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <nav className="border-t border-border bg-background/95 backdrop-blur-xl">
-          <div className="max-w-300 mx-auto px-6 py-4 flex flex-col gap-1">
-            {navItems.map((item) => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="px-4 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-muted rounded-lg transition-all"
-              >
-                {item.label}
-              </a>
-            ))}
-            <a
-              href="/AkshayShukla_Resume.pdf"
-              download
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="mt-2 px-4 py-3 text-sm font-medium text-accent-primary flex items-center gap-2 border border-(--accent-primary)/40 rounded-lg hover:bg-accent-primary hover:text-white transition-all duration-300"
-            >
-              <Download className="w-4 h-4" />
-              Download Resume
-            </a>
-          </div>
-        </nav>
       </div>
     </header>
   );

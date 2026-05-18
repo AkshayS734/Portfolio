@@ -53,101 +53,111 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
+      {/* Background Grid & Spotlights */}
+      <div className="absolute inset-0 bg-dot-grid opacity-[0.25] dark:opacity-[0.15] pointer-events-none -z-20" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none -z-10" />
+      <div className="glow-spotlight -top-40 -left-40 opacity-40 dark:opacity-30" />
+      <div className="glow-spotlight bottom-20 right-0 opacity-30 dark:opacity-20 hidden lg:block" />
+
       {/* Hero Section */}
       <section
         id="Home"
-        className="min-h-screen flex items-center pt-16 lg:pt-20"
+        className="min-h-screen flex items-center pt-24 lg:pt-28"
       >
-        <div className="max-w-300 mx-auto px-6 lg:px-8 w-full py-20 lg:py-32">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full py-16 lg:py-24">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Text Content */}
-            <FadeIn className="order-2 lg:order-1 space-y-6">
-              {/* Open to Work Badge */}
-              {/* <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-500">
+            <FadeIn className="order-2 lg:order-1 lg:col-span-7 space-y-8">
+              {/* Premium Available Badge */}
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel shadow-sm border border-border">
                 <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                 </span>
-                <span className="text-xs font-medium">Open to opportunities</span>
-              </div> */}
+                <span className="text-[11px] font-semibold tracking-wider text-foreground uppercase">
+                  Available for new roles
+                </span>
+              </div>
 
-              <div className="space-y-2">
-                <p className="text-sm tracking-wide text-muted-foreground uppercase">
+              <div className="space-y-4">
+                <p className="text-xs font-bold tracking-widest text-accent-primary uppercase">
                   Hello, my name is
                 </p>
-                <h1 className="text-5xl lg:text-6xl font-semibold tracking-tight text-foreground">
+                <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-foreground leading-[1.1] leading-none">
                   Akshay Shukla
                 </h1>
-                <p className="text-xl lg:text-2xl text-muted-foreground">
+                <p className="text-2xl lg:text-3xl font-semibold text-gradient w-fit">
                   Software Developer
                 </p>
               </div>
 
-              <div className="w-16 h-px bg-accent-primary" />
-
-              <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl">
+              <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-xl font-normal">
                 I build modern web and iOS applications with a strong emphasis on system design,
                 security-aware architecture, and long-term maintainability.
-                <br />
+                <br className="hidden md:block" />
                 I enjoy working close to the system while still caring deeply about usability
                 and product quality.
               </p>
 
               {/* CTA Row */}
-              <div className="flex items-center gap-4 pt-2 flex-wrap">
+              <div className="flex items-center gap-4 pt-4 flex-wrap">
                 <a
                   href="/AkshayShukla_Resume.pdf"
                   download
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary text-white text-sm font-medium rounded-lg hover:opacity-90 transition-all duration-300 group"
+                  className="btn-shimmer inline-flex items-center gap-2 px-6 py-3 bg-accent-gradient text-white text-sm font-semibold rounded-full shadow-lg shadow-accent-primary/20 hover:opacity-95 active:scale-95 transition-all duration-300 group"
                 >
                   <Download className="w-4 h-4 group-hover:-translate-y-0.5 transition-transform" />
                   Download Resume
                 </a>
 
                 {/* Hero Social Quick-Links */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <a
                     href="https://github.com/AkshayS734"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub"
-                    className="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg text-muted-foreground hover:text-accent-primary hover:border-accent-primary transition-all duration-300"
+                    className="w-11 h-11 flex items-center justify-center bg-card border border-border rounded-full text-muted-foreground hover:text-accent-primary hover:border-accent-primary hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-300"
                   >
-                    <Github className="w-4 h-4" />
+                    <Github className="w-5 h-5" />
                   </a>
                   <a
                     href="https://linkedin.com/in/akshaysshukla"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn"
-                    className="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg text-muted-foreground hover:text-accent-primary hover:border-accent-primary transition-all duration-300"
+                    className="w-11 h-11 flex items-center justify-center bg-card border border-border rounded-full text-muted-foreground hover:text-accent-primary hover:border-accent-primary hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-300"
                   >
-                    <Linkedin className="w-4 h-4" />
+                    <Linkedin className="w-5 h-5" />
                   </a>
                   <a
                     href="mailto:akshaysbuilds@gmail.com"
                     aria-label="Email"
-                    className="w-10 h-10 flex items-center justify-center bg-card border border-border rounded-lg text-muted-foreground hover:text-accent-primary hover:border-accent-primary transition-all duration-300"
+                    className="w-11 h-11 flex items-center justify-center bg-card border border-border rounded-full text-muted-foreground hover:text-accent-primary hover:border-accent-primary hover:shadow-md hover:scale-105 active:scale-95 transition-all duration-300"
                   >
-                    <Mail className="w-4 h-4" />
+                    <Mail className="w-5 h-5" />
                   </a>
                 </div>
               </div>
             </FadeIn>
 
-            {/* Profile Image */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+            {/* Profile Image Frame */}
+            <div className="order-1 lg:order-2 lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative group">
-                <div className="absolute inset-0 bg-accent-primary rounded-2xl rotate-6 group-hover:rotate-3 transition-transform duration-300" />
-                <div className="relative overflow-hidden rounded-2xl border border-border w-72 h-72 lg:w-96 lg:h-96">
+                {/* Glow ring */}
+                <div className="absolute inset-0 bg-accent-gradient opacity-15 blur-2xl rounded-3xl group-hover:opacity-25 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-accent-gradient rounded-3xl rotate-3 group-hover:rotate-1 transition-transform duration-500 -z-10 opacity-70" />
+                
+                {/* Frame container */}
+                <div className="relative overflow-hidden rounded-3xl border border-border bg-card shadow-2xl w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 transition-all duration-500 group-hover:scale-[1.02]">
                   <Image
                     src="/images/hero-light.png"
-                   alt="Akshay Shukla"
-                   fill
+                    alt="Akshay Shukla"
+                    fill
                     sizes="(max-width: 768px) 100vw, 400px"
-                    className="object-cover transition-all duration-500 block dark:hidden"
-                   priority
+                    className="object-cover transition-all duration-700 block dark:hidden group-hover:scale-105"
+                    priority
                   />
 
                   {/* Dark theme image */}
@@ -156,9 +166,12 @@ export default function Home() {
                     alt="Akshay Shukla"
                     fill
                     sizes="(max-width: 768px) 100vw, 400px"
-                    className="object-cover transition-all duration-500 hidden dark:block"
+                    className="object-cover transition-all duration-700 hidden dark:block group-hover:scale-105"
                     priority
                   />
+                  
+                  {/* Subtle glass reflection overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 dark:from-white/0 dark:via-white/2 dark:to-white/5 pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -168,23 +181,23 @@ export default function Home() {
 
       {/* Projects Section */}
       <section id="Projects" className="py-20 lg:py-32">
-        <div className="max-w-300 mx-auto px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full">
           {/* Section Header */}
-          <FadeIn>
-            <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
+          <FadeIn className="mb-16">
+            <p className="text-xs font-bold tracking-widest text-accent-primary uppercase mb-2">
               Selected Projects
             </p>
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight">
-              Work
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+              Featured Engineering
             </h2>
-            <p className="mt-4 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+            <p className="mt-4 max-w-2xl text-sm md:text-base text-muted-foreground leading-relaxed font-normal">
               A selection of projects where I focused on solving real problems, exploring
               system-level concerns, and building things end-to-end.
             </p>
           </FadeIn>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, i) => (
               <FadeIn key={project.id} delay={i * 100}>
                 <ProjectCard project={project} />
@@ -195,165 +208,183 @@ export default function Home() {
       </section>
 
       {/* Experience Section */}
-      <section id="Experience" className="py-20 lg:py-32 bg-muted/30">
-        <div className="max-w-300 mx-auto px-6 lg:px-8">
+      <section id="Experience" className="py-20 lg:py-32 bg-muted/20 relative overflow-hidden">
+        {/* Subtle decorative grid background for context */}
+        <div className="absolute inset-0 bg-dot-grid opacity-[0.1] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full relative">
           {/* Section Header */}
           <FadeIn className="mb-16">
-            <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
-              Professional Experience
+            <p className="text-xs font-bold tracking-widest text-accent-primary uppercase mb-2">
+              Career Journey
             </p>
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight">
-              Experience
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+              Professional Experience
             </h2>
-            <p className="mt-4 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+            <p className="mt-4 max-w-2xl text-sm md:text-base text-muted-foreground leading-relaxed font-normal">
               Hands-on experience building and maintaining production-grade applications,
               with a strong emphasis on correctness, security, and scalability.
             </p>
           </FadeIn>
 
-          {/* Timeline */}
-          <div className="relative">
-            {/* Timeline Line */}
-            <div className="absolute left-0 lg:left-1/2 top-0 bottom-0 w-px bg-border lg:-translate-x-px" />
+          {/* Chronological Timeline Wrapper */}
+          <div className="relative pl-6 md:pl-10">
+            {/* Elegant Vertical Timeline Line */}
+            <div className="absolute left-1 md:left-2 top-2 bottom-2 w-px bg-border/80" />
 
             {/* Experience Items */}
-            <div className="space-y-12">
-              {experiences.map((exp, index) => (
-                <div
-                  key={exp.id}
-                  className={`relative grid lg:grid-cols-2 gap-8 ${
-                    index % 2 === 0 ? "" : "lg:grid-flow-dense"
-                  }`}
-                >
-                  {/* Timeline Dot */}
-                  <div className="absolute left-0 lg:left-1/2 w-3 h-3 bg-accent-primary rounded-full -translate-x-1.25 lg:-translate-x-1/2 top-8 border-4 border-background" />
-
-                  {/* Spacer for alternating layout */}
+            <div className="space-y-10">
+              {experiences.map((exp, index) => {
+                const isLatest = index === 0; // The first item is ongoing/latest
+                return (
                   <div
-                    className={`hidden lg:block ${
-                      index % 2 === 0 ? "lg:col-start-2" : ""
-                    }`}
-                  />
-
-                  {/* Experience Card */}
-                  <div
-                    className={`ml-8 lg:ml-0 ${
-                      index % 2 === 0
-                        ? "lg:col-start-1 lg:text-right lg:pr-12"
-                        : "lg:col-start-2 lg:pl-12"
-                    }`}
+                    key={exp.id}
+                    className="relative group"
                   >
-                    <div className="bg-card border border-border rounded-xl p-6 hover:border-accent-primary transition-all duration-300 hover:shadow-lg">
-                      <div
-                        className={`space-y-3 ${
-                          index % 2 === 0
-                            ? "lg:flex lg:flex-col lg:items-end"
-                            : ""
-                        }`}
-                      >
-                        <div>
-                          <h3 className="text-lg font-medium">{exp.role}</h3>
-                          <p className="text-muted-foreground">{exp.company}</p>
-                        </div>
+                    {/* Timeline Node Icon/Dot */}
+                    {isLatest ? (
+                      <div className="absolute -left-[23px] md:-left-[39px] top-1.5 flex h-4 w-4 items-center justify-center">
+                        <span className="animate-ping absolute inline-flex h-3.5 w-3.5 rounded-full bg-accent-primary/45" />
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-primary" />
+                      </div>
+                    ) : (
+                      <div className="absolute -left-[21px] md:-left-[37px] top-2 w-3 h-3 bg-muted border border-border rounded-full group-hover:bg-accent-primary group-hover:border-accent-primary transition-all duration-300" />
+                    )}
 
-                        <div
-                          className={`flex flex-wrap gap-2 ${
-                            index % 2 === 0 ? "lg:justify-end" : ""
-                          }`}
-                        >
-                          <span className="px-3 py-1 text-xs bg-muted text-muted-foreground rounded-full border border-border">
-                            {exp.period}
-                          </span>
-                          <span className="px-3 py-1 text-xs bg-accent-primary/10 text-accent-primary rounded-full border border-(--accent-primary)/20">
-                            {exp.type}
-                          </span>
-                        </div>
-
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                          {exp.description}
-                        </p>
-
-                        <div
-                          className={`flex flex-wrap gap-2 pt-2 ${
-                            index % 2 === 0 ? "lg:justify-end" : ""
-                          }`}
-                        >
-                          {exp.tech.map((tech) => (
-                            <span
-                              key={tech}
-                              className="px-3 py-1 text-xs bg-muted/50 text-muted-foreground rounded-full"
-                            >
-                              {tech}
+                    {/* Experience Card */}
+                    <div className="card-premium rounded-2xl overflow-hidden p-6 md:p-8">
+                      <div className="grid md:grid-cols-12 gap-6 items-start">
+                        
+                        {/* Company & Meta Column (4 cols) */}
+                        <div className="md:col-span-4 space-y-3">
+                          <div className="flex flex-wrap gap-2 items-center">
+                            <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider bg-accent-primary/10 text-accent-primary rounded-full border border-accent-primary/10">
+                              {exp.period}
                             </span>
-                          ))}
+                            <span className="px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider bg-muted text-muted-foreground rounded-full border border-border/60">
+                              {exp.type}
+                            </span>
+                          </div>
+                          
+                          <div>
+                            <h3 className="text-lg font-bold text-foreground tracking-tight leading-snug group-hover:text-accent-primary transition-colors">
+                              {exp.role}
+                            </h3>
+                            <p className="text-sm font-semibold text-muted-foreground mt-0.5">
+                              {exp.company}
+                            </p>
+                          </div>
                         </div>
+
+                        {/* Description & Skill Clouds Column (8 cols) */}
+                        <div className="md:col-span-8 space-y-4">
+                          <p className="text-sm text-muted-foreground leading-relaxed font-normal">
+                            {exp.description}
+                          </p>
+
+                          <div className="flex flex-wrap gap-1.5 pt-2">
+                            {exp.tech.map((tech) => (
+                              <span
+                                key={tech}
+                                className="px-2.5 py-0.5 text-[10px] font-semibold text-muted-foreground bg-secondary/80 rounded-full border border-border/40"
+                              >
+                                {tech}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
       </section>
 
       {/* Skills Section */}
-      <section id="Skills" className="py-20 lg:py-32">
-        <div className="max-w-300 mx-auto px-6 lg:px-8">
+      <section id="Skills" className="py-20 lg:py-32 relative overflow-hidden">
+        {/* Spotlights behind cards for depth */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 glow-spotlight opacity-20 dark:opacity-10 pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full relative">
           {/* Section Header */}
           <FadeIn className="mb-16">
-            <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
-              Technical Skillset
+            <p className="text-xs font-bold tracking-widest text-accent-primary uppercase mb-2">
+              Domain Expertise
             </p>
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight">
-              Skills
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+              Technical Capabilities
             </h2>
-            <p className="mt-4 max-w-2xl text-sm text-muted-foreground leading-relaxed">
+            <p className="mt-4 max-w-2xl text-sm md:text-base text-muted-foreground leading-relaxed font-normal">
               A practical, experience-driven skill set focused on building reliable software,
               not just listing tools.
             </p>
           </FadeIn>
 
           {/* Main Skills Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {skillCategories.map((category, i) => {
               const Icon = category.icon;
+              
+              // Assign elegant distinct accent hover states for each technical focus area
+              const accentStyles = 
+                category.id === 1 
+                  ? "hover:border-indigo-500/30 hover:shadow-indigo-500/[0.02] hover:bg-indigo-500/[0.01]" 
+                  : category.id === 2 
+                  ? "hover:border-purple-500/30 hover:shadow-purple-500/[0.02] hover:bg-purple-500/[0.01]" 
+                  : "hover:border-emerald-500/30 hover:shadow-emerald-500/[0.02] hover:bg-emerald-500/[0.01]";
+              
+              const iconBgStyles = 
+                category.id === 1 
+                  ? "bg-indigo-500/10 text-indigo-500 dark:text-indigo-400" 
+                  : category.id === 2 
+                  ? "bg-purple-500/10 text-purple-500 dark:text-purple-400" 
+                  : "bg-emerald-500/10 text-emerald-500 dark:text-emerald-400";
+
               return (
                 <FadeIn
                   key={category.id}
                   delay={i * 100}
-                  className="bg-card border border-border rounded-xl p-6 hover:border-accent-primary transition-all duration-300 space-y-6"
+                  className={`card-premium rounded-2xl overflow-hidden p-6 md:p-8 flex flex-col justify-between ${accentStyles}`}
                 >
-                  {/* Icon & Title */}
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-accent-primary/10 rounded-lg flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-accent-primary" />
+                  <div className="space-y-6">
+                    {/* Icon & Title */}
+                    <div className="flex items-center gap-4">
+                      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${iconBgStyles}`}>
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <h3 className="text-base font-bold text-foreground tracking-tight">
+                        {category.title}
+                      </h3>
                     </div>
-                    <h3 className="text-lg font-medium">{category.title}</h3>
+
+                    {/* Capabilities */}
+                    <ul className="space-y-3.5">
+                      {category.capabilities.map((capability, index) => (
+                        <li
+                          key={index}
+                          className="text-xs text-muted-foreground leading-relaxed flex gap-2.5 items-start"
+                        >
+                          <span className="text-accent-primary mt-1 shrink-0 text-sm">
+                            •
+                          </span>
+                          <span>{capability}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
 
-                  {/* Capabilities */}
-                  <ul className="space-y-3">
-                    {category.capabilities.map((capability, index) => (
-                      <li
-                        key={index}
-                        className="text-sm text-muted-foreground leading-relaxed flex gap-2"
-                      >
-                        <span className="text-accent-primary mt-1.5 shrink-0">
-                          •
-                        </span>
-                        <span>{capability}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  {/* Tools */}
-                  <div className="pt-4 border-t border-border">
-                    <div className="flex flex-wrap gap-2">
+                  {/* Tools bottom tray */}
+                  <div className="pt-6 mt-8 border-t border-border/40 shrink-0">
+                    <div className="flex flex-wrap gap-1.5">
                       {category.tools.map((tool) => (
                         <span
                           key={tool}
-                          className="px-3 py-1 text-xs bg-muted text-muted-foreground rounded-full border border-border"
+                          className="px-2.5 py-0.5 text-[9px] font-bold uppercase tracking-wider bg-secondary/80 text-muted-foreground rounded-md border border-border/40"
                         >
                           {tool}
                         </span>
@@ -365,14 +396,16 @@ export default function Home() {
             })}
           </div>
 
-          {/* Other Skills */}
-          <FadeIn delay={300} className="bg-muted/30 border border-border rounded-xl p-8">
-            <h3 className="text-lg font-medium mb-6">Additional Experience</h3>
-            <div className="flex flex-wrap gap-3">
+          {/* Other Skills (Operational Methodologies) */}
+          <FadeIn delay={300} className="bg-card border border-border/80 rounded-2xl p-6 md:p-8 hover:shadow-lg transition-all duration-500">
+            <h3 className="text-xs font-bold text-accent-primary uppercase tracking-widest mb-6">
+              Operational Methodologies & Extras
+            </h3>
+            <div className="flex flex-wrap gap-2.5">
               {otherSkills.map((skill) => (
                 <span
                   key={skill}
-                  className="px-4 py-2 text-sm bg-card text-foreground rounded-lg border border-border hover:border-accent-primary hover:shadow-md transition-all duration-300"
+                  className="px-3.5 py-1.5 text-xs bg-muted text-muted-foreground rounded-lg border border-border/50 hover:text-foreground hover:border-accent-primary/40 hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 cursor-default"
                 >
                   {skill}
                 </span>
@@ -383,23 +416,44 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="Contact" className="py-20 lg:py-32 bg-muted/30">
-        <div className="max-w-300 mx-auto px-6 lg:px-8">
+      <section id="Contact" className="py-20 lg:py-32 bg-muted/20 relative overflow-hidden">
+        {/* Spotlights and dots for modern depth */}
+        <div className="absolute inset-0 bg-dot-grid opacity-[0.1] pointer-events-none" />
+        <div className="absolute top-1/2 right-10 glow-spotlight opacity-20 dark:opacity-10 pointer-events-none" />
+
+        <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full relative">
           {/* Section Header */}
           <FadeIn className="mb-16">
-            <p className="text-sm tracking-wide text-accent-primary uppercase mb-2">
-              Let&apos;s Connect
+            <p className="text-xs font-bold tracking-widest text-accent-primary uppercase mb-2">
+              Get In Touch
             </p>
-            <h2 className="text-3xl lg:text-4xl font-semibold tracking-tight">
-              Contact
+            <h2 className="text-3xl lg:text-4xl font-extrabold tracking-tight text-foreground">
+              Start a Conversation
             </h2>
+            <p className="mt-4 max-w-2xl text-sm md:text-base text-muted-foreground leading-relaxed font-normal">
+              Have a project in mind, a system-level question, or just want to connect? Drop a message below and let&apos;s build together.
+            </p>
           </FadeIn>
 
           {/* Contact Grid */}
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div>
-              <form onSubmit={handleSubmit} aria-busy={status === "loading"} className="space-y-6">
+          <div className="grid lg:grid-cols-12 gap-12 items-start">
+            {/* Contact Form - Styled as a Premium Email Composer Card */}
+            <div className="lg:col-span-7 card-premium rounded-2xl p-6 md:p-8 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 blur-2xl pointer-events-none rounded-full" />
+              
+              {/* Composer Header Bar */}
+              <div className="flex items-center justify-between border-b border-border/40 pb-4 mb-6 shrink-0">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-400/80" />
+                </div>
+                <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+                  New Message — akshaysbuilds@gmail.com
+                </span>
+              </div>
+
+              <form onSubmit={handleSubmit} aria-busy={status === "loading"} className="space-y-5">
                 <input
                   type="text"
                   name="company"
@@ -407,12 +461,13 @@ export default function Home() {
                   autoComplete="off"
                   className="hidden"
                 />
-                <div className="space-y-2">
+                
+                <div className="space-y-1.5">
                   <label
                     htmlFor="name"
-                    className="text-sm font-medium text-foreground"
+                    className="text-xs font-semibold text-muted-foreground tracking-wide"
                   >
-                    Name
+                    Your Name
                   </label>
                   <input
                     type="text"
@@ -421,17 +476,17 @@ export default function Home() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-all"
-                    placeholder="Your name"
+                    className="w-full px-4 py-3 bg-muted/40 hover:bg-muted/60 dark:bg-muted/10 dark:hover:bg-muted/20 border border-border/60 focus:border-accent-primary/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all duration-300 text-sm"
+                    placeholder="Jane Doe"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <label
                     htmlFor="email"
-                    className="text-sm font-medium text-foreground"
+                    className="text-xs font-semibold text-muted-foreground tracking-wide"
                   >
-                    Email
+                    Your Email Address
                   </label>
                   <input
                     type="email"
@@ -440,15 +495,15 @@ export default function Home() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-all"
-                    placeholder="your.email@example.com"
+                    className="w-full px-4 py-3 bg-muted/40 hover:bg-muted/60 dark:bg-muted/10 dark:hover:bg-muted/20 border border-border/60 focus:border-accent-primary/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all duration-300 text-sm"
+                    placeholder="jane@example.com"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <label
                     htmlFor="subject"
-                    className="text-sm font-medium text-foreground"
+                    className="text-xs font-semibold text-muted-foreground tracking-wide"
                   >
                     Subject
                   </label>
@@ -459,15 +514,15 @@ export default function Home() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-all"
-                    placeholder="What's this about?"
+                    className="w-full px-4 py-3 bg-muted/40 hover:bg-muted/60 dark:bg-muted/10 dark:hover:bg-muted/20 border border-border/60 focus:border-accent-primary/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all duration-300 text-sm"
+                    placeholder="Building a high-integrity platform"
                   />
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <label
                     htmlFor="message"
-                    className="text-sm font-medium text-foreground"
+                    className="text-xs font-semibold text-muted-foreground tracking-wide"
                   >
                     Message
                   </label>
@@ -477,91 +532,92 @@ export default function Home() {
                     value={formData.message}
                     onChange={handleChange}
                     required
-                    rows={6}
-                    className="w-full px-4 py-3 bg-card border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-primary focus:border-transparent transition-all resize-none"
-                    placeholder="Your message..."
+                    rows={5}
+                    className="w-full px-4 py-3 bg-muted/40 hover:bg-muted/60 dark:bg-muted/10 dark:hover:bg-muted/20 border border-border/60 focus:border-accent-primary/50 rounded-xl focus:outline-none focus:ring-2 focus:ring-accent-primary/20 transition-all duration-300 resize-none text-sm"
+                    placeholder="Hi Akshay, let's collaborate on..."
                   />
                 </div>
 
                 <button
                   type="submit"
                   disabled={status !== "idle"}
-                  className="w-full bg-accent-primary text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all duration-300 flex items-center justify-center gap-2 font-medium group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-shimmer w-full bg-accent-gradient text-white px-6 py-3 rounded-xl hover:opacity-95 active:scale-[0.98] transition-all duration-300 flex items-center justify-center gap-2 font-semibold text-sm group disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-accent-primary/10"
                 >
                   <span>
-                    {status === "loading" ? "Sending..." : "Send Message"}
+                    {status === "loading" ? "Sending Securely..." : "Send Message"}
                   </span>
-                  <div className="w-4 h-4">
+                  <div className="w-4 h-4 flex items-center justify-center">
                     {status !== "loading" && (
-                      <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                      <Send className="w-3.5 h-3.5 group-hover:translate-x-1 group-hover:-translate-y-0.5 transition-transform" />
                     )}
                   </div>
                 </button>
+                
                 {status === "success" && (
                   <p
                     role="status"
                     aria-live="polite"
-                    className="mt-4 text-sm text-accent-primary"
+                    className="mt-4 text-xs font-semibold text-emerald-500 bg-emerald-500/10 border border-emerald-500/20 py-2.5 px-4 rounded-xl text-center"
                   >
-                    Thanks! Your message has been sent.
+                    ✓ Message transmitted successfully. Thanks for connecting!
                   </p>
                 )}
                 {status === "error" && (
                   <p
                     role="alert"
-                    className="mt-4 text-sm text-red-500"
+                    className="mt-4 text-xs font-semibold text-red-500 bg-red-500/10 border border-red-500/20 py-2.5 px-4 rounded-xl text-center"
                   >
-                    Something went wrong. Please try again.
+                    ⚠ Transmission error. Please try sending directly to my email address.
                   </p>
                 )}
               </form>
             </div>
 
-            {/* Contact Information */}
-            <div className="space-y-8">
-              <div>
-                <h3 className="text-lg font-medium mb-6">
-                  Let&apos;s work together
+            {/* Contact Information Column */}
+            <div className="lg:col-span-5 space-y-8">
+              <div className="space-y-4">
+                <h3 className="text-xl font-bold text-foreground tracking-tight">
+                  Let&apos;s build together
                 </h3>
-                <p className="text-muted-foreground leading-relaxed mb-8">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                   If you’re working on something interesting—whether it’s a product, a system,
                   or an idea worth exploring—I’d be happy to talk.
                 </p>
               </div>
               
-              {/* Contact Details */}
-              <div className="space-y-4">
+              {/* Contact Details cards */}
+              <div className="space-y-3.5">
                 <a
                   href="mailto:akshaysbuilds@gmail.com"
-                  className="flex items-center gap-4 text-muted-foreground hover:text-accent-primary transition-colors group"
+                  className="group flex items-center gap-5 p-4 card-premium rounded-2xl overflow-hidden hover:border-accent-primary/40"
                 >
-                  <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center group-hover:bg-accent-primary/10 transition-colors">
+                  <div className="w-11 h-11 bg-muted group-hover:bg-accent-primary/10 rounded-xl flex items-center justify-center text-muted-foreground group-hover:text-accent-primary transition-all duration-300">
                     <Mail className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wide">
-                      Email
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
+                      Direct Email
                     </p>
-                    <p className="text-sm font-medium">akshaysbuilds@gmail.com</p>
+                    <p className="text-sm font-semibold text-foreground mt-0.5">akshaysbuilds@gmail.com</p>
                   </div>
                 </a>
 
-                <div className="flex items-center gap-4 text-muted-foreground">
-                  <div className="w-12 h-12 bg-muted rounded-lg flex items-center justify-center">
+                <div className="flex items-center gap-5 p-4 card-premium rounded-2xl overflow-hidden">
+                  <div className="w-11 h-11 bg-muted rounded-xl flex items-center justify-center text-muted-foreground">
                     <MapPin className="w-5 h-5" />
                   </div>
                   <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wide">
+                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">
                       Location
                     </p>
-                    <p className="text-sm font-medium">Noida, India</p>
+                    <p className="text-sm font-semibold text-foreground mt-0.5">Noida, India</p>
                   </div>
                 </div>
               </div>
 
-              {/* Social Links */}
-              <div className="pt-8">
-                <p className="text-sm text-muted-foreground mb-4">
+              {/* Social Links Ribbons */}
+              <div className="pt-6 border-t border-border/40 space-y-4">
+                <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
                   Elsewhere on the internet
                 </p>
                 <div className="flex gap-3">
@@ -570,34 +626,34 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub profile"
-                    className="w-12 h-12 bg-card border border-border rounded-lg flex items-center justify-center hover:border-accent-primary hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2"
+                    className="w-11 h-11 bg-card border border-border rounded-xl flex items-center justify-center hover:border-accent-primary/50 hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   >
-                    <Github className="w-5 h-5 text-muted-foreground group-hover:text-accent-primary" />
+                    <Github className="w-4 h-4 text-muted-foreground group-hover:text-accent-primary group-hover:scale-115 transition-all" />
                   </a>
                   <a
                     href="https://linkedin.com/in/akshaysshukla"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn profile"
-                    className="w-12 h-12 bg-card border border-border rounded-lg flex items-center justify-center hover:border-accent-primary hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2"
+                    className="w-11 h-11 bg-card border border-border rounded-xl flex items-center justify-center hover:border-accent-primary/50 hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   >
-                    <Linkedin className="w-5 h-5 text-muted-foreground group-hover:text-accent-primary" />
+                    <Linkedin className="w-4 h-4 text-muted-foreground group-hover:text-accent-primary group-hover:scale-115 transition-all" />
                   </a>
                   <a
                     href="https://twitter.com/akshaysshukla"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Twitter/X profile"
-                    className="w-12 h-12 bg-card border border-border rounded-lg flex items-center justify-center hover:border-accent-primary hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2"
+                    className="w-11 h-11 bg-card border border-border rounded-xl flex items-center justify-center hover:border-accent-primary/50 hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   >
-                    <Twitter className="w-5 h-5 text-muted-foreground group-hover:text-accent-primary" />
+                    <Twitter className="w-4 h-4 text-muted-foreground group-hover:text-accent-primary group-hover:scale-115 transition-all" />
                   </a>
                   <a
                     href="mailto:akshaysbuilds@gmail.com"
                     aria-label="Send an email to Akshay Shukla"
-                    className="w-12 h-12 bg-card border border-border rounded-lg flex items-center justify-center hover:border-accent-primary hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary focus-visible:ring-offset-2"
+                    className="w-11 h-11 bg-card border border-border rounded-xl flex items-center justify-center hover:border-accent-primary/50 hover:bg-accent-primary/10 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-primary"
                   >
-                    <Mail className="w-5 h-5 text-muted-foreground group-hover:text-accent-primary" />
+                    <Mail className="w-4 h-4 text-muted-foreground group-hover:text-accent-primary group-hover:scale-115 transition-all" />
                   </a>
                 </div>
               </div>
