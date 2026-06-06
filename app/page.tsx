@@ -76,17 +76,6 @@ export default function Home() {
           <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             {/* Text Content */}
             <FadeIn className="order-2 lg:order-1 lg:col-span-7 space-y-8">
-              {/* Premium Available Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-panel shadow-sm border border-border">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                </span>
-                <span className="text-[11px] font-semibold tracking-wider text-foreground uppercase">
-                  Available for new roles
-                </span>
-              </div>
-
               <div className="space-y-4">
                 <p className="text-xs font-bold tracking-widest text-accent-primary uppercase">
                   Hello, my name is
