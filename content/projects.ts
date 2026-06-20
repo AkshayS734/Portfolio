@@ -59,5 +59,23 @@ export const projects = [
     links: {
       github: "https://github.com/AkshayS734/Virtual-Mouse"
     }
+  },
+  {
+    id: 4,
+    title: "Faby — Smart Baby Tracker",
+    why: "I wanted to build Faby to help parents reduce cognitive load by replacing scattered notes and complex spreadsheets with a clean, local-first mobile interface. The goal was to combine offline tracking for growth, vaccination schedules, and memories into a unified experience.",
+    challenge: "Implementing a dynamic local vaccination scheduler that computes precise reminder dates based on the infant's age, and integrating a local-first storage layer with PostgreSQL to guarantee complete data privacy for families.",
+    description: "An all-in-one baby tracker designed to give modern parents peace of mind. Easily log and track your child's growth, milestones, vaccination schedules with timely push notifications, and capture precious early memories in a private timeline.",
+    image: "/images/faby.png",
+    tech: [
+      "SwiftUI",
+      "UIKit",
+      "PostgreSQL",
+      "Local Notifications"
+    ],
+    links: {
+      github: "",
+      live: "https://apps.apple.com/in/app/faby-your-parenting-partner/id6747247971",
+    }
   }
 ];

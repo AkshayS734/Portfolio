@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Github, Mail, MapPin, Linkedin, Twitter, Send, Download, Check } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Github, Mail, MapPin, Linkedin, Twitter, Send, Download, Check, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { projects } from "@/content/projects";
 import { experiences } from "@/content/experience";
@@ -16,6 +16,101 @@ export default function Home() {
     navigator.clipboard.writeText("akshaysbuilds@gmail.com");
     setEmailCopied(true);
     setTimeout(() => setEmailCopied(false), 2000);
+  };
+
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isPaused, setIsPaused] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(4);
+
+  const scroll = (direction: "left" | "right") => {
+    if (scrollRef.current) {
+      const container = scrollRef.current;
+      const isMobile = window.innerWidth < 640;
+      const cardWidth = isMobile ? window.innerWidth * 0.75 + 24 : 380 + 32;
+      const scrollAmount = direction === "left" ? -cardWidth : cardWidth;
+      container.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const initScroll = () => {
+      const isMobile = window.innerWidth < 640;
+      const cardWidth = isMobile ? window.innerWidth * 0.75 + 24 : 380 + 32;
+      const totalLoopWidth = projects.length * cardWidth;
+      const clientWidth = container.clientWidth;
+      
+      const initialScroll = totalLoopWidth - (clientWidth - (isMobile ? window.innerWidth * 0.75 : 380)) / 2;
+      container.scrollLeft = initialScroll;
+      
+      const active = Math.round((initialScroll + (clientWidth - (isMobile ? window.innerWidth * 0.75 : 380)) / 2) / cardWidth);
+      setActiveIndex(active);
+    };
+
+    const handleScrollEnd = () => {
+      const { scrollLeft } = container;
+      const isMobile = window.innerWidth < 640;
+      const cardWidth = isMobile ? window.innerWidth * 0.75 + 24 : 380 + 32;
+      const totalLoopWidth = projects.length * cardWidth;
+
+      if (scrollLeft < totalLoopWidth - 50) {
+        container.style.scrollBehavior = "auto";
+        container.scrollLeft = scrollLeft + totalLoopWidth;
+        container.style.scrollBehavior = "";
+      } else if (scrollLeft >= totalLoopWidth * 2 - 50) {
+        container.style.scrollBehavior = "auto";
+        container.scrollLeft = scrollLeft - totalLoopWidth;
+        container.style.scrollBehavior = "";
+      }
+    };
+
+    const timer = setTimeout(initScroll, 50);
+
+    window.addEventListener("resize", initScroll);
+    container.addEventListener("scrollend", handleScrollEnd);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", initScroll);
+      container.removeEventListener("scrollend", handleScrollEnd);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isPaused) return;
+
+    const interval = setInterval(() => {
+      if (scrollRef.current) {
+        const container = scrollRef.current;
+        const isMobile = window.innerWidth < 640;
+        const cardWidth = isMobile ? window.innerWidth * 0.75 + 24 : 380 + 32;
+        
+        container.scrollBy({
+          left: cardWidth,
+          behavior: "smooth"
+        });
+      }
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isPaused]);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const container = scrollRef.current;
+    const { scrollLeft, clientWidth } = container;
+
+    const isMobile = window.innerWidth < 640;
+    const cardWidth = isMobile ? window.innerWidth * 0.75 + 24 : 380 + 32;
+
+    // Determine active index in the duplicated array
+    const cardSize = isMobile ? window.innerWidth * 0.75 : 380;
+    const active = Math.round((scrollLeft + (clientWidth - cardSize) / 2) / cardWidth);
+    setActiveIndex(active);
   };
 
   const [formData, setFormData] = useState({
@@ -179,7 +274,7 @@ export default function Home() {
       <section id="Projects" className="py-12 md:py-20 lg:py-32">
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full">
           {/* Section Header */}
-          <FadeIn className="mb-16">
+          <FadeIn className="mb-12">
             <p className="text-xs font-bold tracking-widest text-accent-primary uppercase mb-2">
               Selected Projects
             </p>
@@ -192,13 +287,59 @@ export default function Home() {
             </p>
           </FadeIn>
 
-          {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, i) => (
-              <FadeIn key={project.id} delay={i * 100}>
-                <ProjectCard project={project} />
-              </FadeIn>
-            ))}
+          {/* Carousel Wrapper */}
+          <div className="relative w-full group/carousel">
+            {/* Scroll Controls (Floating left/right) */}
+            <button
+              onClick={() => {
+                scroll("left");
+                setIsPaused(true);
+              }}
+              aria-label="Scroll left"
+              className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center bg-card/85 backdrop-blur-md border border-border rounded-full text-muted-foreground hover:text-accent-primary hover:border-accent-primary hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-md opacity-100 md:opacity-0 group-hover/carousel:opacity-100"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => {
+                scroll("right");
+                setIsPaused(true);
+              }}
+              aria-label="Scroll right"
+              className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 flex items-center justify-center bg-card/85 backdrop-blur-md border border-border rounded-full text-muted-foreground hover:text-accent-primary hover:border-accent-primary hover:shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer shadow-md opacity-100 md:opacity-0 group-hover/carousel:opacity-100"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+
+            {/* Projects Carousel */}
+            <div 
+              ref={scrollRef}
+              onScroll={handleScroll}
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              onPointerDown={() => setIsPaused(true)}
+              onWheel={() => setIsPaused(true)}
+              onTouchStart={() => setIsPaused(true)}
+              className="flex gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth pb-8 pt-4 px-1 no-scrollbar -mx-6 md:-mx-8 lg:-mx-12 px-6 md:px-8 lg:px-12 items-center"
+            >
+              {[...projects, ...projects, ...projects].map((project, i) => {
+                const isActive = i === activeIndex;
+                return (
+                  <div 
+                    key={`${project.id}-${i}`}
+                    className={`w-[80vw] sm:w-[360px] md:w-[380px] shrink-0 snap-center transition-all duration-500 ease-out py-6 ${
+                      isActive 
+                        ? "scale-105 opacity-100 z-10 blur-none brightness-100" 
+                        : "scale-90 opacity-45 z-0 blur-[0.5px] brightness-75"
+                    }`}
+                  >
+                    <FadeIn delay={0} className="h-full">
+                      <ProjectCard project={project} />
+                    </FadeIn>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
@@ -438,7 +579,7 @@ export default function Home() {
               <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/5 blur-2xl pointer-events-none rounded-full" />
               
               {/* Composer Header Bar */}
-              <div className="flex items-center justify-between border-b border-border/40 pb-4 mb-6 shrink-0">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center justify-between border-b border-border/40 pb-4 mb-6 shrink-0">
                 <div className="flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-red-400/80" />
                   <span className="w-2.5 h-2.5 rounded-full bg-yellow-400/80" />
