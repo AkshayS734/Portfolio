@@ -6,7 +6,7 @@ Built to reflect real-world engineering practices, system design thinking, and p
 
 ---
 
-## ✨ Highlights
+## Highlights
 
 - Modern, responsive UI with **Next.js App Router**
 - Light/Dark theme with persistent preference
@@ -16,7 +16,7 @@ Built to reflect real-world engineering practices, system design thinking, and p
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 **Frontend**
 - Next.js
@@ -36,7 +36,7 @@ Built to reflect real-world engineering practices, system design thinking, and p
 
 ---
 
-## 🚀 Featured Projects
+## Featured Projects
 
 ### **Vaultr — Zero-Knowledge Password Manager**
 A security-first password and secrets manager built with a strict zero-knowledge architecture.  
@@ -60,10 +60,10 @@ A touch-free virtual mouse using real-time hand-gesture recognition for human-co
 
 ---
 
-## 🛠️ Local Development
+### Deployment
+This project is hosted on Vercel and can be accessed at https://akshayshukla.xyz.
 
-```bash
-git clone https://github.com/AkshayS734/Portfolio.git
-cd portfolio
-npm install
-npm run dev
+---
+
+### Usage
+As an advocate for open source, I encourage you to build your own portfolio on top of this. Feel free to fork the project and get started. Just remember to use your own data for the sections.
