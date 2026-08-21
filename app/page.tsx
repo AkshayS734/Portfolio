@@ -68,7 +68,7 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       {/* Background Grid & Spotlights */}
       <div className="absolute inset-0 bg-dot-grid opacity-[0.25] dark:opacity-[0.15] pointer-events-none -z-20" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none -z-10" />
+      <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background pointer-events-none -z-10" />
       <div className="glow-spotlight -top-40 -left-40 opacity-40 dark:opacity-30" />
       <div className="glow-spotlight bottom-20 right-0 opacity-30 dark:opacity-20 hidden lg:block" />
 
@@ -175,7 +175,7 @@ export default function Home() {
                     className="object-cover transition-all duration-700 hidden dark:block group-hover:scale-105"
                     priority
                   />
-                  <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/10 dark:from-white/0 dark:via-white/2 dark:to-white/5 pointer-events-none" />
+                  <div className="absolute inset-0 bg-linear-to-tr from-white/0 via-white/5 to-white/10 dark:from-white/0 dark:via-white/2 dark:to-white/5 pointer-events-none" />
                 </div>
               </div>
             </div>
@@ -231,7 +231,7 @@ export default function Home() {
       {/* ─── EXPERIENCE ───────────────────────────────────────────────────── */}
       <section id="Experience" className="py-16 md:py-24 lg:py-32 bg-muted/20 relative overflow-hidden">
         <div className="absolute inset-0 bg-dot-grid opacity-[0.1] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+        <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background pointer-events-none" />
 
         <div className="max-w-6xl mx-auto px-6 md:px-8 lg:px-12 w-full relative">
           <FadeIn className="mb-16">
@@ -256,12 +256,12 @@ export default function Home() {
                 return (
                   <div key={exp.id} className="relative group">
                     {isLatest ? (
-                      <div className="absolute -left-[23px] md:-left-[39px] top-1.5 flex h-4 w-4 items-center justify-center">
+                      <div className="absolute -left-5.75 md:-left-9.75 top-1.5 flex h-4 w-4 items-center justify-center">
                         <span className="animate-ping absolute inline-flex h-3.5 w-3.5 rounded-full bg-accent-primary/45" />
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-primary" />
                       </div>
                     ) : (
-                      <div className="absolute -left-[21px] md:-left-[37px] top-2 w-3 h-3 bg-muted border border-border rounded-full" />
+                      <div className="absolute -left-5.25 md:-left-9.25 top-2 w-3 h-3 bg-muted border border-border rounded-full" />
                     )}
 
                     <div className="card-premium rounded-2xl overflow-hidden p-6 md:p-8">
