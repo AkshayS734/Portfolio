@@ -1,16 +1,34 @@
 export const experiences = [
   {
+    id: 3,
+    role: "Packaged App Development Associate",
+    company: "Accenture",
+    period: "Aug 2026 – Ongoing",
+    type: "Full-Time",
+    description:
+      "Starting as a full-time Packaged App Development Associate, currently in the onboarding and orientation phase — learning Accenture's enterprise delivery practices, internal tooling, and technology practice areas. Applying full-stack development skills built through the internship project while ramping up on enterprise-scale application patterns.",
+    tech: [
+      "MEAN Stack",
+      "Enterprise Applications",
+      "MongoDB",
+      "Angular",
+      "Node.js",
+    ],
+  },
+  {
     id: 2,
     role: "Software Engineering Intern",
     company: "Accenture",
-    period: "Dec 2025 - Ongoing",
+    period: "Dec 2025 – May 2026",
     type: "Internship",
-    description: "Currently undertaking a 21-week internship with Accenture, where I am strengthening my full-stack development skills through structured training in the MEAN stack (MongoDB, Express.js, Angular, and Node.js). The internship begins with a virtual learning phase and transitions into an in-person project phase, where I will apply these technologies in a real-world development environment.",
+    description:
+      "Designed and delivered a full-stack B2C e-commerce platform where business administrators can manage product listings and inventory, while customers can browse and complete purchases. Built an admin analytics dashboard featuring real-time sales metrics and an AI-powered insights module that surfaces actionable recommendations on revenue optimization, inventory turnover, and demand trends.",
     tech: [
       "MongoDB",
       "Express.js",
       "Angular",
       "Node.js",
+      "AI/ML Integration",
     ],
   },
   {
@@ -20,13 +38,14 @@ export const experiences = [
     period: "Mar 2025 – Apr 2025",
     type: "Internship",
     description:
-      "Developed native iOS features using Swift and SwiftUI, integrating backend data via API calls and working with a PostgreSQL-backed service. Collaborated in an Agile environment to implement UI components, handle data flow, and improve overall application reliability and user experience.",
+      "Built native iOS features using Swift and SwiftUI, integrating backend data through RESTful API calls backed by a PostgreSQL service. Implemented UI components end-to-end, managed data flow across application layers, and collaborated in an Agile team to improve application reliability and UX consistency.",
     tech: [
       "Swift",
       "SwiftUI",
       "UIKit",
       "PostgreSQL",
-      "Agile (Jira)",
+      "REST APIs",
+      "Agile / Jira",
     ],
   },
 ];

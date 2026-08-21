@@ -43,26 +43,33 @@ export function Navbar() {
 
   useEffect(() => {
     const sectionIds = navItems.map((item) => item.sectionId);
-    const observers: IntersectionObserver[] = [];
 
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (!el) return;
+    const getActiveSection = () => {
+      // Treat a section as "active" when its top is within the top 40% of the viewport
+      const threshold = window.scrollY + window.innerHeight * 0.4;
+      let current = sectionIds[0];
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= threshold) {
+          current = id;
+        }
+      }
+      return current;
+    };
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveSection(id);
-          }
-        },
-        { rootMargin: "-30% 0px -60% 0px" }
-      );
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setActiveSection(getActiveSection());
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
 
-      observer.observe(el);
-      observers.push(observer);
-    });
-
-    return () => observers.forEach((o) => o.disconnect());
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -70,7 +77,7 @@ export function Navbar() {
       <div
         className={`w-full transition-all duration-500 ease-out flex items-center justify-between pointer-events-auto ${
           isScrolled
-            ? "max-w-5xl mt-4 mx-4 md:mx-auto px-6 py-2 rounded-full glass-panel shadow-lg shadow-black/5"
+            ? "max-w-5xl mt-4 mx-4 md:mx-auto px-6 py-2 rounded-full bg-card/95 border border-border shadow-lg shadow-black/5"
             : "max-w-7xl mt-0 px-6 lg:px-8 py-4 md:py-6 bg-transparent border-transparent"
         }`}
       >
@@ -79,7 +86,7 @@ export function Navbar() {
           href="#Home"
           className="text-base font-semibold tracking-tight text-foreground hover:text-accent-primary transition-colors flex items-center gap-2 group"
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-accent-gradient group-hover:scale-125 transition-transform" />
+          <span className="w-2.5 h-2.5 rounded-full bg-accent-primary group-hover:scale-125 transition-transform" />
           Akshay Shukla
         </a>
 
@@ -91,14 +98,14 @@ export function Navbar() {
               <a
                 key={item.label}
                 href={item.href}
-                className={`relative px-4 py-1.5 text-xs font-medium rounded-full transition-all duration-300 ${
+                className={`relative px-4 py-1.5 text-xs rounded-full transition-all duration-300 ${
                   isActive
-                    ? "text-accent-primary"
-                    : "text-muted-foreground hover:text-foreground"
+                    ? "text-accent-primary font-semibold"
+                    : "text-muted-foreground font-medium hover:text-foreground"
                 }`}
               >
                 {isActive && (
-                  <span className="absolute inset-0 bg-card rounded-full shadow-sm border border-border -z-10" />
+                  <span className="absolute inset-0 bg-background rounded-full shadow-sm border border-accent-primary/30 -z-10" />
                 )}
                 {item.label}
               </a>
@@ -112,7 +119,7 @@ export function Navbar() {
           <a
             href="/AkshayShukla_Resume.pdf"
             download
-            className="btn-shimmer flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-white bg-accent-gradient rounded-full shadow-md shadow-accent-primary/10 hover:opacity-90 active:scale-95 transition-all duration-300"
+            className="flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold text-muted-foreground bg-card border border-border rounded-full hover:bg-muted hover:text-foreground active:scale-95 transition-all duration-200"
             aria-label="Download Resume"
           >
             <Download className="w-3.5 h-3.5" />
@@ -126,9 +133,9 @@ export function Navbar() {
             aria-label="Toggle theme"
           >
             {theme === "dark" ? (
-              <Sun className="w-4 h-4 text-amber-400 rotate-0 scale-100 transition-transform duration-300" />
+              <Sun className="w-4 h-4 text-primary-400 rotate-0 scale-100 transition-transform duration-300" />
             ) : (
-              <Moon className="w-4 h-4 text-indigo-600 rotate-0 scale-100 transition-transform duration-300" />
+              <Moon className="w-4 h-4 text-primary-600 rotate-0 scale-100 transition-transform duration-300" />
             )}
           </button>
         </div>
@@ -206,7 +213,7 @@ export function Navbar() {
               href="/AkshayShukla_Resume.pdf"
               download
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-4 text-base font-semibold text-white bg-accent-gradient rounded-2xl shadow-lg hover:opacity-90 active:scale-95 transition-all w-full"
+              className="flex items-center justify-center gap-2 py-4 text-base font-semibold text-white bg-accent-primary rounded-2xl hover:bg-accent-primary/90 active:scale-95 transition-all w-full"
             >
               <Download className="w-4 h-4" />
               Download Resume
