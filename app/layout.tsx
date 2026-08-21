@@ -27,25 +27,29 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://akshayshukla.xyz"),
 
   title: {
-    default: "Akshay Shukla",
+    default: "Akshay Shukla — Software Developer",
     template: "%s | Akshay Shukla",
   },
 
   description:
-    "Software developer focused on modern web, iOS, and security-driven applications. Building clean, scalable, and user-focused systems.",
+    "Akshay Shukla is a software developer building production-grade web and iOS applications with TypeScript, Next.js, and Swift — with a strong emphasis on security-aware architecture, system design, and user experience.",
 
   keywords: [
     "Akshay Shukla",
     "Software Developer",
-    "Web Developer",
+    "Full Stack Developer",
     "React Developer",
-    "Next.js",
+    "Next.js Developer",
     "iOS Developer",
     "SwiftUI",
+    "TypeScript",
+    "Node.js",
     "Portfolio",
+    "Bengaluru",
+    "India",
   ],
 
-  authors: [{ name: "Akshay Shukla" }],
+  authors: [{ name: "Akshay Shukla", url: "https://akshayshukla.xyz" }],
   creator: "Akshay Shukla",
 
   robots: {
@@ -57,16 +61,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://akshayshukla.xyz",
-    title: "Akshay Shukla",
+    title: "Akshay Shukla — Software Developer",
     description:
-      "Portfolio of Akshay Shukla showcasing projects, experience, and skills in web and iOS development.",
-    siteName: "Akshay Shukla Portfolio",
+      "Software developer building production-grade web and iOS applications. Specialising in TypeScript, Next.js, Node.js, and Swift with a focus on secure, scalable architecture.",
+    siteName: "Akshay Shukla",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Akshay Shukla",
+        alt: "Akshay Shukla — Software Developer",
       },
     ],
   },
@@ -75,9 +79,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/og-image.png"],
     creator: "@akshaysshukla",
-    title: "Akshay Shukla",
+    title: "Akshay Shukla — Software Developer",
     description:
-      "Software developer building modern web and iOS applications.",
+      "Building production-grade web and iOS applications with TypeScript, Next.js, and Swift. Focused on secure architecture and great user experiences.",
   },
 };
 
@@ -97,22 +101,25 @@ export default function RootLayout({
           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }} 
         />
 
-        {/* Google Analytics */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
-        />
-
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_ID}', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
+        {/* Google Analytics — only renders when GA_ID is configured */}
+        {GA_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="google-analytics" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${GA_ID}', {
+                  page_path: window.location.pathname,
+                });
+              `}
+            </Script>
+          </>
+        )}
 
         <ThemeProvider>
           <a

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUp, Github, Linkedin } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Twitter } from "lucide-react";
 
 export function Footer() {
   const scrollToTop = () => {
@@ -18,20 +18,20 @@ export function Footer() {
               Akshay Shukla
             </p>
             <p className="text-xs text-muted-foreground max-w-sm leading-relaxed">
-              Software developer focused on secure, scale-aware architecture and high-integrity systems.
+              Building production-grade web and iOS applications with a focus on security, system design, and long-term maintainability.
             </p>
           </div>
 
           {/* Right Column: Social elements and copyright */}
           <div className="flex flex-col sm:flex-row items-center gap-6">
-            
+
             {/* Social quick links */}
             <div className="flex items-center gap-2">
               <a
                 href="https://github.com/AkshayS734"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub"
+                aria-label="GitHub profile"
                 className="w-9 h-9 bg-card hover:bg-accent-primary/10 border border-border hover:border-accent-primary/40 rounded-full flex items-center justify-center text-muted-foreground hover:text-accent-primary transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <Github className="w-4 h-4" />
@@ -40,16 +40,25 @@ export function Footer() {
                 href="https://linkedin.com/in/akshaysshukla"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn"
+                aria-label="LinkedIn profile"
                 className="w-9 h-9 bg-card hover:bg-accent-primary/10 border border-border hover:border-accent-primary/40 rounded-full flex items-center justify-center text-muted-foreground hover:text-accent-primary transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 <Linkedin className="w-4 h-4" />
+              </a>
+              <a
+                href="https://twitter.com/akshaysshukla"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Twitter/X profile"
+                className="w-9 h-9 bg-card hover:bg-accent-primary/10 border border-border hover:border-accent-primary/40 rounded-full flex items-center justify-center text-muted-foreground hover:text-accent-primary transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                <Twitter className="w-4 h-4" />
               </a>
             </div>
 
             <span className="hidden sm:block w-px h-4 bg-border/80" />
 
-            {/* Copyright and Top buttons */}
+            {/* Copyright and Top button */}
             <div className="flex items-center gap-4">
               <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">
                 © {new Date().getFullYear()} Akshay Shukla

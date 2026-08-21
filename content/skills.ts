@@ -50,8 +50,8 @@ export const otherSkills = [
   "Docker",
   "CI/CD Fundamentals",
   "AWS (Basics)",
-  "Testing (Jest, Unit & Integration)",
+  "Jest (Unit & Integration)",
   "Figma (Dev Collaboration)",
-  "Web3 & Smart Contracts (Solidity)",
-  "Machine Learning Fundamentals",
+  "App Store Connect",
+  "Agile / Jira",
 ];
