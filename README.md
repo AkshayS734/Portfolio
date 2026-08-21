@@ -16,50 +16,6 @@ Built to reflect real-world engineering practices, system design thinking, and p
 
 ---
 
-## Tech Stack
-
-**Frontend**
-- Next.js
-- React
-- TypeScript
-- Tailwind CSS
-
-**Backend / Systems**
-- PostgreSQL
-- Redis
-- Node.js
-
-**Security & Tooling**
-- Client-side encryption concepts
-- Git & GitHub
-- Agile / Jira workflows
-
----
-
-## Featured Projects
-
-### **Vaultr — Zero-Knowledge Password Manager**
-A security-first password and secrets manager built with a strict zero-knowledge architecture.  
-All sensitive data is encrypted client-side, ensuring the backend never sees plaintext credentials.
-
-**Focus areas:** Cryptography, authentication security, system design
-
----
-
-### **Interrixon — Real-Time Polling Platform**
-A scalable real-time polling system for live audience engagement with low-latency updates and instant result visualization.
-
-**Focus areas:** Real-time systems, WebSockets, scalability
-
----
-
-### **Virtual Mouse — Computer Vision Interface**
-A touch-free virtual mouse using real-time hand-gesture recognition for human-computer interaction.
-
-**Focus areas:** Computer vision, performance optimization, real-time processing
-
----
-
 ### Deployment
 This project is hosted on Vercel and can be accessed at https://akshayshukla.xyz.
 
