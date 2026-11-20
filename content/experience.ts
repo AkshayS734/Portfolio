@@ -3,14 +3,14 @@ export const experiences = [
     id: 3,
     role: "Packaged App Development Associate",
     company: "Accenture",
-    period: "Aug 2026 – Ongoing",
+    period: "Aug 2026 – Oct 2026",
     type: "Full-Time",
     description:
-      "Starting as a full-time Packaged App Development Associate, currently in the onboarding and orientation phase — learning Accenture's enterprise delivery practices, internal tooling, and technology practice areas. Applying full-stack development skills built through the internship project while ramping up on enterprise-scale application patterns.",
+      "Trained in Accenture's enterprise delivery practices, internal engineering workflows, and MEAN stack application architecture. Worked on full-stack application development, adhering to enterprise design patterns, code review standards, and structured system delivery.",
     tech: [
       "MEAN Stack",
-      "Enterprise Applications",
       "MongoDB",
+      "Express",
       "Angular",
       "Node.js",
     ],
@@ -22,13 +22,13 @@ export const experiences = [
     period: "Dec 2025 – May 2026",
     type: "Internship",
     description:
-      "Designed and delivered a full-stack B2C e-commerce platform where business administrators can manage product listings and inventory, while customers can browse and complete purchases. Built an admin analytics dashboard featuring real-time sales metrics and an AI-powered insights module that surfaces actionable recommendations on revenue optimization, inventory turnover, and demand trends.",
+      "Designed and built a full-stack B2C e-commerce platform as a team project — the goal was to learn how software is planned, structured, and delivered in a corporate environment. Built admin product and inventory management, a customer-facing storefront, and an AI-powered analytics dashboard using the Gemini API to surface actionable insights on sales trends, inventory turnover, and demand patterns.",
     tech: [
       "MongoDB",
-      "Express.js",
+      "Express",
       "Angular",
       "Node.js",
-      "AI/ML Integration",
+      "Gemini API",
     ],
   },
   {
@@ -38,7 +38,7 @@ export const experiences = [
     period: "Mar 2025 – Apr 2025",
     type: "Internship",
     description:
-      "Built native iOS features using Swift and SwiftUI, integrating backend data through RESTful API calls backed by a PostgreSQL service. Implemented UI components end-to-end, managed data flow across application layers, and collaborated in an Agile team to improve application reliability and UX consistency.",
+      "Part of a 10-person engineering team. Owned the backend integration layer — built RESTful API endpoints, managed the PostgreSQL schema for the features I was responsible for, and connected them to native iOS UI components built in Swift and SwiftUI. Shipped several features end-to-end: from database design through API contract to the iOS view layer.",
     tech: [
       "Swift",
       "SwiftUI",

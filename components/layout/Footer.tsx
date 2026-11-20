@@ -18,7 +18,7 @@ export function Footer() {
               Akshay Shukla
             </p>
             <p className="text-xs text-muted-foreground max-w-sm leading-relaxed">
-              Building production-grade web and iOS applications with a focus on security, system design, and long-term maintainability.
+              Building production-grade web and iOS applications with a focus on security, system design, and software that holds up over time.
             </p>
           </div>
 

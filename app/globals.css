@@ -121,21 +121,21 @@
   --input: rgba(255, 255, 255, 0.08);
   --input-background: #121215;
 
-  --ring: #a78bfa;
+  --ring: #818cf8;
 
   --sidebar: #09090b;
   --sidebar-foreground: #f4f4f5;
-  --sidebar-primary: #a78bfa;
+  --sidebar-primary: #818cf8;
   --sidebar-primary-foreground: #030303;
   --sidebar-accent: #18181b;
   --sidebar-accent-foreground: #f4f4f5;
   --sidebar-border: rgba(255, 255, 255, 0.04);
-  --sidebar-ring: #a78bfa;
+  --sidebar-ring: #818cf8;
 
-  /* Unified Dark Mode Premium Accent — Violet */
-  --accent-primary: #a78bfa;
-  --accent-gradient: linear-gradient(135deg, #9d7ff7 0%, #c084fc 100%);
-  --accent-glow: rgba(167, 139, 250, 0.15);
+  /* Unified Dark Mode Accent — Soft Indigo */
+  --accent-primary: #818cf8;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+  --accent-glow: rgba(129, 140, 248, 0.12);
 
   /* Glassmorphic variables */
   --glass-bg: rgba(18, 18, 21, 0.82);
@@ -238,9 +238,7 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
-  overflow-x: visible !important;
-}
+
 
 /* ------------------------------
    Premium Custom Utilities
@@ -279,19 +277,21 @@ html, body {
   border: 1px solid var(--border);
   border-radius: 1rem !important;
   box-shadow: 0 10px 30px -15px rgba(0, 0, 0, 0.03), 0 4px 12px -4px rgba(0, 0, 0, 0.01);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 .dark .card-premium {
   box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.5), 0 5px 15px -5px rgba(0, 0, 0, 0.3);
 }
-.card-premium:hover {
-  transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.25);
-  box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.08), 0 10px 20px -10px rgba(0, 0, 0, 0.04);
-}
-.dark .card-premium:hover {
-  border-color: rgba(129, 140, 248, 0.2);
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.7), 0 10px 25px -10px rgba(0, 0, 0, 0.5), 0 0 35px -5px rgba(129, 140, 248, 0.08);
+@media (hover: hover) {
+  .card-premium:hover {
+    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.2);
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.06), 0 8px 16px -8px rgba(0, 0, 0, 0.03);
+  }
+  .dark .card-premium:hover {
+    border-color: rgba(129, 140, 248, 0.15);
+    box-shadow: 0 25px 50px -15px rgba(0, 0, 0, 0.6), 0 8px 20px -8px rgba(0, 0, 0, 0.4);
+  }
 }
 
 /* Accent Text Gradient Helper */
