@@ -27,12 +27,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://akshayshukla.xyz"),
 
   title: {
-    default: "Akshay Shukla — Software Developer",
+    default: "Akshay Shukla",
     template: "%s | Akshay Shukla",
   },
 
   description:
-    "Akshay Shukla is a software developer building production-grade web and iOS applications with TypeScript, Next.js, and Swift — with a strong emphasis on security-aware architecture, system design, and user experience.",
+    "Akshay Shukla is a software engineer building production-grade web and iOS applications with TypeScript, Next.js, and Swift — with a strong emphasis on security-aware architecture, system design, and user experience.",
 
   keywords: [
     "Akshay Shukla",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
     "TypeScript",
     "Node.js",
     "Portfolio",
-    "Bengaluru",
+    "Noida",
     "India",
   ],
 
@@ -61,28 +61,41 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://akshayshukla.xyz",
-    title: "Akshay Shukla — Software Developer",
+    title: "Akshay Shukla",
     description:
-      "Software developer building production-grade web and iOS applications. Specialising in TypeScript, Next.js, Node.js, and Swift with a focus on secure, scalable architecture.",
+      "Software engineer building production-grade web and iOS applications. Specialising in TypeScript, Next.js, Node.js, and Swift with a focus on security-aware architecture.",
     siteName: "Akshay Shukla",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Akshay Shukla — Software Developer",
+        alt: "Akshay Shukla",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    images: ["/og-image.png"],
+    images: ["/og.png"],
     creator: "@akshaysshukla",
-    title: "Akshay Shukla — Software Developer",
+    title: "Akshay Shukla",
     description:
-      "Building production-grade web and iOS applications with TypeScript, Next.js, and Swift. Focused on secure architecture and great user experiences.",
+      "Building production-grade web and iOS applications with TypeScript, Next.js, and Swift. Focused on security-aware architecture and great user experiences.",
   },
+
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+    ],
+  },
+
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({
@@ -142,6 +155,26 @@ export default function RootLayout({
 
         {/* Vercel Speed Insights */}
         <SpeedInsights />
+
+        {/* JSON-LD: Person structured data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Akshay Shukla",
+              url: "https://akshayshukla.xyz",
+              email: "akshaycommits@gmail.com",
+              jobTitle: "Software Engineer",
+              sameAs: [
+                "https://github.com/AkshayS734",
+                "https://linkedin.com/in/akshaysshukla",
+                "https://twitter.com/akshaysshukla",
+              ],
+            }),
+          }}
+        />
       </body>
     </html>
   );

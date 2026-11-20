@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 
 export default function NotFound() {
@@ -15,7 +13,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary text-white text-sm font-medium rounded-lg hover:opacity-90 transition-all duration-300"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-accent-primary dark:bg-indigo-600 dark:hover:bg-indigo-500 text-white text-sm font-medium rounded-lg hover:opacity-90 transition-all duration-300"
         >
           ← Back to home
         </Link>

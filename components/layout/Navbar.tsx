@@ -9,6 +9,7 @@ const navItems = [
   { label: "Projects", href: "#Projects", sectionId: "Projects" },
   { label: "Experience", href: "#Experience", sectionId: "Experience" },
   { label: "Skills", href: "#Skills", sectionId: "Skills" },
+  { label: "About", href: "#About", sectionId: "About" },
   { label: "Contact", href: "#Contact", sectionId: "Contact" },
 ];
 
@@ -130,7 +131,7 @@ export function Navbar() {
           <button
             onClick={toggleTheme}
             className="p-2 bg-card hover:bg-muted text-muted-foreground hover:text-foreground rounded-full border border-border shadow-sm active:scale-90 transition-all cursor-pointer"
-            aria-label="Toggle theme"
+            aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
           >
             {theme === "dark" ? (
               <Sun className="w-4 h-4 text-primary-400 rotate-0 scale-100 transition-transform duration-300" />
@@ -159,7 +160,8 @@ export function Navbar() {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="p-2 bg-card hover:bg-muted text-foreground rounded-full border border-border shadow-sm active:scale-90 transition-all"
-            aria-label="Toggle menu"
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? (
               <X className="w-4 h-4" />
@@ -213,7 +215,7 @@ export function Navbar() {
               href="/AkshayShukla_Resume.pdf"
               download
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-4 text-base font-semibold text-white bg-accent-primary rounded-2xl hover:bg-accent-primary/90 active:scale-95 transition-all w-full"
+              className="flex items-center justify-center gap-2 py-4 text-base font-semibold text-white bg-accent-primary dark:bg-indigo-600 dark:hover:bg-indigo-500 rounded-2xl hover:bg-accent-primary/90 active:scale-95 transition-all w-full"
             >
               <Download className="w-4 h-4" />
               Download Resume
