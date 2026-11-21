@@ -217,7 +217,7 @@ export function ContactSection() {
                 </div>
                 <div>
                   <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold">Location</p>
-                  <p className="text-sm font-semibold text-foreground mt-0.5">Bengaluru, India</p>
+                  <p className="text-sm font-semibold text-foreground mt-0.5">Noida, India</p>
                 </div>
               </div>
             </div>
